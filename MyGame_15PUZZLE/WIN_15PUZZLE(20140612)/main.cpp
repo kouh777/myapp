@@ -3,6 +3,8 @@
 #include <TCHAR.h>
 #include <time.h>
 
+// test comment
+
 //---------------------------------------------
 #include "Cgdi.h"
 #include "GameWorld.h"
