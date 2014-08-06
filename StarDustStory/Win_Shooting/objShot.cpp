@@ -3,32 +3,29 @@
 #include "objShot.h"
 #include "GameWorld.h"
 
-//---------------------------------------------------------------------
-#define TRIMMING__IMAGE_LTX 0	// 
-#define TRIMMING__IMAGE_LTY 0	// 
-#define TRIMMING__IMAGE_RBX 242	// 
-#define TRIMMING__IMAGE_RBY 359	// 
-
 //----------------------------------------------
-TobjShot::TobjShot( const Vector2D &pos, 
-	const Vector2D &velocity )
-	:TBaseMovingObject( TBaseObject::shot, 
-						Vector2D(pos.x,pos.y-2), 
-						11.0, 
-						velocity, 
-						100., 
-						Vec2DNormalize(velocity), 
-						1., 
-						Vector2D(0.2, 0.15), 
-						10., 
-						10.0, 
-						1 ),
-						FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
-						FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
+TobjShot::TobjShot(
+			Vector2D position,
+            double   radius,
+            Vector2D velocity,
+            double   max_speed,
+            Vector2D heading,
+            double   mass,
+            Vector2D scale,
+            double   turn_rate,
+            double   max_force,
+			double   vitality) : TBaseMovingObject(	TBaseObject::shot,
+													position,
+													radius,
+													velocity,
+													max_speed,
+													heading,
+													mass,
+													scale,
+													turn_rate,
+													max_force,
+													vitality)
 {
-	FdBoundingRadius *= FvScale.length();
-	FvVelocity.Normalize();
-	FvVelocity *= FdMaxSpeed;
 }
 
 //----------------------------------------------
@@ -39,43 +36,12 @@ TobjShot::~TobjShot(void)
 //----------------------------------------------
 BOOL TobjShot::Update(double time_elapsed)
 {
-	if(FdVitality <= 0)
-		return FALSE;
 	return TRUE;
 }
 
 //----------------------------------------------
 void TobjShot::Render( void )
 {
-	std::vector<Vector2D> vec;
-	vec.push_back(FvPosition);
-
-	// ビューポート変換
-	GameWorld().ViewPortTransform( vec );
-	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};						// 画像の中から切り取る座標
-	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
-	
-	/*
-	// 弾の後ろにぼかしを入れる
-	GameWorld().FpShotSprite->RenderEx(
-							&srcRec,
-							pos,																// DrawPosition
-							D3DXVECTOR3((float)(FvScale.x*1.2) , (float)(FvScale.y*1.2), 1),				// Scaling
-							D3DXVECTOR3(0, 0, 0),												// Rotation
-							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
-							0.4,																// Alpha
-							D3DCOLOR(1));	
-	*/
-
-	// 画像を表示する座標
-	GameWorld().FpShotSprite->RenderEx(
-							&srcRec,
-							pos,																// DrawPosition
-							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),				// Scaling
-							D3DXVECTOR3(0, 0, 0),												// Rotation
-							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
-							1.0,																// Alpha
-							D3DCOLOR(1));																// ColorKey
 }
 
 //---------------------------------------------------------------------

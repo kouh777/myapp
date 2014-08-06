@@ -1,17 +1,27 @@
 
 #include "GameDef.h"
 #include "ObjPlayer.h"
+
 #include "objShot.h"
-#include "objBeam.h"
-#include "objHomingShot.h"
 #include "objEnemy.h"
 #include "objBullet.h"
-#include "enemBox.h"
 #include "GameWorld.h"
 #include "Geometry.h"
 #include "BaseMovingObject.h"
 #include "BackGround.h"
 #include "VertexBuffer.h"
+
+//------------------------------------------
+// 敵
+#include "enemBox.h"
+
+//------------------------------------------
+// プレイヤー弾
+#include "shNormalShot.h"
+#include "shBeamShot.h"
+#include "shAimingShot.h"
+#include "objBeam.h"
+#include "objHomingShot.h"
 
 //------------------------------------------
 // 敵弾
@@ -73,6 +83,8 @@ TGameWorld::~TGameWorld( void )
 		}
 		FpShots.clear();
 	}
+
+	/*
 	// ビーム
 	{
 		std::list< TobjBeam * >::iterator it;
@@ -89,6 +101,7 @@ TGameWorld::~TGameWorld( void )
 		}
 		FpHomingShots.clear();
 	}
+	*/
 
 	// enemy
 	{
@@ -149,6 +162,7 @@ void TGameWorld::Execute( double elapsed )
 		}
 	}
 
+	/*
 	{	// ビーム
 		std::list< TobjBeam * >::iterator it;
 		for( it=FpBeams.begin(); it!=FpBeams.end();  ) {
@@ -174,7 +188,7 @@ void TGameWorld::Execute( double elapsed )
 				it++;
 		}
 	}
-	
+	*/
 
 	{	// enemy
 		std::list< TobjEnemy * >::iterator it;
@@ -219,6 +233,7 @@ void TGameWorld::Execute( double elapsed )
 		}
 	}
 
+	/*
 	{	// ビーム
 		std::list< TobjBeam * >::iterator it;
 		for( it=FpBeams.begin(); it!=FpBeams.end();  ) {
@@ -244,6 +259,7 @@ void TGameWorld::Execute( double elapsed )
 				it++;
 		}
 	}
+	*/
 
 	{	// 敵
 		std::list< TobjEnemy * >::iterator it;
@@ -300,6 +316,7 @@ void TGameWorld::Draw( void )
 		}
 	}
 
+	/*
 	{	// ビーム
 		std::list< TobjBeam * >::iterator it;
 		for( it=FpBeams.begin(); it!=FpBeams.end(); it++ ) {
@@ -313,6 +330,7 @@ void TGameWorld::Draw( void )
 			(*it)->Render();
 		}
 	}
+	*/
 
 	{	// enemy
 		std::list< TobjEnemy * >::iterator it;
@@ -343,6 +361,7 @@ void TGameWorld::DrawCgdi( void )
 		}
 	}
 
+	/*
 	{	// ビーム
 		std::list< TobjBeam * >::iterator it;
 		for( it=FpBeams.begin(); it!=FpBeams.end(); it++ ) {
@@ -356,6 +375,7 @@ void TGameWorld::DrawCgdi( void )
 			(*it)->RenderCgdi();
 		}
 	}
+	*/
 
 	{	// enemy
 		std::list< TobjEnemy * >::iterator it;
@@ -402,7 +422,30 @@ void TGameWorld::ViewPortTransform( std::vector<Vector2D> &vPoints )
 	}
 }
 
+//------------------------------------------
+// ショットを作成する
+void TGameWorld::CreateShot( const int &type, const Vector2D &pos, const Vector2D &velocity )
+{
+	TobjShot *pshot;
+	switch(type){
+		// 方向弾
+		case 1:
+			pshot = new TshNormalShot( pos, velocity );
+			break;
+		// ビーム
+		case 2:
+			pshot = new TshBeamShot( pos, velocity );
+			break;
+		// 狙い撃ち弾
+		case 3:
+			pshot = new TshAimingShot( pos, velocity );
+			break;
+	}
+	FpShots.push_back( pshot );
 
+}
+
+/*
 //------------------------------------------
 // ショットを作成する
 void TGameWorld::CreateShot( const Vector2D &pos, const Vector2D &velocity )
@@ -429,6 +472,8 @@ void TGameWorld::CreateHomingShot( const Vector2D &pos, const Vector2D &velocity
 	FpHomingShots.push_back( phomingshot );
 
 }
+*/
+
 
 //------------------------------------------
 // enemyを作成する
@@ -493,6 +538,7 @@ void TGameWorld::Collision (double elapsedtime)
 		}
 	}
 
+	/*
 	{	// プレイヤーのビームと敵
 		std::list< TobjBeam * >::iterator bit;
 		std::list< TobjEnemy * >::iterator eit;
@@ -505,6 +551,7 @@ void TGameWorld::Collision (double elapsedtime)
 			}
 		}
 	}
+	*/
 }
 
 // shotsとEnemyの距離を測り、一番距離が近いEnemyを返す

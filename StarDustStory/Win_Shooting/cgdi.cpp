@@ -1,5 +1,3 @@
-//testcommit
-
 
 #include "cgdi.h"
 

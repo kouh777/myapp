@@ -100,6 +100,9 @@
     <ClCompile Include="ObjPlayer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="objShot.cpp" />
+    <ClCompile Include="shAimingShot.cpp" />
+    <ClCompile Include="shBeamShot.cpp" />
+    <ClCompile Include="shNormalShot.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
@@ -128,9 +131,11 @@
     <ClInclude Include="ObjPlayer.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="objShot.h" />
+    <ClInclude Include="shAimingShot.h" />
+    <ClInclude Include="shBeamShot.h" />
+    <ClInclude Include="shNormalShot.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="VertexBuffer.h" />
-    <ClInclude Include="VertextBuffer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

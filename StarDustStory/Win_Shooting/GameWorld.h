@@ -13,6 +13,12 @@ class TenemBox;
 class TBaseMovingObject;
 
 //--------------------------------------------------------
+// ÉvÉåÉCÉÑÅ[íe
+class TshNormalShot;
+class TshBeamShot;
+class TshAimingShot;
+
+//--------------------------------------------------------
 // ìGíe
 class TbulOneWay;
 class TbulHoming;
@@ -40,8 +46,10 @@ private:
 
 	TobjPlayer *FpPlayer;
 	std::list< TobjShot * > FpShots;
+	/*
 	std::list< TobjBeam * > FpBeams;
 	std::list< TobjHomingShot * > FpHomingShots;
+	*/
 	std::list< TobjBullet * > FpBullets;
 	std::list< TobjEnemy * > FpEnemies;
 	int FiCollapsedTime;
@@ -55,9 +63,13 @@ public:
 	HRESULT MessageHandle( UINT message, WPARAM wParam, LPARAM lParam );
 	void ViewPortTransform( std::vector<Vector2D> &vPoints );
 
+	/*
 	void CreateShot( const Vector2D &pos, const Vector2D &velocity );
 	void CreateBeam( const Vector2D &pos, const Vector2D &velocity );
 	void CreateHomingShot( const Vector2D &pos, const Vector2D &velocity );
+	*/
+
+	void CreateShot( const int &type, const Vector2D &pos, const Vector2D &velocity );
 	void CreateEnemy( const int &type , const int &pattern , const Vector2D &pos, const Vector2D &velocity );
 	void CreateBullet(const int &type, const Vector2D &pos, const Vector2D &velocity );
 

@@ -17,7 +17,18 @@ protected:
 	int FiImageHeight;
 
 public:
-	TobjShot( const Vector2D &pos, const Vector2D &velocity );
+	TobjShot(
+			Vector2D position,
+            double   radius,
+            Vector2D velocity,
+            double   max_speed,
+            Vector2D heading,
+            double   mass,
+            Vector2D scale,
+            double   turn_rate,
+            double   max_force,
+			double   vitality);
+
 	~TobjShot(void);
 	virtual BOOL Update(double time_elapsed);
 	virtual void Render( void );
