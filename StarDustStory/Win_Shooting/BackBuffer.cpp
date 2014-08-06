@@ -1,0 +1,69 @@
+#include "BackBuffer.h"
+#include <cassert>
+
+//--------------------------------------------------------
+// constract
+TBackBuffer::TBackBuffer(LPDIRECT3DDEVICE9 pD3DDevice)
+	:FpD3DDevice(NULL), FpD3DSurface(NULL), FhDC(NULL)
+{
+	assert ( pD3DDevice != NULL);
+
+	FpD3DDevice = pD3DDevice;
+	FpD3DDevice->AddRef();
+
+	FpD3DDevice->GetBackBuffer( 0, 0, D3DBACKBUFFER_TYPE_MONO, &FpD3DSurface);
+
+}
+
+//--------------------------------------------------------
+//destract
+TBackBuffer::~TBackBuffer(void)
+{
+	if(FpD3DSurface){
+		FpD3DSurface->Release();
+		FpD3DSurface=NULL;
+	}
+	if(FpD3DDevice){
+		FpD3DDevice->Release();
+		FpD3DDevice=NULL;
+	}
+}
+
+//--------------------------------------------------------
+//lost device
+void TBackBuffer::OnLostDecvice(void)
+{
+	if(FpD3DSurface){
+		FpD3DSurface->Release();
+		FpD3DSurface=NULL;
+	}
+}
+
+//--------------------------------------------------------
+//reset device
+void TBackBuffer::OnResetDevice(void)
+{
+	FpD3DDevice->GetBackBuffer(0 , 0 , D3DBACKBUFFER_TYPE_MONO, &FpD3DSurface);
+}
+
+//--------------------------------------------------------
+//color fill
+void TBackBuffer::ColorFill(const RECT *pFill, const D3DCOLOR inColor)
+{
+	FpD3DDevice->ColorFill(FpD3DSurface, pFill, inColor);
+}
+
+//--------------------------------------------------------
+HDC TBackBuffer::GetDC(void)
+{
+	if(FhDC==NULL)	FpD3DSurface->GetDC(&FhDC);
+	return FhDC;
+}
+
+//--------------------------------------------------------
+void TBackBuffer::ReleaseDC(void)
+{
+	if(FhDC==NULL) return ;
+	FpD3DSurface->ReleaseDC(FhDC);
+	FhDC = NULL;
+}

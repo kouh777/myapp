@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4D0AFC1D-801C-47FD-8061-AB0B502C4FB4}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Win_Shooting</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="BackBuffer.cpp" />
+    <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="BaseMovingObject.cpp" />
+    <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="bulAiming.cpp" />
+    <ClCompile Include="bulHoming.cpp" />
+    <ClCompile Include="bulOneWay.cpp" />
+    <ClCompile Include="cgdi.cpp" />
+    <ClCompile Include="DirectGraphics9.cpp" />
+    <ClCompile Include="DirectWrite.cpp" />
+    <ClCompile Include="enemBox.cpp" />
+    <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="Geometry.cpp" />
+    <ClCompile Include="isprite.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Matrix2D.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="objBeam.cpp" />
+    <ClCompile Include="objBullet.cpp" />
+    <ClCompile Include="objEnemy.cpp" />
+    <ClCompile Include="objHomingShot.cpp" />
+    <ClCompile Include="ObjPlayer.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="objShot.cpp" />
+    <ClCompile Include="Vector2D.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BackBuffer.h" />
+    <ClInclude Include="BackGround.h" />
+    <ClInclude Include="BaseMovingObject.h" />
+    <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="bulAiming.h" />
+    <ClInclude Include="bulHoming.h" />
+    <ClInclude Include="bulOneWay.h" />
+    <ClInclude Include="cgdi.h" />
+    <ClInclude Include="DirectGraphics9.h" />
+    <ClInclude Include="DirectWrite.h" />
+    <ClInclude Include="enemBox.h" />
+    <ClInclude Include="GameDef.h" />
+    <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="Geometry.h" />
+    <ClInclude Include="isprite.h" />
+    <ClInclude Include="Matrix2D.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="objBeam.h" />
+    <ClInclude Include="objBullet.h" />
+    <ClInclude Include="objEnemy.h" />
+    <ClInclude Include="objHomingShot.h" />
+    <ClInclude Include="ObjPlayer.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="objShot.h" />
+    <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertextBuffer.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
