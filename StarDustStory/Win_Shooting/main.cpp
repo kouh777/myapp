@@ -150,17 +150,18 @@ int WINAPI WinMain( HINSTANCE hInstance,
 				DxGraphics9().EndScene();
 			}
 
+#ifdef _DEBUG 
 			// この後にGetDCを入れてWINAPIの描画を入れる	RenderCgdi(void)を他の全クラスに追加した方がいいか？
 			TBackBuffer *FpBackBuffer;					// instance
 			FpBackBuffer = new TBackBuffer(DxGraphics9().GetDevice());
 			HDC FhDC = FpBackBuffer->GetDC();			// HDCを取得
 
 			Cgdi().StartDrawing(FhDC);
-			GameWorld().DrawCgdi();
+			//GameWorld().DrawCgdi();
 			Cgdi().StopDrawing(FhDC);
 //			DxWrite().DrawD2DContent();
 			FpBackBuffer->ReleaseDC();					// HDCを解放
-
+#endif
 			// updaate frame
 			DxGraphics9().UpdateFrame();
 

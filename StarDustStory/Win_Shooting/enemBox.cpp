@@ -25,7 +25,7 @@ TenemBox::TenemBox( const int &pattern, const Vector2D &pos, const Vector2D &vel
 	Vector2D(1.,1.),			// scale
 	0,							// turn_rate
 	1,							// max_force
-	5							// vitality
+	1							// vitality
 	),
 	FdPattern(pattern),
 	FdTimer(0),

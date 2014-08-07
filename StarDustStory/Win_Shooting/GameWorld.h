@@ -17,6 +17,7 @@ class TBaseMovingObject;
 class TshNormalShot;
 class TshBeamShot;
 class TshAimingShot;
+class TshHomingShot;
 
 //--------------------------------------------------------
 // “G’e

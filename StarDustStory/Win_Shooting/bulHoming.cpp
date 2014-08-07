@@ -33,9 +33,6 @@ TbulHoming::TbulHoming( const Vector2D &pos , const Vector2D &velocity)
 //----------------------------------------------
 BOOL TbulHoming::Update(double time_elapsed)
 {
-
-
-
 	//----------
 	// ’ÇÕ’e(ƒvƒŒƒCƒ„[‚ª‚¢‚é•ûŒü‚ğ’ÇÕ‚·‚é)
 	//----------

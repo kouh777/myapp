@@ -55,9 +55,14 @@ public:
 	__declspec( property( get=GetVelocity ) ) Vector2D vVelocity;
 	Vector2D GetVelocity( void ) const { return FvVelocity; }  
 
+	__declspec( property( get=GetVitality ) ) double dVitality;
+	double GetVitality( void ) const { return FdVitality; }  
+
+	/*
 	__declspec( property( get=GetVitality, put=SetVitality ) ) double dVitality;
 	double GetVitality( void ) const { return FdVitality; }  
 	void SetVitality( double val ) { FdVitality = val; }  
+	*/
 
 	__declspec( property( get=GetBoundingRadius ) ) double dBoundingRadius;
 	double GetBoundingRadius( void ) const { return FdBoundingRadius; }  
