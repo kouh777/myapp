@@ -21,9 +21,7 @@
 #include "shBeamShot.h"
 #include "shAimingShot.h"
 #include "shHomingShot.h"
-
-#include "objBeam.h"
-#include "objHomingShot.h"
+#include "shMultipleShot.h"
 
 //------------------------------------------
 // ìGíe
@@ -46,8 +44,8 @@ struct EnemySet{
 EnemySet EnemyArray[] = 
 {
 	1 , 3 , Vector2D(0,-40),	Vector2D(0,1) ,	300	,
-	1 , 2 , Vector2D(20,-40),	Vector2D(0,0) ,	400	,
-	1 , 1 , Vector2D(-20,-40),	Vector2D(0,0) ,	500	,
+	1 , 2 , Vector2D(20,-40),	Vector2D(0,1) ,	400	,
+	1 , 1 , Vector2D(-20,-40),	Vector2D(0,1) ,	500	,
 	1 , 4 , Vector2D(0,-50),	Vector2D(0,1) ,	600	,
 	1 , 4 , Vector2D(-10,-50),	Vector2D(0,1) ,	600	,
 	1 , 4 , Vector2D(10,-50),	Vector2D(0,1) ,	600	,
@@ -338,6 +336,9 @@ void TGameWorld::CreateShot( const int &type, const Vector2D &pos, const Vector2
 		// ÉzÅ[É~ÉìÉOíe
 		case 4:
 			pshot = new TshHomingShot( pos, velocity);
+		// ï™óÙíe
+		case 5:
+			pshot = new TshMultipleShot( pos, velocity);
 	}
 	FpShots.push_back( pshot );
 

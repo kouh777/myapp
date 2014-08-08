@@ -22,9 +22,15 @@ TshNormalShot::TshNormalShot( const Vector2D &pos, const Vector2D &velocity)
 	10,							// max_force
 	1							// vitality
 	),
+	FdTheta(0),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
+	// オブジェクト向いている方向を受け取り描画するための計算
+	FdRadian = atan2(FvVelocity.y ,FvVelocity.x);
+	FdRadian /= D3DX_PI;
+	FdRadian += 0.5;
+	FdTheta = FdRadian * 180 ;
 }
 
 //----------------------------------------------
@@ -64,7 +70,7 @@ void TshNormalShot::Render( void )
 							&srcRec,
 							pos,																	// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),					// Scaling
-							D3DXVECTOR3(0, 0, 0),													// Rotation
+							D3DXVECTOR3(0, 0, FdTheta),													// Rotation
 							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
 							1.0,																	// Alpha
 							D3DCOLOR(1));															// ColorKey

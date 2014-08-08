@@ -33,11 +33,6 @@ TenemBox::TenemBox( const int &pattern, const Vector2D &pos, const Vector2D &vel
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
-	// オブジェクト向いている方向を受け取り描画するための計算
-	FdRadian = atan2(FvHeading.y ,FvHeading.x);
-	FdRadian /= D3DX_PI;
-	FdRadian += 0.5;
-	FdTheta = FdRadian * 180 ;
 }
 
 //----------------------------------------------
@@ -57,12 +52,12 @@ BOOL TenemBox::Update(double time_elapsed)
 				if(FdTimer >= 20){
 					GameWorld().CreateBullet( 1, FvPosition, Vector2D(0,10));	
 					for(int i=0; i < 3; ++i){
-						GameWorld().CreateBullet( 1, FvPosition, Vector2D(0+i*5,10));	
+						//GameWorld().CreateBullet( 1, FvPosition, Vector2D(0+i*5,10));	
 					}
 					for(int i=0; i < 3; ++i){
-						GameWorld().CreateBullet( 1, FvPosition, Vector2D(0+i*(-5),10));	
+						//GameWorld().CreateBullet( 1, FvPosition, Vector2D(0+i*(-5),10));	
 					}
-					GameWorld().CreateBullet( 2, FvPosition, Vector2D(0 ,10));
+					//GameWorld().CreateBullet( 2, FvPosition, Vector2D(0 ,10));
 					GameWorld().CreateBullet( 3, FvPosition, Vector2D(0 ,10));
 					FdTimer = 0;
 				}
@@ -73,7 +68,7 @@ BOOL TenemBox::Update(double time_elapsed)
 			if (FdTimer < 20){
 				FdTimer++;
 				if(FdTimer >= 20){
-					GameWorld().CreateBullet( 2, FvPosition, Vector2D(0 ,10));
+					//GameWorld().CreateBullet( 2, FvPosition, Vector2D(0 ,10));
 					GameWorld().CreateBullet( 3, FvPosition, Vector2D(0 ,10));
 					FdTimer = 0;
 				}
@@ -109,6 +104,12 @@ BOOL TenemBox::Update(double time_elapsed)
 	FvSide = FvVelocity.Perp();
 	FvVelocity *= FdMaxSpeed;
 
+	// オブジェクト向いている方向を受け取り描画するための計算
+	FdRadian = atan2(FvVelocity.y ,FvVelocity.x);
+	FdRadian /= D3DX_PI;
+	FdRadian += 0.5;
+	FdTheta = FdRadian * 180 ;
+
 	if(FdVitality <= 0){
 		return FALSE;
 	}
@@ -132,7 +133,7 @@ void TenemBox::Render( void )
 							&srcRec,
 							pos,												// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),				// Scaling
-							D3DXVECTOR3(0, 0, 0),								// Rotation
+							D3DXVECTOR3(0, 0, -FdTheta),								// Rotation
 							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
 							1.0,												// Alpha
 							D3DCOLOR(1));												// ColorKey

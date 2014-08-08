@@ -53,13 +53,9 @@ void TSprite::Render(const RECT *pSrc, const D3DXVECTOR3 &inPos, FLOAT inAlpha)
 	
 	// set matrix
 	D3DXMATRIX mat;
-
 	D3DXMatrixTransformation(&mat, NULL, NULL, &inScale, NULL, &qt, &inPos);
-
 	FpD3DXSprite->SetTransform(&mat);
 
 	// draw
 	FpD3DXSprite->Draw( FpTexture9, pSrc, pCenter, NULL, COLOR);
-
-
  }

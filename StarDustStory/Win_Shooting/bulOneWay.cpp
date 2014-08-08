@@ -60,17 +60,6 @@ void TbulOneWay::Render( void )
 	GameWorld().ViewPortTransform( vec );
 	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};						// ‰æ‘œ‚Ì’†‚©‚çØ‚èŽæ‚éÀ•W
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
-	
-	// ’e‚ÌŒã‚ë‚É‚Ú‚©‚µ‚ð“ü‚ê‚é
-	GameWorld().FpSprites->RenderEx(
-							&srcRec,
-							pos,																// DrawPosition
-							D3DXVECTOR3((float)(FvScale.x*1.5) , (float)(FvScale.y*1.5), 1),				// Scaling
-							D3DXVECTOR3(0, 0, 0),												// Rotation
-							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
-							0.4,																// Alpha
-							D3DCOLOR(1));	
-
 
 	// ‰æ‘œ‚ð•\Ž¦‚·‚éÀ•W
 	GameWorld().FpSprites->RenderEx(

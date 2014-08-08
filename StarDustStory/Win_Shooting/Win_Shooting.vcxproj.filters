@@ -42,9 +42,6 @@
     <ClCompile Include="Matrix2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="objBeam.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="objShot.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -87,9 +84,6 @@
     <ClCompile Include="DirectWrite.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="objHomingShot.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -103,6 +97,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="shHomingShot.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="shMultipleShot.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -132,9 +129,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Matrix2D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="objBeam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="objShot.h">
@@ -170,9 +164,6 @@
     <ClInclude Include="BackBuffer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="objHomingShot.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="shNormalShot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -195,6 +186,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="shHomingShot.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="shMultipleShot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -36,11 +36,13 @@ TbulAiming::TbulAiming( const Vector2D &pos, const Vector2D &velocity)
 	FvHeading = FvVelocity;
 	FvSide = FvHeading.Perp();
 
+	/*
 	// オブジェクト向いている方向を受け取り描画するための計算
 	FdRadian = atan2(FvHeading.y ,FvHeading.x);
 	FdRadian /= D3DX_PI;
 	FdRadian += 0.5;
 	FdTheta = FdRadian * 180 ;
+	*/
 }
 
 //----------------------------------------------
@@ -55,6 +57,12 @@ BOOL TbulAiming::Update(double time_elapsed)
 
 	FvVelocity.Normalize();
 	FvVelocity *= FdMaxSpeed;
+
+	// オブジェクト向いている方向を受け取り描画するための計算
+	FdRadian = atan2(FvVelocity.y ,FvVelocity.x);
+	FdRadian /= D3DX_PI;
+	FdRadian += 0.5;
+	FdTheta = FdRadian * 180 ;
 
 	if(FdVitality <= 0 )
 		return FALSE;
@@ -72,28 +80,16 @@ void TbulAiming::Render( void )
 	GameWorld().ViewPortTransform( vec );
 	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};			
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
-	
-	// 弾の後ろにぼかしを入れる
-	GameWorld().FpSprites->RenderEx(
-							&srcRec,
-							pos,																// DrawPosition
-							D3DXVECTOR3((float)(FvScale.x*1.5) , (float)(FvScale.y*1.5), 1),				// Scaling
-							D3DXVECTOR3(0, 0, 0),												// Rotation
-							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
-							0.4,																// Alpha
-							D3DCOLOR(1));	
-
 
 	// 画像を表示する座標
 	GameWorld().FpSprites->RenderEx(
 							&srcRec,
 							pos,													// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),					// Scaling
-							D3DXVECTOR3(0, 0, 0),									// Rotation
+							D3DXVECTOR3(0, 0, FdTheta),									// Rotation
 							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),		// RotationCenter
 							1.0,													// Alpha
-							D3DCOLOR(1));													// ColorKey
-
+							D3DCOLOR(1));	
 }
 
 //---------------------------------------------------------------------

@@ -1,5 +1,5 @@
 #include "GameDef.h"
-#include "shAimingShot.h"
+#include "shMultipleShot.h"
 #include "GameWorld.h"
 
 //----------------------------------------------
@@ -9,12 +9,12 @@
 #define TRIMMING__IMAGE_RBY 30	//
 
 //----------------------------------------------
-TshAimingShot::TshAimingShot( const Vector2D &pos, const Vector2D &velocity)
+TshMultipleShot::TshMultipleShot( const Vector2D &pos, const Vector2D &velocity)
 	:TobjShot(
 	Vector2D(pos.x,pos.y-2),	// position
 	1.5,						// radius
 	velocity,					// velocity
-	60,							// max_speed
+	30,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	1.,							// mass
 	Vector2D(2.0, 2.0),			// scale
@@ -22,37 +22,43 @@ TshAimingShot::TshAimingShot( const Vector2D &pos, const Vector2D &velocity)
 	10,							// max_force
 	1							// vitality
 	),
+	FdRadian(0),
 	FdTheta(0),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
-	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
+	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY),
+	FiFlyingTime(0)
 {
-	// When this shots create, get nearset enemy.
-	const TobjEnemy *FpEnemy = NULL;
-	if(GameWorld().GetNearestEnemy() != NULL)
-		FpEnemy = GameWorld().GetNearestEnemy();
-	if(FpEnemy)
-		FvVelocity = FpEnemy->vPosition - FvPosition;
-	else
-		FvVelocity = Vector2D(0, -1);
-	FvVelocity.Normalize();
-	FvVelocity *= FdMaxSpeed;
-
 	// ƒIƒuƒWƒFƒNƒgŒü‚¢‚Ä‚¢‚é•ûŒü‚ðŽó‚¯Žæ‚è•`‰æ‚·‚é‚½‚ß‚ÌŒvŽZ
 	FdRadian = atan2(FvVelocity.y ,FvVelocity.x);
 	FdRadian /= D3DX_PI;
 	FdRadian += 0.5;
 	FdTheta = FdRadian * 180 ;
-
 }
 
 //----------------------------------------------
-TshAimingShot::~TshAimingShot(void)
+TshMultipleShot::~TshMultipleShot(void)
 {
 }
 
 //----------------------------------------------
-BOOL TshAimingShot::Update(double time_elapsed)
+BOOL TshMultipleShot::Update(double time_elapsed)
 {
+
+	//----------
+	// •ª—ô’e(ˆê’èŽžŠÔ”ò‚ñ‚¾‚ç3‚Â‚Ì•ûŒü’e‚É•ª—ô)
+	//----------
+	const int iMaxFlyingTime = 20;
+	if(FiFlyingTime > iMaxFlyingTime){
+		for(int i=0; i<3; ++i){
+			GameWorld().CreateShot(1,FvPosition,FvVelocity);
+			// “K“–‚É‰¡‚É‚¸‚ç‚·
+			FvVelocity.x -= 20*i;
+		}
+		return false;
+	}
+	FiFlyingTime++;
+	FvVelocity.Normalize();
+	FvVelocity *= FdMaxSpeed;
 
 	if(FdVitality <= 0 || !Move(time_elapsed))
 		return false;
@@ -61,7 +67,7 @@ BOOL TshAimingShot::Update(double time_elapsed)
 }
 
 //----------------------------------------------
-void TshAimingShot::Render( void )
+void TshMultipleShot::Render( void )
 {
 	
 	std::vector<Vector2D> vec;
@@ -86,7 +92,7 @@ void TshAimingShot::Render( void )
 
 //---------------------------------------------------------------------
 // Cgdi•`‰æ
-void TshAimingShot::RenderCgdi()
+void TshMultipleShot::RenderCgdi()
 {
 	TBaseMovingObject::RenderCgdi();	
 }
