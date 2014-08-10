@@ -52,10 +52,10 @@ BOOL TenemBox::Update(double time_elapsed)
 				if(FdTimer >= 20){
 					GameWorld().CreateBullet( 1, FvPosition, Vector2D(0,10));	
 					for(int i=0; i < 3; ++i){
-						//GameWorld().CreateBullet( 1, FvPosition, Vector2D(0+i*5,10));	
+						GameWorld().CreateBullet( 1, FvPosition, Vector2D(0+i*5,10));	
 					}
 					for(int i=0; i < 3; ++i){
-						//GameWorld().CreateBullet( 1, FvPosition, Vector2D(0+i*(-5),10));	
+						GameWorld().CreateBullet( 1, FvPosition, Vector2D(0+i*(-5),10));	
 					}
 					//GameWorld().CreateBullet( 2, FvPosition, Vector2D(0 ,10));
 					GameWorld().CreateBullet( 3, FvPosition, Vector2D(0 ,10));

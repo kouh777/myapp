@@ -22,12 +22,16 @@
 #include "shAimingShot.h"
 #include "shHomingShot.h"
 #include "shMultipleShot.h"
+#include "shMiniMultipleShot.h"
+#include "shBlastShot.h"
+#include "shBlast.h"
 
 //------------------------------------------
 // “G’e
 #include "bulOneWay.h"
 #include "bulHoming.h"
 #include "bulAiming.h"
+#include "bulWave.h"
 
 //------------------------------------------
 // “G”z’u—p‚Ì\‘¢‘Ì‚ğì¬
@@ -336,9 +340,22 @@ void TGameWorld::CreateShot( const int &type, const Vector2D &pos, const Vector2
 		// ƒz[ƒ~ƒ“ƒO’e
 		case 4:
 			pshot = new TshHomingShot( pos, velocity);
-		// •ª—ô’e
+		// •ª—ô’e(•ª—ô‘O)
 		case 5:
 			pshot = new TshMultipleShot( pos, velocity);
+			break;
+		// •ª—ô’e(•ª—ôŒã)
+		case 6:
+			pshot = new TshMiniMultipleShot( pos, velocity);
+			break;
+		// ”š”­’e
+		case 7:
+			pshot = new TshBlastShot( pos, velocity);
+			break;
+		// ”š”­’e(”š•—)
+		case 8:
+			pshot = new TshBlast( pos, velocity);
+			break;
 	}
 	FpShots.push_back( pshot );
 
@@ -372,9 +389,14 @@ void TGameWorld::CreateBullet( const int &type , const Vector2D &pos, const Vect
 		case 2:
 			pbullet = new TbulHoming(pos, velocity);
 			break;
-		// ’Ç‚¢Œ‚‚¿’e
+		// ‘_‚¢Œ‚‚¿’e
 		case 3:
 			pbullet = new TbulAiming(pos, velocity);
+			break;
+		// ”g‘Å‚¿’e
+		case 4:
+			pbullet = new TbulWave(pos, velocity);
+			break;
 	}
 	FpBullets.push_back( pbullet );
 }

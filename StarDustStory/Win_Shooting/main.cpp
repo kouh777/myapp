@@ -157,7 +157,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 			HDC FhDC = FpBackBuffer->GetDC();			// HDC‚ðŽæ“¾
 
 			Cgdi().StartDrawing(FhDC);
-			GameWorld().DrawCgdi();
+//			GameWorld().DrawCgdi();
 			Cgdi().StopDrawing(FhDC);
 //			DxWrite().DrawD2DContent();
 			FpBackBuffer->ReleaseDC();					// HDC‚ð‰ð•ú

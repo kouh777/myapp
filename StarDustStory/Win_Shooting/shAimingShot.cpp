@@ -14,7 +14,7 @@ TshAimingShot::TshAimingShot( const Vector2D &pos, const Vector2D &velocity)
 	Vector2D(pos.x,pos.y-2),	// position
 	1.5,						// radius
 	velocity,					// velocity
-	60,							// max_speed
+	50,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	1.,							// mass
 	Vector2D(2.0, 2.0),			// scale

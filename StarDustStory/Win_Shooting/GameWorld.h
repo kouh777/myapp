@@ -17,12 +17,16 @@ class TshBeamShot;
 class TshAimingShot;
 class TshHomingShot;
 class TshMultipleShot;
+class TshMiniMultipleShot;
+class TshBlastShot;
+class TshBlast;
 
 //--------------------------------------------------------
 // “G’e
 class TbulOneWay;
 class TbulHoming;
 class TbulAiming;
+class TbulWave;
 
 //--------------------------------------------------------
 class TGameWorld

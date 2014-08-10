@@ -67,12 +67,13 @@ BOOL TobjPlayer::Update(double time_elapsed)
 
 			FiShotGauge = ShotMaxGauge;
 			if( FiShotTime == 0 )
-				GameWorld().CreateShot( 3, FvPosition, Vector2D(0,-1) );
+				GameWorld().CreateShot( 7, FvPosition, Vector2D(0,-1) );
 		} else {
 			// パワーが足りていればビームを打つ
 			FiShotGauge = 0;
-			if( FiBeamTime == 0 ) 
-				GameWorld().CreateShot( 3, FvPosition, Vector2D(0,-1.0) );
+			
+			//if( FiBeamTime == 0 ) 
+			//	GameWorld().CreateShot( 5, FvPosition, Vector2D(0,-1.0) );
 		}
 	} else {
 		// ボタンを離したとき
@@ -80,8 +81,8 @@ BOOL TobjPlayer::Update(double time_elapsed)
 
 		// ゲージが残っている場合、ショットを打つ
 		if(FiShotGauge > 0){
-			if(FiShotTime == 0)
-				GameWorld().CreateShot( 3, FvPosition , Vector2D(0,-1.0));
+			//if(FiShotTime == 0)
+			//	GameWorld().CreateShot( 5, FvPosition , Vector2D(0,-1.0));
 			FiShotGauge--;
 		}
 	}

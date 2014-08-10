@@ -35,14 +35,6 @@ TbulAiming::TbulAiming( const Vector2D &pos, const Vector2D &velocity)
 	FvVelocity.Normalize();
 	FvHeading = FvVelocity;
 	FvSide = FvHeading.Perp();
-
-	/*
-	// オブジェクト向いている方向を受け取り描画するための計算
-	FdRadian = atan2(FvHeading.y ,FvHeading.x);
-	FdRadian /= D3DX_PI;
-	FdRadian += 0.5;
-	FdTheta = FdRadian * 180 ;
-	*/
 }
 
 //----------------------------------------------
@@ -51,9 +43,6 @@ BOOL TbulAiming::Update(double time_elapsed)
 	//----------
 	// 追い撃ち弾(プレイヤーがいる方向に撃つ)
 	//----------
-
-//	radian = atan2f(FvHeading.y,FvHeading.x);			// FvHeadingから画像の回転角を求める
-//	radian += D3DX_PI;
 
 	FvVelocity.Normalize();
 	FvVelocity *= FdMaxSpeed;

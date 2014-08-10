@@ -14,7 +14,7 @@ TshMultipleShot::TshMultipleShot( const Vector2D &pos, const Vector2D &velocity)
 	Vector2D(pos.x,pos.y-2),	// position
 	1.5,						// radius
 	velocity,					// velocity
-	30,							// max_speed
+	10,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	1.,							// mass
 	Vector2D(2.0, 2.0),			// scale
@@ -30,9 +30,7 @@ TshMultipleShot::TshMultipleShot( const Vector2D &pos, const Vector2D &velocity)
 {
 	// ƒIƒuƒWƒFƒNƒgŒü‚¢‚Ä‚¢‚é•ûŒü‚ðŽó‚¯Žæ‚è•`‰æ‚·‚é‚½‚ß‚ÌŒvŽZ
 	FdRadian = atan2(FvVelocity.y ,FvVelocity.x);
-	FdRadian /= D3DX_PI;
-	FdRadian += 0.5;
-	FdTheta = FdRadian * 180 ;
+	FdTheta = (FdRadian/D3DX_PI+0.5) * 180 ;
 }
 
 //----------------------------------------------
@@ -43,22 +41,41 @@ TshMultipleShot::~TshMultipleShot(void)
 //----------------------------------------------
 BOOL TshMultipleShot::Update(double time_elapsed)
 {
-
 	//----------
-	// •ª—ô’e(ˆê’èŽžŠÔ”ò‚ñ‚¾‚ç3‚Â‚Ì•ûŒü’e‚É•ª—ô)
+	// •ª—ô’e(ˆê’èŽžŠÔ”ò‚ñ‚¾‚ç•¡”‚Ì’e‚É•ª—ô)
 	//----------
-	const int iMaxFlyingTime = 20;
+	const int iMaxFlyingTime = 50;
 	if(FiFlyingTime > iMaxFlyingTime){
-		for(int i=0; i<3; ++i){
-			GameWorld().CreateShot(1,FvPosition,FvVelocity);
-			// “K“–‚É‰¡‚É‚¸‚ç‚·
-			FvVelocity.x -= 20*i;
+		const int ShotNum = 4;					// •ª—ôŒÂ”‚ÌŽw’è
+		for(int i=0; i<ShotNum; ++i){
+			const double SpreadRadian = 0.3;	// •ª—ôŽž‚ÉL‚ª‚éŠp“x(ƒ‰ƒWƒAƒ“‚ÅŽw’è)
+			// •ª—ôŽž‚ÌŒÂ”‚ªŠï”‚Ì‚Æ‚«
+			if(ShotNum%2 == 1){
+				GameWorld().CreateShot(
+				6,
+				FvPosition,
+				Vector2D( cos(FdRadian+(SpreadRadian*(i-(ShotNum>>1)))), sin(FdRadian+(SpreadRadian*(i-(ShotNum>>1))))) );
+			}
+			// •ª—ôŽž‚ÌŒÂ”‚ª‹ô”‚Ì‚Æ‚«
+			else{
+				if(i >= ShotNum>>1){
+					GameWorld().CreateShot(
+					6,
+					FvPosition,
+					Vector2D( cos(FdRadian+(SpreadRadian*(i+1-(ShotNum>>1)))), sin(FdRadian+(SpreadRadian*(i+1-(ShotNum>>1))))) );						
+				}else{
+					GameWorld().CreateShot(
+					6,
+					FvPosition,
+					Vector2D( cos(FdRadian+(SpreadRadian*(i-(ShotNum>>1)))), sin(FdRadian+(SpreadRadian*(i-(ShotNum>>1))))) );
+				}
+			}
 		}
 		return false;
 	}
 	FiFlyingTime++;
 	FvVelocity.Normalize();
-	FvVelocity *= FdMaxSpeed;
+	FvVelocity *= FdMaxSpeed;	
 
 	if(FdVitality <= 0 || !Move(time_elapsed))
 		return false;
