@@ -11,7 +11,8 @@ TDirectGraphics9::TDirectGraphics9(void)
 	:FpD3dDevice(NULL),
 	FpD3D(NULL),
 	FpD3DXSprite(NULL),
-	FpFont(NULL)
+	FpFont(NULL),
+	FpBackBuffer(NULL)
 {
 }
 
@@ -82,6 +83,8 @@ bool TDirectGraphics9::Initialize(HWND hWnd, bool isWindowed){
 		return false;
 	}
 
+	FpBackBuffer = new TBackBuffer(FpD3dDevice);
+
 	return true;
 }
 
@@ -92,6 +95,7 @@ bool TDirectGraphics9::Reset(void)
 	assert( FpD3dDevice && TEXT("***Error - DxDevice9–¢‰Šú‰»(TDirextGraphics9::Reset)"));
 
 	// before reset
+	if(FpBackBuffer) FpBackBuffer->OnLostDevice();
 	if(FpD3DXSprite) FpD3DXSprite->OnLostDevice();
 	if(FpFont) FpFont->OnLostDevice();
 
@@ -102,6 +106,7 @@ bool TDirectGraphics9::Reset(void)
 	}
 
 	// after reset
+	if(FpBackBuffer) FpBackBuffer->OnResetDevice();
 	if(FpFont) FpFont->OnResetDevice();
 	if(FpD3DXSprite) FpD3DXSprite->OnResetDevice();
 
@@ -134,6 +139,7 @@ void TDirectGraphics9::Release(void)
 	ClearAllSprite();
 	ReleaseAllMeshes();
 	ReleaseAllVertexBuffers();
+	if(FpBackBuffer)FpBackBuffer ->OnLostDevice();FpBackBuffer = NULL;
 	if(FpD3DXSprite)FpD3DXSprite -> Release(); FpD3DXSprite = NULL;
 	if(FpFont)FpFont -> Release(); FpFont = NULL;
 	if(FpD3dDevice) FpD3dDevice -> Release(); FpD3dDevice = NULL;
@@ -178,6 +184,22 @@ bool TDirectGraphics9::BeginScene(void)
 	::GetClientRect(FPresentParams.hDeviceWindow, &rec);
 	::D3DXMatrixPerspectiveFovLH(&projMat,D3DXToRadian(60.f), (float)rec.right/ (float)rec.bottom,0.1f,100.0);
 	FpD3dDevice->SetTransform(D3DTS_PROJECTION ,&projMat);
+
+	// set Light
+	D3DLIGHT9 light;
+	light.Diffuse.r = 1.0f;
+	light.Ambient.r = 1.0f;
+	light.Specular.r = 1.0f;
+	light.Type = D3DLIGHT_DIRECTIONAL;
+	FpD3dDevice->SetLight( 0 , &light);
+	FpD3dDevice->LightEnable( 0,TRUE);
+
+	/*
+	// set camera
+	D3DXMATRIX viewmat;
+	::D3DXMatrixLookAtLH(&viewmat,&D3DXVECTOR3(0,0,5),&D3DXVECTOR3(0,0,0),&D3DXVECTOR3(0,1,0));
+	FpD3dDevice->SetTransform(D3DTS_VIEW, &viewmat);
+	*/
 
 	return true;
 }
@@ -529,4 +551,50 @@ void TDirectGraphics9::ReleaseAllVertexBuffers()
 		delete (*it);
 	}
 	FVertextBuffer.clear();
+}
+
+void TDirectGraphics9::SetLight(DWORD inIndex, const D3DLIGHT9 & inLight, BOOL inEnable)
+{
+#ifdef DEBUG
+	if(FpD3dDevice == NULL)
+	{
+		::OutputDebugString(TEXT("***Error - Direct3DDeveice‰Šú‰»‚ÉŽ¸”s(SetLight)");
+		return;
+	}
+#endif
+	FpD3dDevice-> SetLight(inIndex, &inLight);
+	FpD3dDevice-> LightEnable(inIndex, inEnable);
+	FLightIndex.insert(inIndex);
+}
+
+void TDirectGraphics9::ClearAllLights(void)
+{
+#ifdef DEBUG
+	if(FpD3dDevice == NULL)
+	{
+		return;
+	}
+#endif
+	D3DLIGHT9 light;
+	::ZeroMemory(&light,sizeof(light));
+
+	std::set<DWORD>::iterator it;
+	for(it = FLightIndex.begin(); it != FLightIndex.end(); it++)
+	{
+		FpD3dDevice-> LightEnable(*it, FALSE);
+		FpD3dDevice-> SetLight(*it, &light);
+	}
+	FLightIndex.clear();
+}
+
+void TDirectGraphics9::LightEnable(DWORD inIndex, BOOL inEnable)
+{
+#ifdef DEBUG
+	if(FpD3dDevice == NULL)
+	{
+		::OutputDebugString(TEXT("***Error - Direct3DDeveice‰Šú‰»‚ÉŽ¸”s(SetLight)");
+		return;
+	}
+#endif
+	FpD3dDevice-> LightEnable(inIndex, inEnable);
 }

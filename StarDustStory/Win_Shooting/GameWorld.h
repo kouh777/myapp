@@ -27,6 +27,11 @@ class TbulOneWay;
 class TbulHoming;
 class TbulAiming;
 class TbulWave;
+class TbulWayAlong;
+
+//--------------------------------------------------------
+// ゲームスクリプト
+class TGameScript;
 
 //--------------------------------------------------------
 class TGameWorld
@@ -53,6 +58,7 @@ private:
 	std::list< TobjBullet * > FpBullets;
 	std::list< TobjEnemy * > FpEnemies;
 	int FiCollapsedTime;
+	TGameScript *FpGameScript;
 
 public:
 	bool Initialize( HWND hWnd, int cx, int cy );
@@ -68,6 +74,12 @@ public:
 
 	void Collision (double elapsedtime);
 	const TobjEnemy *GetNearestEnemy(void);
+
+	// 3d test
+	IMesh	*FpTeaPot;
+	double	FRotation;
+	void Draw3D(void);
+
 
 	// アクセサ
 	__declspec( property(get=GetiClientX) ) int iClientX;

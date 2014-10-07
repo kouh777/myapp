@@ -16,7 +16,7 @@ public:
 	TBackBuffer(LPDIRECT3DDEVICE9 pD3DDevice);
 	virtual ~TBackBuffer(void);
 
-	void OnLostDecvice(void);
+	void OnLostDevice(void);
 	void OnResetDevice(void);
 
 	void ColorFill(const RECT *pFill, const D3DCOLOR inColor);

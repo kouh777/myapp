@@ -32,6 +32,11 @@
 #include "bulHoming.h"
 #include "bulAiming.h"
 #include "bulWave.h"
+#include "bulWayAlong.h"
+
+//------------------------------------------
+// ゲームスクリプト
+#include "GameScript.h"
 
 //------------------------------------------
 // 敵配置用の構造体を作成
@@ -45,6 +50,9 @@ struct EnemySet{
 
 //------------------------------------------
 // 配列を作り、初期的配置を設定
+// これをスクリプトに変更する
+
+/*
 EnemySet EnemyArray[] = 
 {
 	1 , 3 , Vector2D(0,-40),	Vector2D(0,1) ,	300	,
@@ -60,6 +68,7 @@ EnemySet EnemyArray[] =
 	1 , 4 , Vector2D(-40,-50),	Vector2D(0,1) ,	900	,
 
 };
+*/
 
 //------------------------------------------
 // コンストラクタ
@@ -68,7 +77,9 @@ TGameWorld::TGameWorld( void )
 	  FiClientX(0),
 	  FiClientY(0),
 	  FpPlayer(NULL),
-	  FiCollapsedTime(0)
+	  FiCollapsedTime(0),
+  	  FpTeaPot(NULL),
+	  FRotation(0)
 {
 }
 
@@ -123,6 +134,17 @@ bool TGameWorld::Initialize( HWND hWnd, int cx, int cy )
 
 	// 自機作成
 	FpPlayer = new TobjPlayer( Vector2D(-50,0), 1.6 ); 
+
+	//FpGameScript = new TGameScript(this);
+	//FpGameScript->ReadScriptFile(TEXT("test_script.txt"));
+
+	// ティーポッド表示
+	FpTeaPot = DxGraphics9().CreateTeapot();
+	// マテリアルを設定する
+	D3DMATERIAL9 material;
+	ZeroMemory(&material, sizeof material);
+	material.Ambient.r=0.2f;
+	FpTeaPot->SetMaterial(0, material);
 
 	return true;
 }
@@ -218,12 +240,20 @@ void TGameWorld::Execute( double elapsed )
 
 	FiCollapsedTime++;
 
+	// ティーポッド
+	FpTeaPot->SetRotation( FRotation , 0 , 0);
+	FRotation += 0.05f;
+
+	/*
 	// enemyをEnemyArrayのデータを読み取り生成
 	for(int i=0; i< sizeof EnemyArray / sizeof EnemyArray[0]; ++i){
 		if(FiCollapsedTime == EnemyArray[i].time){
 			CreateEnemy (EnemyArray[i].type, EnemyArray[i].pattern, EnemyArray[i].pos,EnemyArray[i].velocity);
 		}
 	}
+	*/
+
+	//FpGameScript->Excute(elapsed);
 }
 
 //------------------------------------------
@@ -258,6 +288,14 @@ void TGameWorld::Draw( void )
 			(*it)->Render();
 		}
 	}
+}
+
+//------------------------------------------
+// 3d描画関数
+void TGameWorld::Draw3D(void)
+{
+	// ティーポッド
+	FpTeaPot->Render();
 }
 
 //------------------------------------------
@@ -396,6 +434,10 @@ void TGameWorld::CreateBullet( const int &type , const Vector2D &pos, const Vect
 		// 波打ち弾
 		case 4:
 			pbullet = new TbulWave(pos, velocity);
+			break;
+		// 経路追従弾
+		case 5:
+			pbullet = new TbulWayAlong(pos,velocity);
 			break;
 	}
 	FpBullets.push_back( pbullet );

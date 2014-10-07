@@ -31,7 +31,7 @@ TBackBuffer::~TBackBuffer(void)
 
 //--------------------------------------------------------
 //lost device
-void TBackBuffer::OnLostDecvice(void)
+void TBackBuffer::OnLostDevice(void)
 {
 	if(FpD3DSurface){
 		FpD3DSurface->Release();

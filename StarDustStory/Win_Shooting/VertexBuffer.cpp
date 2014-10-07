@@ -18,6 +18,7 @@ TVertexBuffer::TVertexBuffer(LPDIRECT3DDEVICE9 pD3DDevice,
 	assert(FpD3DDevice!=NULL && FpVertexBuffer != NULL);
 	FpD3DDevice->AddRef();
 	FpVertexBuffer->AddRef();
+	ZeroMemory(&FMaterial,sizeof (FMaterial));
 }
 
 //--------------------------------------------------------
@@ -95,6 +96,17 @@ void TVertexBuffer::Render(D3DPRIMITIVETYPE inType, const UINT inStart, const UI
 	FpD3DDevice->SetTransform(D3DTS_WORLD, &world);
 
 	FpD3DDevice->SetFVF(FFVF);
+
+	if( (FFVF & D3DFVF_NORMAL) != 0 )
+		FpD3DDevice->SetMaterial( &FMaterial);
+
 	FpD3DDevice->SetStreamSource(0, FpVertexBuffer, 0, FStride);
 	FpD3DDevice->DrawPrimitive(inType,inStart, inCount);
+}
+
+//--------------------------------------------------------
+// 
+void TVertexBuffer::SetMaterial(D3DMATERIAL9 & inMaterial)
+{
+	FMaterial = inMaterial;
 }

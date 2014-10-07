@@ -150,17 +150,19 @@ int WINAPI WinMain( HINSTANCE hInstance,
 				DxGraphics9().EndScene();
 			}
 
-#ifdef _DEBUG 
-			// ‚±‚ÌŒã‚ÉGetDC‚ð“ü‚ê‚ÄWINAPI‚Ì•`‰æ‚ð“ü‚ê‚é	RenderCgdi(void)‚ð‘¼‚Ì‘SƒNƒ‰ƒX‚É’Ç‰Á‚µ‚½•û‚ª‚¢‚¢‚©H
+#ifdef _DEBUG
+			// ‚±‚ÌŒã‚ÉGetDC‚ð“ü‚ê‚ÄWINAPI‚Ì•`‰æ‚ð“ü‚ê‚é
 			TBackBuffer *FpBackBuffer;					// instance
 			FpBackBuffer = new TBackBuffer(DxGraphics9().GetDevice());
 			HDC FhDC = FpBackBuffer->GetDC();			// HDC‚ðŽæ“¾
 
 			Cgdi().StartDrawing(FhDC);
-//			GameWorld().DrawCgdi();
+			GameWorld().DrawCgdi();
 			Cgdi().StopDrawing(FhDC);
 //			DxWrite().DrawD2DContent();
 			FpBackBuffer->ReleaseDC();					// HDC‚ð‰ð•ú
+
+			GameWorld().Draw3D();
 #endif
 			// updaate frame
 			DxGraphics9().UpdateFrame();

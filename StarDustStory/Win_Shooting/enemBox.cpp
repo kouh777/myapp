@@ -58,7 +58,7 @@ BOOL TenemBox::Update(double time_elapsed)
 						GameWorld().CreateBullet( 1, FvPosition, Vector2D(0+i*(-5),10));	
 					}
 					//GameWorld().CreateBullet( 2, FvPosition, Vector2D(0 ,10));
-					GameWorld().CreateBullet( 3, FvPosition, Vector2D(0 ,10));
+					GameWorld().CreateBullet( 5, FvPosition, Vector2D(0 ,10));
 					FdTimer = 0;
 				}
 			}
@@ -77,7 +77,7 @@ BOOL TenemBox::Update(double time_elapsed)
 
 		case 3:
 			if(!FmTurnFlag && FvPosition.y > 0){
-				GameWorld().CreateBullet( 3, FvPosition, Vector2D(0 ,10));
+				GameWorld().CreateBullet( 5, FvPosition, Vector2D(0 ,1));
 				FvVelocity *= -1;
 				FmTurnFlag = true;
 

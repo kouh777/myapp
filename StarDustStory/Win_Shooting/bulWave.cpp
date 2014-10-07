@@ -14,10 +14,10 @@ TbulWave::TbulWave( const Vector2D &pos, const Vector2D &velocity)
 	pos,						// position
 	0.5,						// radius
 	velocity,					// velocity
-	30,							// max_speed
+	10,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	0.,							// mass
-	Vector2D(1., 0.5),			// scale
+	Vector2D(2., 2),			// scale
 	0,							// turn_rate
 	1,							// max_force
 	1							// vitality
@@ -38,8 +38,16 @@ BOOL TbulWave::Update(double time_elapsed)
 	//----------
 	// ”g‘Å‚¿’e(”ò‚Ô•ûŒü‚ÍŒÅ’è’l)
 	//----------
+	const int WaveHeight = 20;
+	double Timer = 0;
+	FvVelocity.x += WaveHeight * sin(FvPosition.y);
+	FvVelocity.y = 10;
+
 	FvVelocity.Normalize();
 	FvVelocity *= FdMaxSpeed;
+
+	FdRadian = atan2(FvVelocity.y ,FvVelocity.x);
+	FdTheta = (FdRadian/D3DX_PI+0.5) * 180 ;
 
 	if(FdVitality <= 0 || !Move(time_elapsed))
 		return false;
@@ -63,7 +71,7 @@ void TbulWave::Render( void )
 							&srcRec,
 							pos,																// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),				// Scaling
-							D3DXVECTOR3(0, 0, 0),												// Rotation
+							D3DXVECTOR3(0, 0, FdTheta),												// Rotation
 							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
 							1.0,																// Alpha
 							D3DCOLOR(1));																// ColorKey

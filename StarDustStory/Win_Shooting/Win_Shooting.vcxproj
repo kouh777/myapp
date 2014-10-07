@@ -84,10 +84,12 @@
     <ClCompile Include="bulHoming.cpp" />
     <ClCompile Include="bulOneWay.cpp" />
     <ClCompile Include="bulWave.cpp" />
+    <ClCompile Include="bulWayAlong.cpp" />
     <ClCompile Include="cgdi.cpp" />
     <ClCompile Include="DirectGraphics9.cpp" />
     <ClCompile Include="DirectWrite.cpp" />
     <ClCompile Include="enemBox.cpp" />
+    <ClCompile Include="GameScript.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="isprite.cpp" />
@@ -107,8 +109,10 @@
     <ClCompile Include="shMiniMultipleShot.cpp" />
     <ClCompile Include="shMultipleShot.cpp" />
     <ClCompile Include="shNormalShot.cpp" />
+    <ClCompile Include="stringList.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="WayPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackBuffer.h" />
@@ -119,11 +123,13 @@
     <ClInclude Include="bulHoming.h" />
     <ClInclude Include="bulOneWay.h" />
     <ClInclude Include="bulWave.h" />
+    <ClInclude Include="bulWayAlong.h" />
     <ClInclude Include="cgdi.h" />
     <ClInclude Include="DirectGraphics9.h" />
     <ClInclude Include="DirectWrite.h" />
     <ClInclude Include="enemBox.h" />
     <ClInclude Include="GameDef.h" />
+    <ClInclude Include="GameScript.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="isprite.h" />
@@ -142,8 +148,11 @@
     <ClInclude Include="shMiniMultipleShot.h" />
     <ClInclude Include="shMultipleShot.h" />
     <ClInclude Include="shNormalShot.h" />
+    <ClInclude Include="sll_string.h" />
+    <ClInclude Include="stringlist.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="WayPoint.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

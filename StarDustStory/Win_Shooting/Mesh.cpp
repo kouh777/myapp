@@ -9,12 +9,18 @@ TMesh::TMesh(LPDIRECT3DDEVICE9 pD3DDevice, LPD3DXMESH pMesh, const DWORD inSubse
 	FiSubsetCount(inSubsetCount),
 	FvPosition(D3DXVECTOR3(0,0,0)),
 	FvScale(D3DXVECTOR3(1,1,1)),
-	FvRotation(D3DXVECTOR3(0,0,0))
+	FvRotation(D3DXVECTOR3(0,0,0)),
+	FMaterial(inSubsetCount)
 {
 	assert(FpD3DDevice!=NULL && FpMesh != NULL);
 
 	FpD3DDevice->AddRef();
 	FpMesh->AddRef();
+
+	for(DWORD i=0; i < FMaterial.size() ; ++i)
+	{
+		ZeroMemory(&FMaterial[i],sizeof FMaterial[i]);
+	}
 }
 
 //--------------------------------------------------------
@@ -69,12 +75,19 @@ void TMesh::Render(void)
 	D3DXMATRIX trans;
 	D3DXMatrixTranslation(&trans, FvPosition.x, FvPosition.y,FvPosition.z);
 
-	// fustion of matrixs
+	// fusion of matrixs
 	D3DXMATRIX world = rot * scale * trans;
 
 	FpD3DDevice->SetTransform(D3DTS_WORLD, &world);
 	for(DWORD i=0; i < FiSubsetCount; ++i){
+		FpD3DDevice->SetMaterial(&FMaterial[i]);
 		FpMesh->DrawSubset(i);
 	}
+}
 
+//--------------------------------------------------------
+// 
+void TMesh::SetMaterial(const DWORD inSubset, const D3DMATERIAL9 & inMaterial)
+{
+	FMaterial[inSubset] = inMaterial;
 }

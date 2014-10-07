@@ -14,6 +14,7 @@
 #include "Input.h"
 #include "Matrix2D.h"
 #include "DirectGraphics9.h"
+#include "isprite.h"
 
 //---------------------------------------------------------------------
 #define GAME_SCREEN_W 600

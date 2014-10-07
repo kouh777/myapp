@@ -55,6 +55,7 @@ public:
 	virtual LPVOID Lock(void) = 0;
 	virtual void Unlock(void) = 0;
 	virtual void Render(D3DPRIMITIVETYPE inType, const UINT inStart, const UINT inCount) = 0;
+	virtual void SetMaterial(D3DMATERIAL9 & inMaterial) = 0;
 };
 
 class TVertexBuffer : public IVertexBuffer{
@@ -67,6 +68,8 @@ private:
 	D3DXVECTOR3 FvPosition;
 	D3DXVECTOR3 FvScale;
 	D3DXVECTOR3 FvRotation;
+
+	D3DMATERIAL9 FMaterial;
 
 public:
 	TVertexBuffer(LPDIRECT3DDEVICE9 pD3DDevice,
@@ -82,6 +85,7 @@ public:
 	virtual LPVOID Lock(void);
 	virtual void Unlock(void);
 	virtual void Render(D3DPRIMITIVETYPE inType, const UINT inStart, const UINT inCount);
+	virtual void SetMaterial(D3DMATERIAL9 & inMaterial);
 };
 
 class TNullVertexBuffer : public IVertexBuffer{
@@ -92,10 +96,10 @@ public:
 	virtual void SetPosition(const float x, const float y, const float z){}
 	virtual void SetScale(const float x, const float y, const float z){}
 	virtual void SetRotation(const float x, const float y, const float z){}
-
 	virtual LPVOID Lock(void){return false;}
 	virtual void Unlock(void){}
 	virtual void Render(D3DPRIMITIVETYPE inType, const UINT inStart, const UINT inCount){}
+	virtual void SetMaterial(D3DMATERIAL9 & inMaterial){}
 };
 
 

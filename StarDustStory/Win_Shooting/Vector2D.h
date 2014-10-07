@@ -80,11 +80,4 @@ inline Vector2D Vec2DNormalize(const Vector2D &v)
 	return vec;
 }
 
-
-
-
-
-
-
-
 #endif	// __VECTOR2D_H__

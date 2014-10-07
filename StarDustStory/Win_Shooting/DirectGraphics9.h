@@ -6,10 +6,12 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <list>
+#include <set>
 
 #include "isprite.h"
 #include "Mesh.h"
 #include "VertexBuffer.h"
+#include "BackBuffer.h"
 
 #include "Vector2D.h"
 
@@ -34,6 +36,7 @@ private:
 	std::list<IVertexBuffer *> FVertextBuffer;
 
 	LPD3DXFONT				FpFont;
+	TBackBuffer				*FpBackBuffer;
 
 	void Release(void);
 	void SetPresentParameters(BOOL inWindowed);
@@ -88,14 +91,28 @@ public:
 	void ReleaseVertexBuffer(IVertexBuffer* &pBuffer);
 	void ReleaseAllVertexBuffers();
 
+	//----------
+	// Light
+	//----------
+	std::set<DWORD> FLightIndex;
+
+	void SetLight(DWORD inIndex, const D3DLIGHT9 & inLight, BOOL inEnable);
+	void TDirectGraphics9::LightEnable(DWORD inIndex, BOOL inEnable);
+	void TDirectGraphics9::ClearAllLights(void);
 
 	// capsel
 	LPDIRECT3DDEVICE9 &GetDevice(void){return FpD3dDevice;}
+
+	TBackBuffer *GetBackBuffer(void){return FpBackBuffer;}
 };
 
 inline TDirectGraphics9 &DxGraphics9(void)
 {
 	return TDirectGraphics9::GetInstance();
+}
+
+inline TBackBuffer *DXBackBuffer(void){
+	return DxGraphics9().GetBackBuffer();
 }
 
 #endif // __DIRECTGRAPHICS9_H__
