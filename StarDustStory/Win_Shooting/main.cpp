@@ -7,6 +7,8 @@
 #include "DirectGraphics9.h"
 #include "DirectWrite.h"
 #include "BackBuffer.h"
+#include "__sound.h"
+#include "DxSound.h"
 
 //--------------------------------------------------------------------------------
 #define WINDOW_W 800
@@ -16,6 +18,7 @@ BOOL g_inWindowed = true;
 
 //--------------------------------------------------------------------------------
 #pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "DxSound.lib")
 
 TCHAR FpsString[0xFF]=TEXT("FPS=00");
 
@@ -24,12 +27,14 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 							WPARAM wParam, LPARAM lParam )
 {
 	static RECT clientRect;
+	int ch;
+
+	int bgm_vol = 0;
 
 	switch( message ) {
 
 		case WM_CREATE:
 			GetClientRect( hWnd, &clientRect );
-
 			// DirectX　初期化
 			DxGraphics9().Initialize(hWnd,true);
 			// DirectWrite 初期化
@@ -38,6 +43,15 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 			GameWorld().Initialize( hWnd, clientRect.right, clientRect.bottom );
 			// インプット　初期化
 			Input().Initalize( hWnd );
+			// サウンド読み込み
+			InitDxSound(hWnd);
+			LoadDxSound();
+			ch = PlayStreamBGM(TEXT("mcros.wav"));
+			//ch = PlayDxSound(SND_SYS_MCROS, FALSE);
+			bgm_vol = GetVolume(ch);
+			SetVolume(ch, -500);
+			SetFrequency(ch, 9000);
+
 			return 0;
 
 		case WM_SYSKEYDOWN:
@@ -56,7 +70,11 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 			return 0;
 
 		case WM_DESTROY:
+
 			// 終了処理
+			UnLoadDxSound();
+			ReleaseDxSound();
+
 			PostQuitMessage(0);
 			return 0;
 	}
@@ -157,7 +175,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 			HDC FhDC = FpBackBuffer->GetDC();			// HDCを取得
 
 			Cgdi().StartDrawing(FhDC);
-			GameWorld().DrawCgdi();
+//			GameWorld().DrawCgdi();
 			Cgdi().StopDrawing(FhDC);
 //			DxWrite().DrawD2DContent();
 			FpBackBuffer->ReleaseDC();					// HDCを解放

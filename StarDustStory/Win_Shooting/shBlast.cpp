@@ -11,7 +11,7 @@
 //----------------------------------------------
 TshBlast::TshBlast( const Vector2D &pos, const Vector2D &velocity)
 	:TobjShot(
-	Vector2D(pos.x,pos.y-2),	// position
+	Vector2D(pos.x,pos.y),		// position
 	3,							// radius
 	velocity,					// velocity
 	1,							// max_speed

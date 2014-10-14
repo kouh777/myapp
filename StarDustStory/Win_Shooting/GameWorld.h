@@ -8,6 +8,7 @@ class TobjShot;
 class TobjBullet;
 class TobjEnemy;
 class TenemBox;
+class TenemFish;
 class TBaseMovingObject;
 
 //--------------------------------------------------------
@@ -94,8 +95,10 @@ public:
 	ISprite *FpSprites;			// テスト用スプライト
 	ISprite *FpBackGround;		// ゲーム背景
 	ISprite *FpUiBackGround;	// UI背景
-	ISprite *FpPlayerSprite;	// プレイヤーテストで描画
-	ISprite *FpShotSprite;	// 弾を描画
+	ISprite *FpPlayerSprite;	// プレイヤー(テストで)
+	ISprite *FpShotSprite;		// 弾
+
+	ISprite *FpEnemySprite;		// 敵
 };
 //--------------------------------------------------------
 inline TGameWorld &GameWorld( void ) { return TGameWorld::GetIsntance(); }

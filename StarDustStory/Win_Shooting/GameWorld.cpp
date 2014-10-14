@@ -14,6 +14,7 @@
 //------------------------------------------
 // 敵
 #include "enemBox.h"
+#include "enemFish.h"
 
 //------------------------------------------
 // プレイヤー弾
@@ -39,36 +40,10 @@
 #include "GameScript.h"
 
 //------------------------------------------
-// 敵配置用の構造体を作成
-struct EnemySet{
-	const int type;				// 敵タイプ
-	const int pattern;			// 行動パターン
-	const Vector2D pos;			// 出現場所
-	const Vector2D velocity;	// 移動方向
-	const int time;				// 出現タイミング
-};
+// 敵ID定義
+#define ENEM_BOX	1
+#define ENEM_FISH	2
 
-//------------------------------------------
-// 配列を作り、初期的配置を設定
-// これをスクリプトに変更する
-
-/*
-EnemySet EnemyArray[] = 
-{
-	1 , 3 , Vector2D(0,-40),	Vector2D(0,1) ,	300	,
-	1 , 2 , Vector2D(20,-40),	Vector2D(0,1) ,	400	,
-	1 , 1 , Vector2D(-20,-40),	Vector2D(0,1) ,	500	,
-	1 , 4 , Vector2D(0,-50),	Vector2D(0,1) ,	600	,
-	1 , 4 , Vector2D(-10,-50),	Vector2D(0,1) ,	600	,
-	1 , 4 , Vector2D(10,-50),	Vector2D(0,1) ,	600	,
-	1 , 4 , Vector2D(-20,-50),	Vector2D(0,1) ,	600	,
-	1 , 4 , Vector2D(0,-50),	Vector2D(0,1) ,	700	,
-	1 , 4 , Vector2D(-20,-50),	Vector2D(0,1) ,	800	,
-	1 , 4 , Vector2D(40,-50),	Vector2D(0,1) ,	900	,
-	1 , 4 , Vector2D(-40,-50),	Vector2D(0,1) ,	900	,
-
-};
-*/
 
 //------------------------------------------
 // コンストラクタ
@@ -125,6 +100,8 @@ bool TGameWorld::Initialize( HWND hWnd, int cx, int cy )
 	FiClientX = cx-270;
 	FiClientY = cy;
 
+
+
 	// 画像をメモリに読み込む
 	FpSprites = DxGraphics9().CreateSpriteFormFile(TEXT("sprites2.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0));
 	FpBackGround = DxGraphics9().CreateSpriteFormFile(TEXT("background2.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0)); 
@@ -132,11 +109,15 @@ bool TGameWorld::Initialize( HWND hWnd, int cx, int cy )
 	FpPlayerSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player01.png"),D3DFMT_A8R8G8B8 , 0);
 	FpShotSprite = DxGraphics9().CreateSpriteFormFile(TEXT("ef001.png"),D3DFMT_A8R8G8B8 , 0);
 
+	FpEnemySprite = DxGraphics9().CreateSpriteFormFile(TEXT("chantougoke.png"),D3DFMT_A8R8G8B8 , 0);
+
+
+
 	// 自機作成
 	FpPlayer = new TobjPlayer( Vector2D(-50,0), 1.6 ); 
 
-	//FpGameScript = new TGameScript(this);
-	//FpGameScript->ReadScriptFile(TEXT("test_script.txt"));
+	FpGameScript = new TGameScript(this);
+	FpGameScript->ReadScriptFile(TEXT("test_script.txt"));
 
 	// ティーポッド表示
 	FpTeaPot = DxGraphics9().CreateTeapot();
@@ -244,16 +225,8 @@ void TGameWorld::Execute( double elapsed )
 	FpTeaPot->SetRotation( FRotation , 0 , 0);
 	FRotation += 0.05f;
 
-	/*
-	// enemyをEnemyArrayのデータを読み取り生成
-	for(int i=0; i< sizeof EnemyArray / sizeof EnemyArray[0]; ++i){
-		if(FiCollapsedTime == EnemyArray[i].time){
-			CreateEnemy (EnemyArray[i].type, EnemyArray[i].pattern, EnemyArray[i].pos,EnemyArray[i].velocity);
-		}
-	}
-	*/
-
-	//FpGameScript->Excute(elapsed);
+	// GameScriptから敵出現情報を読み取る
+	FpGameScript->Excute(elapsed);
 }
 
 //------------------------------------------
@@ -407,9 +380,17 @@ void TGameWorld::CreateEnemy( const int &type , const int &pattern ,const Vector
 	switch(type){
 		case 0:
 			break;
-		case 1:
+
+		// 雑魚敵　ボックス
+		case ENEM_BOX:
 			penemy = new TenemBox( pattern, pos, velocity );
 			break;
+
+		// 雑魚的　フィッシュ
+		case ENEM_FISH:
+			penemy = new TenemFish( pattern, pos, velocity );
+			break;
+
 	}
 	FpEnemies.push_back( penemy );
 }
