@@ -8,8 +8,8 @@
 #include "bulAiming.h"
 
 //---------------------------------------------------------------------
-#define TRIMMING__IMAGE_LTX 0	// 
-#define TRIMMING__IMAGE_LTY 0	// 
+#define TRIMMING__IMAGE_LTX 10	// 
+#define TRIMMING__IMAGE_LTY 10	// 
 #define TRIMMING__IMAGE_RBX 40	// 
 #define TRIMMING__IMAGE_RBY 40	// 
 

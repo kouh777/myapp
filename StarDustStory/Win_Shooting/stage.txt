@@ -1,0 +1,359 @@
+
+//---------------
+// // ステージ1
+//---------------
+
+stage, STAGE1
+wait, 410
+
+//-------------------------------------------------------------------
+// BGM
+playbgm, 0
+
+//-------------------------------------------------------------------
+// 進行
+enemy, small1, 10, 1
+wait, 10
+enemy, small1, 20, 1
+wait, 10
+enemy, small1, 30, 1
+wait, 10
+enemy, small1, 40, 1
+wait, 100
+
+enemy, small1, -10, 0
+wait, 10
+enemy, small1, -20, 0
+wait, 10
+enemy, small1, -30, 0
+wait, 10
+enemy, small1, -40, 0
+wait, 100
+
+//-------------------------------------------------------------------
+// 進行
+enemy, small1, 0, 2
+wait, 20
+enemy, small1, 0, 2
+wait, 20
+enemy, small1, 0, 2
+wait, 20
+enemy, small1, 0, 2
+wait, 20
+enemy, small1, 0, 4
+wait, 20
+enemy, small1, 0, 4
+wait, 20
+enemy, small1, 0, 4
+wait, 20
+enemy, small1, 0, 4
+wait, 50
+
+enemy, small1, 20, 0
+wait, 20
+enemy, small1, 20, 1
+wait, 20
+enemy, small1, 20, 0
+wait, 20
+enemy, small1, 20, 1
+wait, 20
+enemy, small1, 20, 0
+wait, 20
+enemy, small1, 20, 1
+wait, 20
+enemy, small1, 20, 0
+wait, 20
+enemy, small1, 20, 1
+wait, 50
+
+enemy, small1, -20, 5
+wait, 20
+enemy, small1, -20, 2
+wait, 20
+enemy, small1, -20, 1
+wait, 20
+enemy, small1, -20, 0
+wait, 20
+enemy, small1, -20, 6
+wait, 20
+enemy, small1, -20, 2
+wait, 20
+enemy, small1, -20, 1
+wait, 20
+enemy, small1, -20, 0
+wait, 100
+
+enemy, big1, -30, 7
+wait, 50
+enemy, small2, 20, 2
+wait, 10
+enemy, small2, 20, 1
+wait, 10
+enemy, small2, 20, 0
+wait, 10
+enemy, small2, 20, 1
+wait, 10
+enemy, small2, 20, 1
+wait, 10
+enemy, small2, 20, 8
+wait, 10
+enemy, small2, 20, 8
+wait, 10
+enemy, small2, 20, 8
+wait, 150
+
+enemy, big1, 30
+wait, 50
+enemy, small2, -20, 0
+wait, 10
+enemy, small2, -20, 0
+wait, 10
+enemy, small2, -20, 0
+wait, 10
+enemy, small2, -20, 0
+wait, 10
+enemy, small2, -20, 0
+wait, 10
+enemy, small2, -20, 0
+wait, 10
+enemy, small2, -20, 0
+wait, 10
+enemy, small2, -20, 0
+wait, 150
+
+enemy, mdlboss1, 0, 1
+wait, 800
+
+enemy, small2, 0, 1
+wait, 10
+enemy, small2, -10, 1
+enemy, small2, 10, 1
+wait, 10
+enemy, small2, -20, 1
+enemy, small2, 20, 1
+wait, 10
+enemy, small2, -30, 1
+enemy, small2, 30, 1
+wait, 80
+enemy, big2, 20, 1
+wait, 80
+
+enemy, small2, 0
+wait, 10
+enemy, small2, -10, 1
+enemy, small2, 10, 1
+wait, 10
+enemy, small2, -20, 1
+enemy, small2, 20, 1
+wait, 10
+enemy, small2, -30, 1
+enemy, small2, 30, 1
+wait, 80
+enemy, big2, -20, 1
+wait, 80
+
+enemy, small2, 0
+wait, 10
+enemy, small2, -10, 1
+enemy, small2, 10, 1
+wait, 10
+enemy, small2, -20, 1
+enemy, small2, 20, 1
+wait, 10
+enemy, small2, -30, 1
+enemy, small2, 30, 1
+wait, 80
+enemy, big2, 20, 1
+wait, 80
+
+enemy, small2, 0
+wait, 10
+enemy, small2, -10, 1
+enemy, small2, 10, 1
+wait, 10
+enemy, small2, -20, 1
+enemy, small2, 20, 1
+wait, 10
+enemy, small2, -30, 1
+enemy, small2, 30, 1
+wait, 80
+enemy, big2, -20, 1
+wait, 200
+
+enemy, small3, -20, 1
+enemy, small3, 0, 1
+enemy, small3, 20, 1
+wait, 30
+enemy, small3, -30, 1
+enemy, small3, -10, 1
+enemy, small3, 10, 1
+enemy, small3, 30, 1
+wait, 60
+enemy, big3, 0, 1
+wait, 100
+
+enemy, small3, -20, 1
+enemy, small3, 0, 1
+enemy, small3, 20, 1
+wait, 30
+enemy, small3, -30, 1
+enemy, small3, -10, 1
+enemy, small3, 10, 1
+enemy, small3, 30, 1
+wait, 60
+enemy, big3, 0, 1
+wait, 100
+
+enemy, small3, -20, 1
+enemy, small3, 0, 1
+enemy, small3, 20, 1
+wait, 30
+enemy, small3, -30, 1
+enemy, small3, -10, 1
+enemy, small3, 10, 1
+enemy, small3, 30, 1
+wait, 60
+enemy, big3, 0, 1
+wait, 200
+
+enemy, mdlboss2, 0, 1
+wait, 1200
+
+enemy, small2, -30, 1
+wait, 20
+enemy, small2, -20, 1
+wait, 20
+enemy, small2, -10, 1
+wait, 20
+enemy, small2, 0, 1
+wait 20
+enemy, small2, 10, 1
+wait, 20
+enemy, small2, 20, 1
+wait, 20
+enemy, small2, 30, 1
+wait, 20
+enemy, small2, 20, 1
+wait, 20
+enemy, small2, 10, 1
+wait, 20
+enemy, small2, 0, 1
+wait, 20
+enemy, small2, -10
+wait, 20
+enemy, small2, -20, 1
+wait, 20
+enemy, small2, -30, 1
+wait, 150
+
+enemy, small1, -40, 1
+wait, 20
+enemy, small1, -30, 1
+wait, 20
+enemy, small1, -20, 1
+wait, 20
+enemy, small1, -10, 1
+wait, 20
+enemy, small1, 0, 1
+wait, 20
+enemy, small1, 10, 1
+wait, 20
+enemy, small1, 20, 1
+wait, 20
+enemy, small1, 30, 1
+wait, 20
+enemy, small1, 40, 1
+wait, 20
+enemy, small1, 30, 1
+wait, 20
+enemy, small1, 20, 1
+wait, 20
+enemy, small1, 10, 1
+wait, 20
+enemy, small1, 0
+wait, 20
+enemy, small1, -10, 1
+wait, 20
+enemy, small1, -20, 1
+wait, 20
+enemy, small1, -30, 1
+wait, 20
+enemy, small1, -40, 1
+wait, 150
+
+enemy, big1, -20, 1
+enemy, big1, 20, 1
+wait, 80
+enemy, small1, 0, 1
+wait, 20
+enemy, small1, -15, 1
+enemy, small1, 15, 1
+wait, 20
+enemy, small1, -30, 1
+enemy, small1, 30, 1
+wait, 200
+
+enemy, small2, -20, 1
+enemy, small2, 20, 1
+wait, 20
+enemy, small2, -20, 1
+enemy, small2, 20, 1
+wait, 20
+enemy, small2, -20, 1
+enemy, small2, 20, 1
+wait, 20
+enemy, big2, 0, 1
+enemy, small2, -20, 1
+enemy, small2, 20, 1
+wait, 20
+enemy, small2, -20, 1
+enemy, small2, 20, 1
+wait, 20
+enemy, small2, -20, 1
+enemy, small2, 20, 1
+wait, 200
+
+enemy, mdlboss3, 0, 1
+wait, 1200
+
+enemy, small3, -20, 1
+enemy, small3, 20, 1
+wait, 20
+enemy, small3, -20, 1
+enemy, small3, 20, 1
+wait, 20
+enemy, small3, -20, 1
+enemy, small3, 20, 1
+wait, 20
+enemy, big3, 0, 1
+enemy, small3, -20, 1
+enemy, small3, 20, 1
+wait, 20
+enemy, small3, -20, 1
+enemy, small3, 20, 1
+wait, 20
+enemy, small3, -20, 1
+enemy, small3, 20, 1
+wait, 200
+
+
+//-------------------------------------------------------------------
+// BGM フェードアウト
+fadeout, 10000
+wait, 200
+
+//-------------------------------------------------------------------
+// ボス BGM
+playbgm, 3
+
+//-------------------------------------------------------------------
+// ボス出現（スクリプト停止、再開）
+enemy, boss1, 0, 1
+
+//-------------------------------------------------------------------
+// ボス BGM フェードアウト
+fadeout, 10000
+wait, 200
+
+
+gameover

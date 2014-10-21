@@ -9,6 +9,8 @@
 #include "BackBuffer.h"
 #include "__sound.h"
 #include "DxSound.h"
+#include "TaskManager.h"
+#include "sceneTitle.h"
 
 //--------------------------------------------------------------------------------
 #define WINDOW_W 800
@@ -51,6 +53,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 			bgm_vol = GetVolume(ch);
 			SetVolume(ch, -500);
 			SetFrequency(ch, 9000);
+
+			new TsceneTitle();
 
 			return 0;
 
@@ -154,7 +158,8 @@ int WINAPI WinMain( HINSTANCE hInstance,
 				// sprite
 				DxGraphics9().BeginSprite(D3DXSPRITE_ALPHABLEND);
 				// draw sprite between BeginSprite() and EndSprite()
-				GameWorld().Draw();
+//				GameWorld().Draw();
+				TaskManager().Draw();
 
 				DxGraphics9().EndSprite();
 				
@@ -164,7 +169,8 @@ int WINAPI WinMain( HINSTANCE hInstance,
 				// Input Update
 				Input().Update();
 				// Update GameWorld
-				GameWorld().Execute(FPS);
+				TaskManager().Update(FPS);
+//				GameWorld().Execute(FPS);
 				DxGraphics9().EndScene();
 			}
 
@@ -175,12 +181,13 @@ int WINAPI WinMain( HINSTANCE hInstance,
 			HDC FhDC = FpBackBuffer->GetDC();			// HDC‚ðŽæ“¾
 
 			Cgdi().StartDrawing(FhDC);
+			TaskManager().DrawCgdi();
 //			GameWorld().DrawCgdi();
 			Cgdi().StopDrawing(FhDC);
 //			DxWrite().DrawD2DContent();
 			FpBackBuffer->ReleaseDC();					// HDC‚ð‰ð•ú
 
-			GameWorld().Draw3D();
+//			GameWorld().Draw3D();
 #endif
 			// updaate frame
 			DxGraphics9().UpdateFrame();

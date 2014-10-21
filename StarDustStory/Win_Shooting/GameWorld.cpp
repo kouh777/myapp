@@ -109,7 +109,7 @@ bool TGameWorld::Initialize( HWND hWnd, int cx, int cy )
 	FpPlayerSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player01.png"),D3DFMT_A8R8G8B8 , 0);
 	FpShotSprite = DxGraphics9().CreateSpriteFormFile(TEXT("ef001.png"),D3DFMT_A8R8G8B8 , 0);
 
-	FpEnemySprite = DxGraphics9().CreateSpriteFormFile(TEXT("chantougoke.png"),D3DFMT_A8R8G8B8 , 0);
+	FpEnemySprite = DxGraphics9().CreateSpriteFormFile(TEXT("chantougoke.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0));
 
 
 
@@ -351,6 +351,7 @@ void TGameWorld::CreateShot( const int &type, const Vector2D &pos, const Vector2
 		// ホーミング弾
 		case 4:
 			pshot = new TshHomingShot( pos, velocity);
+			break;
 		// 分裂弾(分裂前)
 		case 5:
 			pshot = new TshMultipleShot( pos, velocity);
