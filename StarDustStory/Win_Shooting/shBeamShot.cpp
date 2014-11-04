@@ -9,7 +9,7 @@
 #define TRIMMING__IMAGE_RBY 40	// 
 
 //----------------------------------------------
-TshBeamShot::TshBeamShot( const Vector2D &pos, const Vector2D &velocity)
+TshBeamShot::TshBeamShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjShot(
 	Vector2D(pos.x,pos.y-5.0),	// position
 	1.3,							// radius
@@ -22,6 +22,7 @@ TshBeamShot::TshBeamShot( const Vector2D &pos, const Vector2D &velocity)
 	10,							// max_force
 	1							// vitality
 	),
+	FpGame(game),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
@@ -54,12 +55,12 @@ void TshBeamShot::Render( void )
 	vec.push_back(FvPosition);
 
 	// ビューポート変換
-	GameWorld().ViewPortTransform( vec );
+	FpGame->ViewPortTransform( vec );
 	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};	// 画像の中から切り取る座標
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
 	
 	// 弾の後ろにぼかしを入れる
-	GameWorld().FpSprites->RenderEx(
+	FpGame->FpSprites->RenderEx(
 							&srcRec,
 							pos,																	// DrawPosition
 							D3DXVECTOR3((float)(FvScale.x*1.5) , (float)(FvScale.y*1.5), 1),		// Scaling
@@ -70,7 +71,7 @@ void TshBeamShot::Render( void )
 
 
 	// 画像を表示する座標
-	GameWorld().FpSprites->RenderEx(
+	FpGame->FpSprites->RenderEx(
 							&srcRec,
 							pos,																	// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),					// Scaling

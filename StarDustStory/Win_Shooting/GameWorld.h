@@ -100,10 +100,6 @@ public:
 
 	ISprite *FpEnemySprite;		// “G
 };
-//--------------------------------------------------------
-inline TGameWorld &GameWorld( void ) { return TGameWorld::GetIsntance(); }
-
-
 
 //--------------------------------------------------------
 

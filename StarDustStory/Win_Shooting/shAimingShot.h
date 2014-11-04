@@ -12,6 +12,7 @@ class TshAimingShot : public TobjShot
 private:
 	// 画像読み込み用
 	D3DXVECTOR3 pos;
+	TsceneGame	*FpGame;
 
 protected:
 	//	三角関数計算用変数
@@ -21,7 +22,7 @@ protected:
 	int FiImageHeight;
 
 public:
-	TshAimingShot( const Vector2D &pos, const Vector2D &velocity);
+	TshAimingShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity);
 	~TshAimingShot(void);
 	virtual BOOL Update(double time_elapsed);
 	virtual void Render( void );

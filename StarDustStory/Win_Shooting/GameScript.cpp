@@ -1,7 +1,7 @@
 
 
 #include "GameDef.h"
-#include "GameWorld.h"
+#include "sceneGame.h"
 
 #include <fstream>
 #include <vector>
@@ -12,8 +12,8 @@ using namespace std;
 
 //--------------------------------------------------------------------------------
 // コンストラクタ
-TGameScript::TGameScript( TGameWorld *pworld )
-	:FpGameWorld( pworld ), FiWait(0)
+TGameScript::TGameScript( TsceneGame *pworld )
+	:FpSceneGame( pworld ), FiWait(0)
 {
 }
 
@@ -103,7 +103,7 @@ int TGameScript::CreateScript( TStringList *plist )
 			for( int n=0; n<enemt_cnt; n++) {
 				if( _tcsicmp(param1.c_str(), EnemyName_TBL[n]) == 0 ) {
 					FlitCommand.push_back( new TCmdEnemy(
-												FpGameWorld,
+												FpSceneGame,
 												n,
 												_wtof(param2.c_str()),
 												Vector2D(_wtof(param3.c_str()),_wtof(param4.c_str())),
@@ -161,16 +161,16 @@ void TCmdEnemy::Excute( void )
 
 			switch(FiPattern){
 				case 1:
-					FpGameWorld->CreateEnemy(1, 1,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+					FpSceneGame->CreateEnemy(1, 1,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 					break;
 				case 2:
-					FpGameWorld->CreateEnemy(1, 2,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+					FpSceneGame->CreateEnemy(1, 2,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 					break;
 				case 3:
-					FpGameWorld->CreateEnemy(1, 3,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+					FpSceneGame->CreateEnemy(1, 3,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 					break;
 				case 4:
-					FpGameWorld->CreateEnemy(1, 4,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+					FpSceneGame->CreateEnemy(1, 4,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 					break;
 			}
 			break;
@@ -179,16 +179,16 @@ void TCmdEnemy::Excute( void )
 		case 1:
 			switch(FiPattern){
 				case 1:
-					FpGameWorld->CreateEnemy(2, 1,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+					FpSceneGame->CreateEnemy(2, 1,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 					break;
 				case 2:
-					FpGameWorld->CreateEnemy(2, 2,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+					FpSceneGame->CreateEnemy(2, 2,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 					break;
 				case 3:
-					FpGameWorld->CreateEnemy(2, 3,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+					FpSceneGame->CreateEnemy(2, 3,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 					break;
 				case 4:
-					FpGameWorld->CreateEnemy(2, 4,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+					FpSceneGame->CreateEnemy(2, 4,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 					break;
 			}
 			break;

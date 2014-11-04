@@ -9,7 +9,7 @@
 #define TRIMMING__IMAGE_RBY 359	// 
 
 //----------------------------------------------
-TshNormalShot::TshNormalShot( const Vector2D &pos, const Vector2D &velocity)
+TshNormalShot::TshNormalShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjShot(
 	Vector2D(pos.x,pos.y-2),	// position
 	3,							// radius
@@ -22,6 +22,7 @@ TshNormalShot::TshNormalShot( const Vector2D &pos, const Vector2D &velocity)
 	10,							// max_force
 	1							// vitality
 	),
+	FpGame(game),
 	FdTheta(0),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
@@ -61,12 +62,12 @@ void TshNormalShot::Render( void )
 	vec.push_back(FvPosition);
 
 	// ビューポート変換
-	GameWorld().ViewPortTransform( vec );
+	FpGame->ViewPortTransform( vec );
 	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};						// 画像の中から切り取る座標
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
 
 	// 画像を表示する座標
-	GameWorld().FpShotSprite->RenderEx(
+	FpGame->FpShotSprite->RenderEx(
 							&srcRec,
 							pos,																	// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),					// Scaling

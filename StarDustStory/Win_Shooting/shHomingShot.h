@@ -12,6 +12,7 @@ class TshHomingShot : public TobjShot
 private:
 	// âÊëúì«Ç›çûÇ›óp
 	D3DXVECTOR3 pos;
+	TsceneGame *FpGame;
 	const TobjEnemy *FpEnemy;
 
 protected:
@@ -22,7 +23,7 @@ protected:
 	int FiImageHeight;
 
 public:
-	TshHomingShot( const Vector2D &pos, const Vector2D &velocity);
+	TshHomingShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity);
 	~TshHomingShot(void);
 	virtual BOOL Update(double time_elapsed);
 	virtual void Render( void );

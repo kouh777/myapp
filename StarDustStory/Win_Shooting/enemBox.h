@@ -20,6 +20,7 @@ private:
 protected:
 	// âÊëúì«Ç›çûÇ›óp
 	D3DXVECTOR3 pos;
+	TsceneGame	*FpGame;
 	int FiImageWidth;
 	int FiImageHeight;
 
@@ -28,7 +29,7 @@ protected:
 	double FdRadian;
 
 public:
-	TenemBox(const int &pattern, const Vector2D &pos, const Vector2D &velocity);
+	TenemBox(TsceneGame *game, const int &pattern, const Vector2D &pos, const Vector2D &velocity);
 	~TenemBox(void);
 	virtual BOOL Update(double time_elapsed);
 	virtual void Render( void );

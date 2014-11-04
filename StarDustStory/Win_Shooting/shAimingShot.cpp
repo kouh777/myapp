@@ -9,7 +9,7 @@
 #define TRIMMING__IMAGE_RBY 30	//
 
 //----------------------------------------------
-TshAimingShot::TshAimingShot( const Vector2D &pos, const Vector2D &velocity)
+TshAimingShot::TshAimingShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjShot(
 	Vector2D(pos.x,pos.y-2),	// position
 	1.5,						// radius
@@ -22,14 +22,15 @@ TshAimingShot::TshAimingShot( const Vector2D &pos, const Vector2D &velocity)
 	10,							// max_force
 	1							// vitality
 	),
+	FpGame(game),
 	FdTheta(0),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
 	// When this shots create, get nearset enemy.
 	const TobjEnemy *FpEnemy = NULL;
-	if(GameWorld().GetNearestEnemy() != NULL)
-		FpEnemy = GameWorld().GetNearestEnemy();
+	if(FpGame->GetNearestEnemy() != NULL)
+		FpEnemy = FpGame->GetNearestEnemy();
 	if(FpEnemy)
 		FvVelocity = FpEnemy->vPosition - FvPosition;
 	else
@@ -68,12 +69,12 @@ void TshAimingShot::Render( void )
 	vec.push_back(FvPosition);
 
 	// ビューポート変換
-	GameWorld().ViewPortTransform( vec );
+	FpGame->ViewPortTransform( vec );
 	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};						// 画像の中から切り取る座標
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
 
 	// 画像を表示する座標
-	GameWorld().FpSprites->RenderEx(
+	FpGame->FpSprites->RenderEx(
 							&srcRec,
 							pos,																	// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),					// Scaling

@@ -11,6 +11,7 @@ class TshBlast : public TobjShot
 private:
 	// ‰æ‘œ“Ç‚İ‚İ—p
 	D3DXVECTOR3 pos;
+	TsceneGame *FpGame;
 	double FdTimer;					// ”š”­ŠÔŠÇ—
 	const double FdInitialRadius;
 
@@ -22,7 +23,7 @@ protected:
 	int FiImageHeight;
 
 public:
-	TshBlast( const Vector2D &pos, const Vector2D &velocity);
+	TshBlast( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity);
 	~TshBlast(void);
 	virtual BOOL Update(double time_elapsed);
 	virtual void Render( void );

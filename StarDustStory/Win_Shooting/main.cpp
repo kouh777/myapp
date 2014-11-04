@@ -40,9 +40,9 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 			// DirectX　初期化
 			DxGraphics9().Initialize(hWnd,true);
 			// DirectWrite 初期化
-			DxWrite().Initialize(hWnd,true);
-			// ゲームワールド　初期化
-			GameWorld().Initialize( hWnd, clientRect.right, clientRect.bottom );
+//			DxWrite().Initialize(hWnd,true);
+			// タスクマネージャー　初期化
+			TaskManager().Initialize( hWnd, clientRect.right, clientRect.bottom );
 			// インプット　初期化
 			Input().Initalize( hWnd );
 			// サウンド読み込み
@@ -182,11 +182,9 @@ int WINAPI WinMain( HINSTANCE hInstance,
 
 			Cgdi().StartDrawing(FhDC);
 			TaskManager().DrawCgdi();
-//			GameWorld().DrawCgdi();
 			Cgdi().StopDrawing(FhDC);
 //			DxWrite().DrawD2DContent();
 			FpBackBuffer->ReleaseDC();					// HDCを解放
-
 //			GameWorld().Draw3D();
 #endif
 			// updaate frame

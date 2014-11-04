@@ -41,6 +41,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -91,7 +92,6 @@
     <ClCompile Include="enemBox.cpp" />
     <ClCompile Include="enemFish.cpp" />
     <ClCompile Include="GameScript.cpp" />
-    <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="isprite.cpp" />
     <ClCompile Include="main.cpp" />
@@ -102,6 +102,9 @@
     <ClCompile Include="ObjPlayer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="objShot.cpp" />
+    <ClCompile Include="sceneFade.cpp" />
+    <ClCompile Include="sceneGame.cpp" />
+    <ClCompile Include="sceneTitle.cpp" />
     <ClCompile Include="shAimingShot.cpp" />
     <ClCompile Include="shBeamShot.cpp" />
     <ClCompile Include="shBlast.cpp" />
@@ -111,6 +114,7 @@
     <ClCompile Include="shMultipleShot.cpp" />
     <ClCompile Include="shNormalShot.cpp" />
     <ClCompile Include="stringList.cpp" />
+    <ClCompile Include="TaskManager.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="WayPoint.cpp" />
@@ -134,7 +138,6 @@
     <ClInclude Include="enemFish.h" />
     <ClInclude Include="GameDef.h" />
     <ClInclude Include="GameScript.h" />
-    <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="isprite.h" />
     <ClInclude Include="Matrix2D.h" />
@@ -144,6 +147,9 @@
     <ClInclude Include="ObjPlayer.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="objShot.h" />
+    <ClInclude Include="sceneFade.h" />
+    <ClInclude Include="sceneGame.h" />
+    <ClInclude Include="sceneTitle.h" />
     <ClInclude Include="shAimingShot.h" />
     <ClInclude Include="shBeamShot.h" />
     <ClInclude Include="shBlast.h" />
@@ -154,6 +160,7 @@
     <ClInclude Include="shNormalShot.h" />
     <ClInclude Include="sll_string.h" />
     <ClInclude Include="stringlist.h" />
+    <ClInclude Include="TaskManager.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="WayPoint.h" />

@@ -9,7 +9,7 @@
 #define TRIMMING__IMAGE_RBY 130	// 
 
 //----------------------------------------------
-TbulWave::TbulWave( const Vector2D &pos, const Vector2D &velocity)
+TbulWave::TbulWave( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjBullet(
 	pos,						// position
 	0.5,						// radius
@@ -22,6 +22,7 @@ TbulWave::TbulWave( const Vector2D &pos, const Vector2D &velocity)
 	1,							// max_force
 	1							// vitality
 	),
+	FpGame(game),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
@@ -62,12 +63,12 @@ void TbulWave::Render( void )
 	vec.push_back(FvPosition);
 
 	// ビューポート変換
-	GameWorld().ViewPortTransform( vec );
+	FpGame->ViewPortTransform( vec );
 	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};						// 画像の中から切り取る座標
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
 
 	// 画像を表示する座標
-	GameWorld().FpSprites->RenderEx(
+	FpGame->FpSprites->RenderEx(
 							&srcRec,
 							pos,																// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),				// Scaling

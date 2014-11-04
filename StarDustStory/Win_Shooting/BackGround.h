@@ -1,10 +1,6 @@
 #ifndef __BACKGROUND_H__
 #define __BACKGROUND_H__
 
-//------------------------------------------
-#include "GameDef.h"
-#include "GameWorld.h"
-
 //------------------------------------------------------------------------------------
 #define BACKGROUND_WIDTH 256		// ”wŒi‰æ‘œØ‚èæ‚èƒTƒCƒY ‰¡
 #define BACKGROUND_HEIGHT 96		// ”wŒi‰æ‘œØ‚èæ‚èƒTƒCƒY c
@@ -33,22 +29,15 @@ StageSet StageArray[]=
 class TBackGround
 {
 private:
-	TBackGround( void );
-	TBackGround( const TBackGround & );
-	TBackGround operator = (const TBackGround &);
 	Vector2D FvBackGroundPos;
+	TsceneGame FpGame;
 
 public:
+	TBackGround(TsceneGame &game );
 	~TBackGround(void);
-	static TBackGround &GetInstance(void){
-		static TBackGround instance;
-		return instance;
-	}
 	void Render(void);
 	void Update(double elapsedTime);
 };
-
-inline TBackGround &BackGround( void ) { return TBackGround::GetInstance(); }
 
 //--------------------------------------------------------
 

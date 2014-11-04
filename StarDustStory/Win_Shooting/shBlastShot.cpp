@@ -1,6 +1,5 @@
 #include "GameDef.h"
 #include "shBlastShot.h"
-#include "GameWorld.h"
 
 //----------------------------------------------
 #define TRIMMING__IMAGE_LTX 40	// 
@@ -9,7 +8,7 @@
 #define TRIMMING__IMAGE_RBY 30	//
 
 //----------------------------------------------
-TshBlastShot::TshBlastShot( const Vector2D &pos, const Vector2D &velocity)
+TshBlastShot::TshBlastShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjShot(
 	Vector2D(pos.x,pos.y-2),	// position
 	1.5,						// radius
@@ -22,6 +21,7 @@ TshBlastShot::TshBlastShot( const Vector2D &pos, const Vector2D &velocity)
 	10,							// max_force
 	1							// vitality
 	),
+	FpGame(game),
 	FdRadian(0),
 	FdTheta(0),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
@@ -47,7 +47,7 @@ BOOL TshBlastShot::Update(double time_elapsed)
 	FvVelocity *= FdMaxSpeed;	
 
 	if(FdVitality <= 0){
-		GameWorld().CreateShot( 8, FvPosition, Vector2D( 0, 0) );
+		FpGame->CreateShot( 8, FvPosition, Vector2D( 0, 0) );
 		return false;
 	}
 	
@@ -65,12 +65,12 @@ void TshBlastShot::Render( void )
 	vec.push_back(FvPosition);
 
 	// ビューポート変換
-	GameWorld().ViewPortTransform( vec );
+	FpGame->ViewPortTransform( vec );
 	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};						// 画像の中から切り取る座標
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
 
 	// 画像を表示する座標
-	GameWorld().FpSprites->RenderEx(
+	FpGame->FpSprites->RenderEx(
 							&srcRec,
 							pos,																	// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),					// Scaling

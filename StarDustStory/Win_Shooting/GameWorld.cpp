@@ -338,35 +338,35 @@ void TGameWorld::CreateShot( const int &type, const Vector2D &pos, const Vector2
 	switch(type){
 		// •ûŒü’e
 		case 1:
-			pshot = new TshNormalShot( pos, velocity );
+			pshot = new TshNormalShot( this, pos, velocity );
 			break;
 		// ƒr[ƒ€
 		case 2:
-			pshot = new TshBeamShot( pos, velocity );
+			pshot = new TshBeamShot( this, pos, velocity );
 			break;
 		// ‘_‚¢Œ‚‚¿’e
 		case 3:
-			pshot = new TshAimingShot( pos, velocity );
+			pshot = new TshAimingShot( this, pos, velocity );
 			break;
 		// ƒz[ƒ~ƒ“ƒO’e
 		case 4:
-			pshot = new TshHomingShot( pos, velocity);
+			pshot = new TshHomingShot( this, pos, velocity);
 			break;
 		// •ª—ô’e(•ª—ô‘O)
 		case 5:
-			pshot = new TshMultipleShot( pos, velocity);
+			pshot = new TshMultipleShot( this, pos, velocity);
 			break;
 		// •ª—ô’e(•ª—ôŒã)
 		case 6:
-			pshot = new TshMiniMultipleShot( pos, velocity);
+			pshot = new TshMiniMultipleShot( this, pos, velocity);
 			break;
 		// ”š”­’e
 		case 7:
-			pshot = new TshBlastShot( pos, velocity);
+			pshot = new TshBlastShot( this, pos, velocity);
 			break;
 		// ”š”­’e(”š•—)
 		case 8:
-			pshot = new TshBlast( pos, velocity);
+			pshot = new TshBlast( this, pos, velocity);
 			break;
 	}
 	FpShots.push_back( pshot );
@@ -384,12 +384,12 @@ void TGameWorld::CreateEnemy( const int &type , const int &pattern ,const Vector
 
 		// G‹›“G@ƒ{ƒbƒNƒX
 		case ENEM_BOX:
-			penemy = new TenemBox( pattern, pos, velocity );
+			penemy = new TenemBox( this, pattern, pos, velocity );
 			break;
 
 		// G‹›“I@ƒtƒBƒbƒVƒ…
 		case ENEM_FISH:
-			penemy = new TenemFish( pattern, pos, velocity );
+			penemy = new TenemFish( this, pattern, pos, velocity );
 			break;
 
 	}
@@ -403,23 +403,23 @@ void TGameWorld::CreateBullet( const int &type , const Vector2D &pos, const Vect
 	switch(type){
 		// •ûŒü’e
 		case 1:
-			pbullet = new TbulOneWay(pos, velocity);
+			pbullet = new TbulOneWay(this, pos, velocity);
 			break;
 		// ƒz[ƒ~ƒ“ƒO’e
 		case 2:
-			pbullet = new TbulHoming(pos, velocity);
+			pbullet = new TbulHoming(this, pos, velocity);
 			break;
 		// ‘_‚¢Œ‚‚¿’e
 		case 3:
-			pbullet = new TbulAiming(pos, velocity);
+			pbullet = new TbulAiming(this, pos, velocity);
 			break;
 		// ”g‘Å‚¿’e
 		case 4:
-			pbullet = new TbulWave(pos, velocity);
+			pbullet = new TbulWave(this, pos, velocity);
 			break;
 		// Œo˜H’Ç]’e
 		case 5:
-			pbullet = new TbulWayAlong(pos,velocity);
+			pbullet = new TbulWayAlong(this, pos,velocity);
 			break;
 	}
 	FpBullets.push_back( pbullet );

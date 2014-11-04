@@ -19,11 +19,12 @@ protected:
 
 	// âÊëúì«Ç›çûÇ›óp
 	D3DXVECTOR3 pos;
+	TsceneGame	*FpGame;
 	int FiImageWidth;
 	int FiImageHeight;
 
 public:
-	TobjPlayer( Vector2D position, double radius );
+	TobjPlayer( TsceneGame *game, Vector2D position, double radius );
 	virtual ~TobjPlayer( void );
 
 	virtual BOOL Update(double time_elapsed);

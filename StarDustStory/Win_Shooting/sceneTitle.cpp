@@ -3,13 +3,14 @@
 #include "sceneTitle.h"
 #include "cgdi.h"
 #include "sceneGame.h"
+#include "sceneFade.h"
 
 //--------------------------------------------------------
 bool TsceneTitle::Execute( double ElapsedTime)
 {
 	FiTimer -= ElapsedTime;
 	if(FiTimer <= 0){
-		new TsceneGame();
+		new TsceneFade();
 		return false;
 	}
 	return true;

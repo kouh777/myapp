@@ -1,6 +1,5 @@
 
 #include "GameDef.h"
-#include "GameWorld.h"
 #include "ObjPlayer.h"
 
 
@@ -17,7 +16,7 @@
 
 //---------------------------------------------------------------------
 // コンストラクタ
-TobjPlayer::TobjPlayer( Vector2D position, double radius )
+TobjPlayer::TobjPlayer( TsceneGame *game, Vector2D position, double radius )
 	:TBaseMovingObject( TBaseObject::player, 
 						position, 
 						radius, 
@@ -29,6 +28,7 @@ TobjPlayer::TobjPlayer( Vector2D position, double radius )
 						10.,
 						10.0, 
 						10 ),
+						FpGame(game),
 						FiBeamPower(0),
 						FiShotGauge(0),
 						FiShotTime(0),
@@ -64,16 +64,14 @@ BOOL TobjPlayer::Update(double time_elapsed)
 		// パワーが足りないときは、ショットを発射
 		if( FiBeamPower < MinBeamPower ) {
 			FiBeamPower++;
-
 			FiShotGauge = ShotMaxGauge;
 			if( FiShotTime == 0 )
-				GameWorld().CreateShot( 7, FvPosition, Vector2D(0,-1) );
+				FpGame->CreateShot( 1, FvPosition, Vector2D(0,-1) );
 		} else {
 			// パワーが足りていればビームを打つ
-			FiShotGauge = 0;
-			
-			//if( FiBeamTime == 0 ) 
-			//	GameWorld().CreateShot( 5, FvPosition, Vector2D(0,-1.0) );
+			FiShotGauge = 0;		
+			if( FiBeamTime == 0 ) 
+				FpGame->CreateShot( 2, FvPosition, Vector2D(0,-1.0) );
 		}
 	} else {
 		// ボタンを離したとき
@@ -82,10 +80,39 @@ BOOL TobjPlayer::Update(double time_elapsed)
 		// ゲージが残っている場合、ショットを打つ
 		if(FiShotGauge > 0){
 			//if(FiShotTime == 0)
-			//	GameWorld().CreateShot( 5, FvPosition , Vector2D(0,-1.0));
+			//	FpGame.CreateShot( 5, FvPosition , Vector2D(0,-1.0));
 			FiShotGauge--;
 		}
 	}
+	//-----------------
+	// デバッグモード
+	//-----------------
+
+	// Xキーを押すと敵狙い弾を生成
+	if( inputBuff & KEY_X ) {
+		FiShotGauge = ShotMaxGauge;
+		if( FiShotTime == 0 ) FpGame->CreateShot( 3, FvPosition, Vector2D(0,-1) );
+		else FiShotGauge = 0;
+	}
+	// Aキーを押すと敵ホーミング弾を生成
+	if( inputBuff & KEY_A ) {
+		FiShotGauge = ShotMaxGauge;
+		if( FiShotTime == 0 ) FpGame->CreateShot( 4, FvPosition, Vector2D(0,-1) );
+		else FiShotGauge = 0;
+	}
+	// Sキーを押すと分裂弾を生成
+	if( inputBuff & KEY_S ) {
+		FiShotGauge = ShotMaxGauge;
+		if( FiShotTime == 0 ) FpGame->CreateShot( 5, FvPosition, Vector2D(0,-1) );
+		else FiShotGauge = 0;
+	}
+	// Dキーを押すと爆発弾を生成
+	if( inputBuff & KEY_D ) {
+		FiShotGauge = ShotMaxGauge;
+		if( FiShotTime == 0 ) FpGame->CreateShot( 7, FvPosition, Vector2D(0,-1) );
+		else FiShotGauge = 0;
+	}
+
 	// ショットとビームの待機時間を更新
 	FiShotTime = (FiShotTime+1) % MaxShotTime;
 	FiBeamTime = (FiBeamTime+1) % MaxBeamTime;
@@ -123,12 +150,12 @@ void TobjPlayer::Render( void )
 	vec.push_back(FvPosition);
 
 	// ビューポート変換
-	GameWorld().ViewPortTransform( vec );
+	FpGame->ViewPortTransform( vec );
 	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};		// 画像の中から切り取る座標
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
 
 	// 画像を表示する座標
-	GameWorld().FpPlayerSprite->RenderEx(
+	FpGame->FpPlayerSprite->RenderEx(
 							&srcRec,
 							pos,													// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),					// Scaling

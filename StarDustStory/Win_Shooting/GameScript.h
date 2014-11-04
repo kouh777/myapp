@@ -25,13 +25,13 @@ const static TCHAR* EnemyName_TBL[]={
 class TGameScript
 {
 private:
-	TGameWorld				*FpGameWorld;
+	TsceneGame					*FpSceneGame;
 	std::list<TCommandBase *>	 FlitCommand;
 	int							 FiIndex;
 	int							 FiWait;
 
 public:
-	TGameScript( TGameWorld *pworld );
+	TGameScript( TsceneGame *pworld );
 	virtual ~TGameScript( void );
 
 	BOOL Excute( double fElapsedTime );
@@ -78,7 +78,7 @@ public:
 class TCmdEnemy : public TCommandBase 
 {
 private:
-	TGameWorld	*FpGameWorld;
+	TsceneGame		*FpSceneGame;
 	int				 FiType;		// 敵タイプ
 	int				 FiPattern;		// 敵行動パターン
 	double			 FdPosX;		// 敵出現位置のX座標
@@ -88,7 +88,7 @@ private:
 	//int		FiColor;		
 
 public:
-	TCmdEnemy( TGameWorld *pworld, int type, int pattern, Vector2D pos, Vector2D vec ):FpGameWorld(pworld), FiType(type), FiPattern(pattern),FdPosX(pos.x),FdPosY(pos.y),FdVecX(vec.x),FdVecY(vec.y){}
+	TCmdEnemy( TsceneGame *pworld, int type, int pattern, Vector2D pos, Vector2D vec ):FpSceneGame(pworld), FiType(type), FiPattern(pattern),FdPosX(pos.x),FdPosY(pos.y),FdVecX(vec.x),FdVecY(vec.y){}
 	virtual ~TCmdEnemy( void ) {} 
 	virtual void Excute( void );
 };

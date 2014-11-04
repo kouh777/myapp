@@ -2,6 +2,7 @@
 #define __TASKMANAGER_H__
 
 //--------------------------------------------------------
+#include <Windows.h>
 #include <list>
 
 //--------------------------------------------------------
@@ -26,6 +27,9 @@ public:
 class TTaskManager
 {
 private:
+	HWND FhWnd;
+	int FiClientX;
+	int FiClientY;
 	std::list<_Task *> FTasks;
 	TTaskManager(void){}
 	TTaskManager(const TTaskManager & );
@@ -38,10 +42,19 @@ public:
 		return instance;
 	}
 	std::list <_Task *>::iterator AddList(_Task *ptask);
+	void Initialize( HWND hWnd, int cx, int cy );
 	void Update(double elapsedTime);
 	void Draw(void);
 	void DrawCgdi(void);
 	void Clear(void);
+
+	// アクセサ
+	__declspec( property(get=GetiClientX) ) HWND FhWnd;
+	HWND GethWnd( void ) const { return FhWnd; }
+	__declspec( property(get=GetiClientX) ) int iClientX;
+	int GetiClientX( void ) const { return FiClientX; }
+	__declspec( property(get=GetiClientY) ) int iClientY;
+	int GetiClientY( void ) const { return FiClientY; }
 };
 
 //--------------------------------------------------------

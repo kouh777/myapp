@@ -14,7 +14,7 @@
 #define TRIMMING__IMAGE_RBY 20	// 
 
 //----------------------------------------------
-TenemBox::TenemBox( const int &pattern, const Vector2D &pos, const Vector2D &velocity )
+TenemBox::TenemBox( TsceneGame *game, const int &pattern, const Vector2D &pos, const Vector2D &velocity )
 	:TobjEnemy(
 	pos,						// position
 	0.9,						// radius
@@ -27,6 +27,7 @@ TenemBox::TenemBox( const int &pattern, const Vector2D &pos, const Vector2D &vel
 	1,							// max_force
 	1							// vitality
 	),
+	FpGame(game),
 	FdPattern(pattern),
 	FdTimer(0),
 	FmTurnFlag(false),
@@ -50,15 +51,15 @@ BOOL TenemBox::Update(double time_elapsed)
 			if (FdTimer < 20){
 				FdTimer++;
 				if(FdTimer >= 20){
-					GameWorld().CreateBullet( 1, FvPosition, Vector2D(0,10));	
+					FpGame->CreateBullet( 1, FvPosition, Vector2D(0,10));	
 					for(int i=0; i < 3; ++i){
-						GameWorld().CreateBullet( 1, FvPosition, Vector2D(0+i*5,10));	
+						FpGame->CreateBullet( 1, FvPosition, Vector2D(0+i*5,10));	
 					}
 					for(int i=0; i < 3; ++i){
-						GameWorld().CreateBullet( 1, FvPosition, Vector2D(0+i*(-5),10));	
+						FpGame->CreateBullet( 1, FvPosition, Vector2D(0+i*(-5),10));	
 					}
-					//GameWorld().CreateBullet( 2, FvPosition, Vector2D(0 ,10));
-					GameWorld().CreateBullet( 5, FvPosition, Vector2D(0 ,10));
+					//FpGame.CreateBullet( 2, FvPosition, Vector2D(0 ,10));
+					FpGame->CreateBullet( 5, FvPosition, Vector2D(0 ,10));
 					FdTimer = 0;
 				}
 			}
@@ -68,8 +69,8 @@ BOOL TenemBox::Update(double time_elapsed)
 			if (FdTimer < 20){
 				FdTimer++;
 				if(FdTimer >= 20){
-					//GameWorld().CreateBullet( 2, FvPosition, Vector2D(0 ,10));
-					GameWorld().CreateBullet( 3, FvPosition, Vector2D(0 ,10));
+					//FpGame.CreateBullet( 2, FvPosition, Vector2D(0 ,10));
+					FpGame->CreateBullet( 3, FvPosition, Vector2D(0 ,10));
 					FdTimer = 0;
 				}
 			}
@@ -77,7 +78,7 @@ BOOL TenemBox::Update(double time_elapsed)
 
 		case 3:
 			if(!FmTurnFlag && FvPosition.y > 0){
-				GameWorld().CreateBullet( 5, FvPosition, Vector2D(0 ,1));
+				FpGame->CreateBullet( 5, FvPosition, Vector2D(0 ,1));
 				FvVelocity *= -1;
 				FmTurnFlag = true;
 
@@ -92,7 +93,7 @@ BOOL TenemBox::Update(double time_elapsed)
 			if (FdTimer < 20){
 				FdTimer++;
 				if(FdTimer >= 20){
-					GameWorld().CreateBullet( 1, FvPosition, Vector2D(0 ,1));
+					FpGame->CreateBullet( 1, FvPosition, Vector2D(0 ,1));
 					FdTimer = 0;
 				}
 			}			
@@ -124,12 +125,12 @@ void TenemBox::Render( void )
 	vec.push_back(FvPosition);
 
 	// ビューポート変換
-	GameWorld().ViewPortTransform( vec );
+	FpGame->ViewPortTransform( vec );
 	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};						// 画像の中から切り取る座標
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
 
 	// 画像を表示する座標
-	GameWorld().FpSprites->RenderEx(
+	FpGame->FpSprites->RenderEx(
 							&srcRec,
 							pos,												// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),				// Scaling

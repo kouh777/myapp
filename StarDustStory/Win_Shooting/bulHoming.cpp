@@ -12,7 +12,7 @@
 #define TRIMMING__IMAGE_RBY 40	// 
 
 //----------------------------------------------
-TbulHoming::TbulHoming( const Vector2D &pos , const Vector2D &velocity)
+TbulHoming::TbulHoming( TsceneGame *game, const Vector2D &pos , const Vector2D &velocity)
 	:TobjBullet(
 	pos,						// position
 	0.6,						// radius
@@ -25,6 +25,7 @@ TbulHoming::TbulHoming( const Vector2D &pos , const Vector2D &velocity)
 	1,							// max_force
 	1							// vitality
 	),
+	FpGame(game),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
@@ -36,7 +37,7 @@ BOOL TbulHoming::Update(double time_elapsed)
 	//----------
 	// 追跡弾(プレイヤーがいる方向を追跡する)
 	//----------
-	const TobjPlayer *pPlayer = GameWorld().pPlayer;
+	const TobjPlayer *pPlayer = FpGame->pPlayer;
 	FvVelocity = pPlayer->vPosition - FvPosition;
 	FvVelocity.Normalize();
 	FvHeading = FvVelocity;
@@ -56,13 +57,13 @@ void TbulHoming::Render( void )
 	vec.push_back(FvPosition);
 
 	// ビューポート変換
-	GameWorld().ViewPortTransform( vec );
+	FpGame->ViewPortTransform( vec );
 	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};			
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
 	
 
 	// 弾の後ろにぼかしを入れる
-	GameWorld().FpSprites->RenderEx(
+	FpGame->FpSprites->RenderEx(
 							&srcRec,
 							pos,																// DrawPosition
 							D3DXVECTOR3((float)(FvScale.x*1.5) , (float)(FvScale.y*1.5), 1),				// Scaling
@@ -73,7 +74,7 @@ void TbulHoming::Render( void )
 
 
 	// 画像を表示する座標
-	GameWorld().FpSprites->RenderEx(
+	FpGame->FpSprites->RenderEx(
 							&srcRec,
 							pos,																// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),				// Scaling

@@ -1,3 +1,4 @@
+#include "GameDef.h"
 #include "TaskManager.h"
 
 //--------------------------------------------------------
@@ -21,6 +22,15 @@ std::list <_Task *>::iterator TTaskManager:: AddList(_Task *ptask)
 	FTasks.push_back(ptask);
 	it = FTasks.end();
 	return --it;
+}
+
+//--------------------------------------------------------
+// Initialize
+void TTaskManager::Initialize( HWND hWnd, int cx, int cy )
+{
+	FhWnd = hWnd;
+	FiClientX = cx;
+	FiClientY = cy;
 }
 
 //--------------------------------------------------------

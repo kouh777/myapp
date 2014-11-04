@@ -1,11 +1,15 @@
 
 //------------------------------------------
+//------------------------------------------
+#include "GameDef.h"
+#include "sceneGame.h"
 #include "BackGround.h"
 
 //------------------------------------------
 // constract
-TBackGround::TBackGround(void)
+TBackGround::TBackGround( TsceneGame &game )
 	:FvBackGroundPos(Vector2D( 0, 0))
+	,FpGame(game)
 {
 
 }
@@ -33,7 +37,7 @@ void TBackGround::Render(void)
 	RECT FrSrcRec = {0 , 0 , BACKGROUND_WIDTH , BACKGROUND_HEIGHT}; 	// âÊëúÇÃíÜÇ©ÇÁêÿÇËéÊÇÈç¿ïW
 	for(int j=0; j<BACKGROUND_WIDTH_NUM; ++j){
 		for(int i=0; i< BACKGROUND_HEIGHT_NUM*2; ++i){;
-			GameWorld().FpBackGround->Render(&FrSrcRec, D3DXVECTOR3( (float)(j*BACKGROUND_WIDTH),(float)FvBackGroundPos.y+i*BACKGROUND_HEIGHT, 0), 1.f);
+			FpGame.FpBackGroundSprite->Render(&FrSrcRec, D3DXVECTOR3( (float)(j*BACKGROUND_WIDTH),(float)FvBackGroundPos.y+i*BACKGROUND_HEIGHT, 0), 1.f);
 		}
 	}
 }

@@ -11,7 +11,7 @@ private:
 	double FiTimer;
 
 public:
-	TsceneTitle(void):_Task(3),FiTimer(3){}
+	TsceneTitle(void):_Task(2),FiTimer(1){}
 	virtual bool Execute( double ElapsedTime);
 	virtual void Draw(void);
 	virtual void DrawCgdi(void);

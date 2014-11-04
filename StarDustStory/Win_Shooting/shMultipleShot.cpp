@@ -9,7 +9,7 @@
 #define TRIMMING__IMAGE_RBY 30	//
 
 //----------------------------------------------
-TshMultipleShot::TshMultipleShot( const Vector2D &pos, const Vector2D &velocity)
+TshMultipleShot::TshMultipleShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjShot(
 	Vector2D(pos.x,pos.y-2),	// position
 	1.5,						// radius
@@ -22,6 +22,7 @@ TshMultipleShot::TshMultipleShot( const Vector2D &pos, const Vector2D &velocity)
 	10,							// max_force
 	1							// vitality
 	),
+	FpGame(game),
 	FdRadian(0),
 	FdTheta(0),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
@@ -51,7 +52,7 @@ BOOL TshMultipleShot::Update(double time_elapsed)
 			const double SpreadRadian = 0.3;	// 分裂時に広がる角度(ラジアンで指定)
 			// 分裂時の個数が奇数のとき
 			if(ShotNum%2 == 1){
-				GameWorld().CreateShot(
+				FpGame->CreateShot(
 				6,
 				FvPosition,
 				Vector2D( cos(FdRadian+(SpreadRadian*(i-(ShotNum>>1)))), sin(FdRadian+(SpreadRadian*(i-(ShotNum>>1))))) );
@@ -59,12 +60,12 @@ BOOL TshMultipleShot::Update(double time_elapsed)
 			// 分裂時の個数が偶数のとき
 			else{
 				if(i >= ShotNum>>1){
-					GameWorld().CreateShot(
+					FpGame->CreateShot(
 					6,
 					FvPosition,
 					Vector2D( cos(FdRadian+(SpreadRadian*(i+1-(ShotNum>>1)))), sin(FdRadian+(SpreadRadian*(i+1-(ShotNum>>1))))) );						
 				}else{
-					GameWorld().CreateShot(
+					FpGame->CreateShot(
 					6,
 					FvPosition,
 					Vector2D( cos(FdRadian+(SpreadRadian*(i-(ShotNum>>1)))), sin(FdRadian+(SpreadRadian*(i-(ShotNum>>1))))) );
@@ -91,12 +92,12 @@ void TshMultipleShot::Render( void )
 	vec.push_back(FvPosition);
 
 	// ビューポート変換
-	GameWorld().ViewPortTransform( vec );
+	FpGame->ViewPortTransform( vec );
 	RECT srcRec =  { TRIMMING__IMAGE_LTX, TRIMMING__IMAGE_LTY, TRIMMING__IMAGE_RBX, TRIMMING__IMAGE_RBY};						// 画像の中から切り取る座標
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
 
 	// 画像を表示する座標
-	GameWorld().FpSprites->RenderEx(
+	FpGame->FpSprites->RenderEx(
 							&srcRec,
 							pos,																	// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),					// Scaling

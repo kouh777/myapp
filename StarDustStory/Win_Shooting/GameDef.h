@@ -2,7 +2,6 @@
 #ifndef __GAMEDEF_H__
 #define __GAMEDEF_H__
 
-
 //---------------------------------------------------------------------
 #include <Windows.h>
 #include <tchar.h>
@@ -20,6 +19,7 @@
 #define GAME_SCREEN_W 600
 #define GAME_SCREEN_H 600
 
+using std::vector;
 
 //---------------------------------------------------------------------
 

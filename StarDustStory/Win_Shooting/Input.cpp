@@ -31,6 +31,17 @@ void TInput::Update( void )
     if( KeyboardBuff[VK_RIGHT]& 0x80 ) KeyInputBuff |= KEY_RIGHT;
     if( KeyboardBuff[ 'Z' ]   & 0x80 ) KeyInputBuff |= KEY_Z;
     if( KeyboardBuff[ 'X' ]   & 0x80 ) KeyInputBuff |= KEY_X;
+	//----------------
+	// for debug
+	//----------------
+	if( KeyboardBuff[ 'C' ]   & 0x80 ) KeyInputBuff |= KEY_C;
+	if( KeyboardBuff[ 'V' ]   & 0x80 ) KeyInputBuff |= KEY_V;
+	if( KeyboardBuff[ 'A' ]   & 0x80 ) KeyInputBuff |= KEY_A;
+	if( KeyboardBuff[ 'S' ]   & 0x80 ) KeyInputBuff |= KEY_S;
+	if( KeyboardBuff[ 'D' ]   & 0x80 ) KeyInputBuff |= KEY_D;
+	if( KeyboardBuff[ 'F' ]   & 0x80 ) KeyInputBuff |= KEY_F;
+
+	//---------------
 	if( KeyboardBuff[VK_SPACE]& 0x80 ) KeyInputBuff |= KEY_SPACE;
 
     // ジョイスティックの情報を取得
