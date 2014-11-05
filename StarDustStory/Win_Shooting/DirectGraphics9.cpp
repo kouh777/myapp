@@ -270,6 +270,19 @@ void TDirectGraphics9::DrawString(LPCTSTR szStr, int iX, int iY, D3DXCOLOR col)
 }
 
 //--------------------------------------------------------
+// set viewport
+void TDirectGraphics9::SetViewport ( const D3DVIEWPORT9 *pviewport )
+{
+#ifdef _DEBUG
+	if(FpD3dDevice==NULL){
+		::OutputDebugString(TEXT("***Error - Direct3DDevice9–¢‰Šú‰»(SetViewport)"));
+		return;
+	}
+#endif
+	FpD3dDevice->SetViewport( pviewport);
+}
+
+//--------------------------------------------------------
 // Sprite
 bool TDirectGraphics9::BeginSprite(DWORD Flags)
 {

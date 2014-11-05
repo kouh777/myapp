@@ -6,6 +6,7 @@
 #include "BaseMovingObject.h"
 
 //-------------------------------------------
+// “G
 class TobjEnemy: public TBaseMovingObject
 {
 public:

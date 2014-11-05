@@ -6,6 +6,8 @@
 #include "Vector2D.h"
 #include "BaseObject.h"
 
+class TsceneGame;
+
 //---------------------------------------------------------------------
 class TBaseMovingObject : public TBaseObject
 {
@@ -18,9 +20,11 @@ protected:
 	double      FdMaxForce;		// the maximum force this entity can produce to power itself (think rockets and thrust)
 	double		FdMaxTurnRate;	// the maximum rate (radians per second)this vehicle can rotate
 	double		FdVitality;
+//	TsceneGame	*FpGame;
 
 public:
 	TBaseMovingObject(
+//			TsceneGame *game,
 			int type,
 			Vector2D position,
             double   radius,

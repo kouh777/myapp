@@ -51,6 +51,8 @@ private:
 	int FiClientX;
 	int FiClientY;
 	double FiTimer;
+	bool FbFadeFlg;
+	bool FbOverFlg;
 
 	TobjPlayer *FpPlayer;
 	std::list< TobjShot * > FpShots;
@@ -88,6 +90,8 @@ public:
 	ISprite *FpPlayerSprite;			// プレイヤー(テストで)
 	ISprite *FpShotSprite;				// 弾
 	ISprite *FpEnemySprite;				// 敵
+	ISprite *FpPlayerVisorSprite;		// プレイヤー1
+	ISprite *FpPlayerSaberSprite;		// プレイヤー2
 
 	// アクセサ
 	__declspec( property(get=GetiClientX) ) int iClientX;

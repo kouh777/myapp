@@ -26,7 +26,7 @@ TBackGround::~TBackGround(void)
 void TBackGround::Update(double elapsedTime)
 { 
 	FvBackGroundPos.y -= elapsedTime * SCROLL_SPEED;
-	if(FvBackGroundPos.y <= -BACKGROUND_HEIGHT*7) FvBackGroundPos.y = 0;
+	if(FvBackGroundPos.y <= -BACKGROUND_HEIGHT*BACKGROUND_HEIGHT_NUM) FvBackGroundPos.y = 0;
 }
 
 //------------------------------------------

@@ -6,25 +6,21 @@
 #include "BaseMovingObject.h"
 
 //---------------------------------------------------------------------
-
-//---------------------------------------------------------------------
 // é©ã@Å@
 class TobjPlayer : public TBaseMovingObject
 {
-protected:
-	int FiBeamPower;
-	int FiShotGauge;
-	int FiShotTime;
-	int FiBeamTime;
-
-	// âÊëúì«Ç›çûÇ›óp
-	D3DXVECTOR3 pos;
-	TsceneGame	*FpGame;
-	int FiImageWidth;
-	int FiImageHeight;
-
 public:
-	TobjPlayer( TsceneGame *game, Vector2D position, double radius );
+	TobjPlayer(
+			Vector2D position,
+            double   radius,
+            Vector2D velocity,
+            double   max_speed,
+            Vector2D heading,
+            double   mass,
+            Vector2D scale,
+            double   turn_rate,
+            double   max_force,
+			double   vitality);
 	virtual ~TobjPlayer( void );
 
 	virtual BOOL Update(double time_elapsed);

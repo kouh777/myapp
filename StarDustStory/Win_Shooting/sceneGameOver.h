@@ -1,25 +1,20 @@
-#ifndef __TSCENETITLE_H__
-#define __TSCENETITLE_H__
+#ifndef __TSCENEGAMEOVER_H__
+#define __TSCENEGAMEOVER_H__
 
 //--------------------------------------------------------
 #include "TaskManager.h"
 
-class ISprite;
-
 //--------------------------------------------------------
-class TsceneTitle: public _Task
+class TsceneGameOver: public _Task
 {
 private:
-	double	FiTimer;
-	bool	FbFadeFlg;
-	ISprite *FpBackGround;
-	ISprite *FpLogo;
+	double FiTimer;
 
 public:
-	TsceneTitle(void);
+	TsceneGameOver(void):_Task(2),FiTimer(1){}
 	virtual bool Execute( double ElapsedTime);
 	virtual void Draw(void);
 	virtual void DrawCgdi(void);
 };
 
-#endif //__TSCENETITLE_H__
+#endif //__TSCENEGAMEOVER_H__

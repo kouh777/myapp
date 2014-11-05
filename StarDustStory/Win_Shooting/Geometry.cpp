@@ -37,6 +37,10 @@ double CollisionCircle(
 // ’Pƒ“–‚½‚è”»’è
 BOOL CollisionCircleS(	const TBaseMovingObject *obj1, const TBaseMovingObject *obj2)
 {
+	// obj1‚Æobj2‚Ì‚¢‚¸‚ê‚©‚ªNULL‚Ìê‡false‚ğ‹­§“I‚É•Ô‚·
+	if( !obj1 || !obj2 )
+		return FALSE;
+
 	Vector2D A;
 	double R,d;
 

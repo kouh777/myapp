@@ -1,7 +1,6 @@
 
 #include "GameDef.h"
 #include "enemBox.h"
-#include "GameWorld.h"
 
 #include "bulOneWay.h"
 #include "bulHoming.h"

@@ -102,8 +102,11 @@
     <ClCompile Include="ObjPlayer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="objShot.cpp" />
+    <ClCompile Include="plGranSaber.cpp" />
+    <ClCompile Include="plGranVisor.cpp" />
     <ClCompile Include="sceneFade.cpp" />
     <ClCompile Include="sceneGame.cpp" />
+    <ClCompile Include="sceneGameOVer.cpp" />
     <ClCompile Include="sceneTitle.cpp" />
     <ClCompile Include="shAimingShot.cpp" />
     <ClCompile Include="shBeamShot.cpp" />
@@ -147,8 +150,11 @@
     <ClInclude Include="ObjPlayer.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="objShot.h" />
+    <ClInclude Include="plGranSaber.h" />
+    <ClInclude Include="plGranVisor.h" />
     <ClInclude Include="sceneFade.h" />
     <ClInclude Include="sceneGame.h" />
+    <ClInclude Include="sceneGameOver.h" />
     <ClInclude Include="sceneTitle.h" />
     <ClInclude Include="shAimingShot.h" />
     <ClInclude Include="shBeamShot.h" />

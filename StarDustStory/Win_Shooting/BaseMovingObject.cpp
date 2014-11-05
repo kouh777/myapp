@@ -1,7 +1,7 @@
 
 #include "GameDef.h"
 #include "BaseMovingObject.h"
-#include "GameWorld.h"
+#include "sceneGame.h"
 
 //---------------------------------------------------------------------
 // 移動関数
@@ -32,7 +32,7 @@ void TBaseMovingObject::RenderCgdi( void )
 	/*
 	std::vector<Vector2D> vec;
 	vec.push_back( FvPosition );
-	// ビューポート変換
+	// ビューポート変換・ゲームシーン情報を受け取る必要がある
 	FpGame.ViewPortTransform( vec );
 	double scale = FpGame.iClientX / 100;
 

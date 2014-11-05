@@ -2,6 +2,8 @@
 #include "TaskManager.h"
 
 #include "sceneGame.h"
+#include "sceneGameOver.h"
+#include "sceneFade.h"
 
 #include "ObjPlayer.h"
 #include "objShot.h"
@@ -11,6 +13,14 @@
 #include "BaseMovingObject.h"
 #include "BackGround.h"
 #include "VertexBuffer.h"
+
+//------------------------------------------
+// テストでプレイヤーの体力が0になればタイトルに移動
+#include "sceneTitle.h"
+
+//------------------------------------------
+// プレイヤー自機
+#include "plGranVisor.h"
 
 //------------------------------------------
 // 敵
@@ -48,8 +58,10 @@
 //------------------------------------------
 // コンストラクタ
 TsceneGame::TsceneGame( void )
-	: _Task(3),
-	  FiTimer(10),
+	: _Task(12),
+	  FiTimer(1),
+	  FbFadeFlg(false),
+	  FbOverFlg(false),
 	  FhWnd(NULL),
 	  FiClientX(0),
 	  FiClientY(0),
@@ -64,15 +76,11 @@ TsceneGame::TsceneGame( void )
 // デストラクタ
 TsceneGame::~TsceneGame( void )
 {
-	//******************************
-	// GameObjectがTSceneGame型のFpGameを持っているため、
-	// オブジェクトが消えると毎回呼ばれている
-	// ひとまず、deleteせずコメントアウトしておく
-	//******************************
 	int test = 0;
-	/*
+
 	// 自機
-	if( FpPlayer ) delete FpPlayer;
+	if( FpPlayer )
+		delete FpPlayer;
 
 	{
 		// ショット
@@ -101,7 +109,6 @@ TsceneGame::~TsceneGame( void )
 	}
 	if( FpBackGround ) delete FpBackGround;
 //	if( FpGameScript ) delete FpGameScript;
-	*/
 }
 
 //------------------------------------------
@@ -115,17 +122,20 @@ bool TsceneGame::Initialize( void )
 
 	// 画像をメモリに読み込む
 	FpSprites = DxGraphics9().CreateSpriteFormFile(TEXT("sprites2.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0));
-	FpBackGroundSprite = DxGraphics9().CreateSpriteFormFile(TEXT("background2.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0)); 
+	FpBackGroundSprite = DxGraphics9().CreateSpriteFormFile(TEXT("space3.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0)); 
 	FpUiBackGround = DxGraphics9().CreateSpriteFormFile(TEXT("uiback.png"),D3DFMT_A8R8G8B8 , 0);
 	FpPlayerSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player01.png"),D3DFMT_A8R8G8B8 , 0);
 	FpShotSprite = DxGraphics9().CreateSpriteFormFile(TEXT("ef001.png"),D3DFMT_A8R8G8B8 , 0);
 	FpEnemySprite = DxGraphics9().CreateSpriteFormFile(TEXT("chantougoke.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0));
 
+	FpPlayerSaberSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player001a.png"),D3DFMT_A8R8G8B8 , 0);
+	FpPlayerVisorSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player002a.png"),D3DFMT_A8R8G8B8 , 0);
+
 	// 背景インスタンス作成
 	FpBackGround = new TBackGround( *this );
 
 	// 自機作成
-	FpPlayer = new TobjPlayer( this, Vector2D(-50,0), 1.6 ); 
+	FpPlayer = new TplGranVisor( this, Vector2D(-50,0), 1.6 ); 
 
 	// ゲームスクリプト作成
 	FpGameScript = new TGameScript(this);
@@ -141,6 +151,8 @@ bool TsceneGame::Execute( double ElapsedTime )
 	FpBackGround->Update(ElapsedTime);
 	if( FpPlayer )
 		FpPlayer->Update( ElapsedTime );
+	if( !FpPlayer)
+		int test = 0;
 
 	{	// ショット
 		std::list< TobjShot * >::iterator it;
@@ -183,7 +195,8 @@ bool TsceneGame::Execute( double ElapsedTime )
 	Collision(ElapsedTime);
 
 	// 移動
-	if(FpPlayer)FpPlayer->Move(ElapsedTime);
+	if(FpPlayer)
+		FpPlayer->Move(ElapsedTime);
 
 	{	// ショット
 		std::list< TobjShot * >::iterator it;
@@ -229,6 +242,29 @@ bool TsceneGame::Execute( double ElapsedTime )
 	// GameScriptから敵出現情報を読み取る
 	FpGameScript->Excute(ElapsedTime);
 
+	// FpPlayerがnullでなければ
+	if(FpPlayer){
+		if(FpPlayer->Update(ElapsedTime) == FALSE && FbOverFlg == FALSE){
+			delete FpPlayer;
+			FpPlayer = NULL;
+			FbOverFlg = TRUE;
+		}
+	}
+	if(FbOverFlg == TRUE){
+		FiTimer -= ElapsedTime;
+		if(FiTimer <= 0){
+			if(FbFadeFlg == FALSE){
+				new TsceneFade();
+				FbFadeFlg = TRUE;
+			}
+
+			// -2.0はfadeを始めてから次をnewするまでの遅延時間
+			if(FiTimer <= -2.0){
+				new TsceneTitle();
+				return false;
+			}
+		}
+	}
 	return true;
 }
 
@@ -240,7 +276,7 @@ void TsceneGame::Draw( void )
 
 	// Ui描画
 	RECT srcRec2 = { 0, 0, 250, 600};	// 画像の中から切り取る座標
-	FpUiBackGround->Render(&srcRec2, D3DXVECTOR3( 550, 0, 0), 0.6f);
+//	FpUiBackGround->Render(&srcRec2, D3DXVECTOR3( 550, 0, 0), 0.6f);
 
 	if( FpPlayer )
 		FpPlayer->Render();
@@ -460,11 +496,17 @@ const TobjEnemy* TsceneGame::GetNearestEnemy(void)
 {
 	std::list< TobjEnemy * >::iterator it;
 	TobjEnemy *ReturnEnemy = NULL;
-	int length = (FiClientX*FiClientX)+(FiClientY*FiClientY);	// 画面の斜めの長さの2乗を入れておく
-	for(it = FpEnemies.begin(); it != FpEnemies.end(); it++){
-		if(length > ((*it)->vPosition - FpPlayer->vPosition).lengthSq() ){
-			length = ((*it)->vPosition - FpPlayer->vPosition).lengthSq();
-			ReturnEnemy = (*it);
+	// プレイヤーがNULLならばNULLを返す
+	if(FpPlayer == NULL)
+		return ReturnEnemy;
+	// プレイヤーがNULLでなければ一番近くの敵を返す
+	else{
+		int length = (FiClientX*FiClientX)+(FiClientY*FiClientY);	// 画面の斜めの長さの2乗を入れておく
+		for(it = FpEnemies.begin(); it != FpEnemies.end(); it++){
+			if(length > ((*it)->vPosition - FpPlayer->vPosition).lengthSq() ){
+				length = ((*it)->vPosition - FpPlayer->vPosition).lengthSq();
+				ReturnEnemy = (*it);
+			}
 		}
 	}
 	return ReturnEnemy;

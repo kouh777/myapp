@@ -32,7 +32,10 @@ TbulAiming::TbulAiming( TsceneGame *game, const Vector2D &pos, const Vector2D &v
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
 	const TobjPlayer *pPlayer = FpGame->pPlayer;
-	FvVelocity = pPlayer->vPosition - FvPosition;
+	if(pPlayer)
+		FvVelocity = pPlayer->vPosition - FvPosition;
+	else
+		FvVelocity = Vector2D(0,1.0);
 	FvVelocity.Normalize();
 	FvHeading = FvVelocity;
 	FvSide = FvHeading.Perp();

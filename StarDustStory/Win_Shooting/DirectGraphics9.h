@@ -62,6 +62,11 @@ public:
 	bool ChangeMode(bool inWindowed);
 	
 	//----------
+	// Viewport
+	//----------
+	void SetViewport ( const D3DVIEWPORT9 *pviewport );
+
+	//----------
 	// Sprite
 	//----------
 	bool BeginSprite(DWORD Flags);

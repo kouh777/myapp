@@ -1,7 +1,6 @@
 
 #include "GameDef.h"
 #include "objEnemy.h"
-#include "GameWorld.h"
 
 //----------------------------------------------
 TobjEnemy::TobjEnemy(
