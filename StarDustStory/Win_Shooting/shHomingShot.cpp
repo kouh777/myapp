@@ -11,6 +11,7 @@
 //----------------------------------------------
 TshHomingShot::TshHomingShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjShot(
+	game,
 	Vector2D(pos.x,pos.y-2),	// position
 	1.5,							// radius
 	velocity,					// velocity
@@ -22,7 +23,6 @@ TshHomingShot::TshHomingShot( TsceneGame *game, const Vector2D &pos, const Vecto
 	10,							// max_force
 	1							// vitality
 	),
-	FpGame(game),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY),
 	FpEnemy(NULL)
@@ -50,6 +50,10 @@ BOOL TshHomingShot::Update(double time_elapsed)
 		if(FpEnemy->dVitality <= 0)
 			FpEnemy = NULL;
 	}
+	// ‚à‚µ’e‚Ì‘¬“x‚ª0‚É‚È‚Á‚½‚çAFvVelocity‚ÉVector2D(0,1)‚ð‘ã“ü‚·‚é
+	if(FvVelocity.isZero())
+		FvVelocity = Vector2D(0,1);
+
 	FvVelocity.Normalize();
 	FvVelocity *= FdMaxSpeed;
 

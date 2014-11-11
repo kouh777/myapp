@@ -16,6 +16,7 @@
 //----------------------------------------------
 TenemFish::TenemFish( TsceneGame *game, const int &pattern, const Vector2D &pos, const Vector2D &velocity )
 	:TobjEnemy(
+	game,
 	pos,						// position
 	0.9,						// radius
 	velocity,					// velocity
@@ -27,7 +28,6 @@ TenemFish::TenemFish( TsceneGame *game, const int &pattern, const Vector2D &pos,
 	1,							// max_force
 	1							// vitality
 	),
-	FpGame(game),
 	FdPattern(pattern),
 	FdTimer(0),
 	FmTurnFlag(false),
@@ -134,7 +134,7 @@ void TenemFish::Render( void )
 							&srcRec,
 							pos,												// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),				// Scaling
-							D3DXVECTOR3(0, 0, -FdTheta),								// Rotation
+							D3DXVECTOR3(0, 0, (float)-FdTheta),								// Rotation
 							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
 							1.0,												// Alpha
 							D3DCOLOR(1));												// ColorKey

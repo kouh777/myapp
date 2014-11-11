@@ -20,11 +20,11 @@ protected:
 	double      FdMaxForce;		// the maximum force this entity can produce to power itself (think rockets and thrust)
 	double		FdMaxTurnRate;	// the maximum rate (radians per second)this vehicle can rotate
 	double		FdVitality;
-//	TsceneGame	*FpGame;
+	TsceneGame	*FpGame;
 
 public:
 	TBaseMovingObject(
-//			TsceneGame *game,
+			TsceneGame *game,
 			int type,
 			Vector2D position,
             double   radius,
@@ -36,6 +36,7 @@ public:
             double   turn_rate,
             double   max_force,
 			double   vitality) : TBaseObject(type, position, radius),
+								  FpGame(game),
                                   FvHeading(heading),
                                   FvVelocity(velocity),
                                   FdMass(mass),

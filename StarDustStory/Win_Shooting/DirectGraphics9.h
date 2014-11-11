@@ -37,6 +37,7 @@ private:
 
 	LPD3DXFONT				FpFont;
 	TBackBuffer				*FpBackBuffer;
+	HWND					FhWnd;
 
 	void Release(void);
 	void SetPresentParameters(BOOL inWindowed);

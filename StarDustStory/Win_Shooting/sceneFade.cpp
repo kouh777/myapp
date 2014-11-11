@@ -38,7 +38,7 @@ bool TsceneFade::Execute( double ElapsedTime)
 
 	// フェードアウト
 	if(bFlg == false){
-		FfAlpha += ElapsedTime * fade_out_speed;
+		FfAlpha += (float)( ElapsedTime * fade_out_speed );
 		if(FfAlpha >= 1.0f){
 			FfAlpha = 1.0f;
 			bFlg = true;
@@ -47,7 +47,7 @@ bool TsceneFade::Execute( double ElapsedTime)
 	
 	// フェードイン
 	if(bFlg == true && FiTimer <= fade_wait_time){
-		FfAlpha -= ElapsedTime * fade_in_speed;
+		FfAlpha -= (float)( ElapsedTime * fade_in_speed );
 		if(FfAlpha <= 0.0f){			
 			return false;
 		}

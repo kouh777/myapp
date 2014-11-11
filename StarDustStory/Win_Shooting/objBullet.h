@@ -10,6 +10,7 @@ class TobjBullet : public TBaseMovingObject
 {
 public:
 	TobjBullet(
+			TsceneGame *game,
 			Vector2D position,
             double   radius,
             Vector2D velocity,

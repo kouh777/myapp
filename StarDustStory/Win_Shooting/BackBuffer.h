@@ -11,6 +11,7 @@ private:
 	HDC					FhDC;
 	LPDIRECT3DDEVICE9	FpD3DDevice;
 	LPDIRECT3DSURFACE9	FpD3DSurface;
+	D3DSURFACE_DESC		*FpSurfaceinfo;
 
 public:
 	TBackBuffer(LPDIRECT3DDEVICE9 pD3DDevice);

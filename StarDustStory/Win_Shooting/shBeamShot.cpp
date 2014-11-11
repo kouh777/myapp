@@ -11,6 +11,7 @@
 //----------------------------------------------
 TshBeamShot::TshBeamShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjShot(
+	game,
 	Vector2D(pos.x,pos.y-5.0),	// position
 	1.3,							// radius
 	velocity,					// velocity
@@ -22,7 +23,6 @@ TshBeamShot::TshBeamShot( TsceneGame *game, const Vector2D &pos, const Vector2D 
 	10,							// max_force
 	1							// vitality
 	),
-	FpGame(game),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
@@ -67,7 +67,7 @@ void TshBeamShot::Render( void )
 							D3DXVECTOR3(0, 0, 0),													// Rotation
 							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
 							0.4,																	// Alpha
-							D3DCOLOR(1.f));	
+							D3DCOLOR(1));	
 
 
 	// âÊëúÇï\é¶Ç∑ÇÈç¿ïW

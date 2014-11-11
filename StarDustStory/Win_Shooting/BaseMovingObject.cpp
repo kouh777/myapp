@@ -29,18 +29,16 @@ void TBaseMovingObject::Render( void )
 // Cgdi描画関数
 void TBaseMovingObject::RenderCgdi( void )
 {
-	/*
 	std::vector<Vector2D> vec;
 	vec.push_back( FvPosition );
 	// ビューポート変換・ゲームシーン情報を受け取る必要がある
-	FpGame.ViewPortTransform( vec );
-	double scale = FpGame.iClientX / 100;
+	FpGame->ViewPortTransform( vec );
+	double scale = FpGame->iClientX / 100;
 
 	// 衝突判定用の円を描く
 	Cgdi().BluePen();
 	Cgdi().BlueBrush();
 	Cgdi().Circle(vec[0], dBoundingRadius*scale);
-	*/
 }
 
 //---------------------------------------------------------------------

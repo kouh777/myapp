@@ -11,7 +11,6 @@ class TshBlast : public TobjShot
 private:
 	// ‰æ‘œ“Ç‚İ‚İ—p
 	D3DXVECTOR3 pos;
-	TsceneGame *FpGame;
 	double FdTimer;					// ”š”­ŠÔŠÇ—
 	const double FdInitialRadius;
 

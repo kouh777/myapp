@@ -11,6 +11,7 @@
 //----------------------------------------------
 TbulWayAlong::TbulWayAlong( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjBullet(
+	game,
 	pos,						// position
 	0.5,						// radius
 	velocity,					// velocity
@@ -22,7 +23,6 @@ TbulWayAlong::TbulWayAlong( TsceneGame *game, const Vector2D &pos, const Vector2
 	1,							// max_force
 	1							// vitality
 	),
-	FpGame(game),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {

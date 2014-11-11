@@ -14,6 +14,7 @@
 //----------------------------------------------
 TbulHoming::TbulHoming( TsceneGame *game, const Vector2D &pos , const Vector2D &velocity)
 	:TobjBullet(
+	game,
 	pos,						// position
 	0.6,						// radius
 	velocity,					// velocity
@@ -25,7 +26,6 @@ TbulHoming::TbulHoming( TsceneGame *game, const Vector2D &pos , const Vector2D &
 	1,							// max_force
 	1							// vitality
 	),
-	FpGame(game),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {

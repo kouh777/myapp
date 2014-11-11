@@ -12,7 +12,8 @@ TDirectGraphics9::TDirectGraphics9(void)
 	FpD3D(NULL),
 	FpD3DXSprite(NULL),
 	FpFont(NULL),
-	FpBackBuffer(NULL)
+	FpBackBuffer(NULL),
+	FhWnd(NULL)
 {
 }
 
@@ -27,7 +28,7 @@ TDirectGraphics9::~TDirectGraphics9(void)
 //--------------------------------------------------------
 // initialize
 bool TDirectGraphics9::Initialize(HWND hWnd, bool isWindowed){
-	
+
 	// cretate Direct3D object (this calls CoInitialize(NULL) and QueryInterface() method)
 	FpD3D = Direct3DCreate9( D3D_SDK_VERSION);
 	if(FpD3D == NULL){
@@ -85,6 +86,8 @@ bool TDirectGraphics9::Initialize(HWND hWnd, bool isWindowed){
 
 	FpBackBuffer = new TBackBuffer(FpD3dDevice);
 
+	FhWnd = hWnd;
+
 	return true;
 }
 
@@ -94,14 +97,21 @@ bool TDirectGraphics9::Reset(void)
 {
 	assert( FpD3dDevice && TEXT("***Error - DxDevice9未初期化(TDirextGraphics9::Reset)"));
 
+	HRESULT hr;
+
 	// before reset
 	if(FpBackBuffer) FpBackBuffer->OnLostDevice();
 	if(FpD3DXSprite) FpD3DXSprite->OnLostDevice();
 	if(FpFont) FpFont->OnLostDevice();
 
 	// reset
-	if( FpD3dDevice->Reset(&FPresentParams) != D3D_OK){
-		::OutputDebugString(TEXT("***Error - シーンの開始に失敗(TDirextGraphics9::Reset)"));
+	hr = FpD3dDevice->Reset(&FPresentParams);
+	if( hr != D3D_OK)
+	{
+		::OutputDebugString(TEXT("***Error - シーンの開始に失敗(TDirextGraphics9::Reset)\n"));
+		if ( hr == D3DERR_INVALIDCALL){
+			::OutputDebugString(TEXT("***Error - D3DERR_INVALIDCALL メソッドの呼び出しが無効です。メソッドのパラメータに無効な値が含まれていないか確認して下さい。(TDirextGraphics9::Reset)\n"));
+		}
 		return false;
 	}
 
@@ -117,19 +127,46 @@ bool TDirectGraphics9::Reset(void)
 // change parameters
 void TDirectGraphics9::SetPresentParameters(BOOL inWindowed)
 {
+	D3DDISPLAYMODE pMode;
+	std::vector<D3DDISPLAYMODE>	FpModes;
+
+	HRESULT hr;
+
 	if(inWindowed){
 		FPresentParams.Windowed				= true;			
 		FPresentParams.BackBufferWidth		= 0;				
 		FPresentParams.BackBufferHeight		= 0;				
-		FPresentParams.BackBufferFormat		= D3DFMT_UNKNOWN;	
+		FPresentParams.BackBufferFormat		= D3DFMT_UNKNOWN;
 		FPresentParams.PresentationInterval	= D3DPRESENT_INTERVAL_ONE;
 	}else{
+		// 何種類ディスプレイモードがあるか調べる
+		int num = FpD3D->GetAdapterModeCount(D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8);
+		// 使えるディスプレイモードをvectorに格納
+		for(int i=0; i<num ; ++i){
+			FpD3D->EnumAdapterModes(D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8, i, &pMode);
+			FpModes.push_back(pMode);
+		}
+		// とりあえず800*600を指定 6
+		pMode = FpModes[7];
+
 		FPresentParams.Windowed				= false;			
-		FPresentParams.BackBufferWidth		= 800;				
-		FPresentParams.BackBufferHeight		= 600;				
-		FPresentParams.BackBufferFormat		= D3DFMT_X8R8G8B8;	
-		FPresentParams.PresentationInterval	= D3DPRESENT_INTERVAL_DEFAULT;		
+		FPresentParams.BackBufferWidth		= pMode.Width;				
+		FPresentParams.BackBufferHeight		= pMode.Height;
+//		FPresentParams.BackBufferFormat		= D3DFMT_A8R8G8B8;
+		FPresentParams.BackBufferFormat		= pMode.Format;
+		// 使えるかチェック
+		FPresentParams.PresentationInterval	= D3DPRESENT_INTERVAL_DEFAULT;
+//		FPresentParams.PresentationInterval	= D3DPRESENT_INTERVAL_IMMEDIATE;
+		FPresentParams.SwapEffect			= D3DSWAPEFFECT_DISCARD;
+		FPresentParams.FullScreen_RefreshRateInHz = pMode.RefreshRate;
+		FPresentParams.hDeviceWindow		= FhWnd;
 	}
+	// デバイスの生成
+//	FpD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, FhWnd, D3DCREATE_MIXED_VERTEXPROCESSING, &FPresentParams, &FpD3dDevice);
+//	FpD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, FhWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &FPresentParams, &FpD3dDevice);
+//	FpD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, FhWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &FPresentParams, &FpD3dDevice);
+//	FpD3D->Release();
+
 }
 
 //--------------------------------------------------------

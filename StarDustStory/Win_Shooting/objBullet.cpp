@@ -5,6 +5,7 @@
 
 //----------------------------------------------
 TobjBullet::TobjBullet(
+			TsceneGame *game,
 			Vector2D position,
             double   radius,
             Vector2D velocity,
@@ -14,7 +15,8 @@ TobjBullet::TobjBullet(
             Vector2D scale,
             double   turn_rate,
             double   max_force,
-			double   vitality) : TBaseMovingObject(	TBaseObject::bullet,
+			double   vitality) : TBaseMovingObject(	game,
+													TBaseObject::bullet,
 													position,
 													radius,
 													velocity,

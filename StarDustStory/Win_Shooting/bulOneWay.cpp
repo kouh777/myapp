@@ -11,6 +11,7 @@
 //----------------------------------------------
 TbulOneWay::TbulOneWay( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjBullet(
+	game,
 	pos,						// position
 	0.5,						// radius
 	velocity,					// velocity
@@ -22,7 +23,6 @@ TbulOneWay::TbulOneWay( TsceneGame *game, const Vector2D &pos, const Vector2D &v
 	1,							// max_force
 	1							// vitality
 	),
-	FpGame(game),
 	bulletnum(0),
 	timer(0),
 	shotinterval(0),

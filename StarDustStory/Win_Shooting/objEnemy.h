@@ -11,6 +11,7 @@ class TobjEnemy: public TBaseMovingObject
 {
 public:
 	TobjEnemy(
+			TsceneGame *game,
 			Vector2D position,
             double   radius,
             Vector2D velocity,

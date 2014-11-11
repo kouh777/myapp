@@ -5,6 +5,7 @@
 //----------------------------------------------
 // コンストラクタ
 TobjPlayer::TobjPlayer(
+			TsceneGame *game,
 			Vector2D position,
             double   radius,
             Vector2D velocity,
@@ -14,7 +15,8 @@ TobjPlayer::TobjPlayer(
             Vector2D scale,
             double   turn_rate,
             double   max_force,
-			double   vitality) : TBaseMovingObject(	TBaseObject::player,
+			double   vitality) : TBaseMovingObject(	game,
+													TBaseObject::player,
 													position,
 													radius,
 													velocity,

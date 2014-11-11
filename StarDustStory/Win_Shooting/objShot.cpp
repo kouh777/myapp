@@ -5,6 +5,7 @@
 
 //----------------------------------------------
 TobjShot::TobjShot(
+			TsceneGame *game,
 			Vector2D position,
             double   radius,
             Vector2D velocity,
@@ -14,7 +15,8 @@ TobjShot::TobjShot(
             Vector2D scale,
             double   turn_rate,
             double   max_force,
-			double   vitality) : TBaseMovingObject(	TBaseObject::shot,
+			double   vitality) : TBaseMovingObject(	game,
+													TBaseObject::shot,
 													position,
 													radius,
 													velocity,

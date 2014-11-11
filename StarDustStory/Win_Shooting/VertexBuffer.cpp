@@ -69,7 +69,7 @@ LPVOID TVertexBuffer::Lock(void)
 // 
 void TVertexBuffer::Unlock(void)
 {
-	LPVOID pBuffer;
+//	LPVOID pBuffer;
 	FpVertexBuffer->Unlock();
 }
 

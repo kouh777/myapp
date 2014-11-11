@@ -18,6 +18,7 @@ protected:
 
 public:
 	TobjShot(
+			TsceneGame *game,
 			Vector2D position,
             double   radius,
             Vector2D velocity,

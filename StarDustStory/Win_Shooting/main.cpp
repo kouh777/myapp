@@ -16,7 +16,7 @@
 #define WINDOW_W 800
 #define WINDOW_H 600
 
-BOOL g_inWindowed = true;
+BOOL g_inWindowed = TRUE;
 
 //--------------------------------------------------------------------------------
 #pragma comment(lib, "winmm.lib")
@@ -63,6 +63,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 				case VK_RETURN:
 					if(GetKeyState(VK_MENU)){
 						g_inWindowed = !g_inWindowed;
+						//g_inWindowed = !g_inWindowed;
 						DxGraphics9().ChangeMode(g_inWindowed);
 					}
 			}
@@ -181,7 +182,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 			HDC FhDC = FpBackBuffer->GetDC();			// HDC‚ðŽæ“¾
 
 			Cgdi().StartDrawing(FhDC);
-			TaskManager().DrawCgdi();
+//			TaskManager().DrawCgdi();
 			Cgdi().StopDrawing(FhDC);
 //			DxWrite().DrawD2DContent();
 			FpBackBuffer->ReleaseDC();					// HDC‚ð‰ð•ú

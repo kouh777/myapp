@@ -12,7 +12,6 @@ class TshHomingShot : public TobjShot
 private:
 	// ‰æ‘œ“Ç‚İ‚İ—p
 	D3DXVECTOR3 pos;
-	TsceneGame *FpGame;
 	const TobjEnemy *FpEnemy;
 
 protected:

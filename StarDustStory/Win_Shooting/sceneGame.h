@@ -10,11 +10,15 @@ class TobjPlayer;
 class TobjShot;
 class TobjBullet;
 class TobjEnemy;
-class TenemBox;
-class TenemFish;
 class TBaseMovingObject;
 
 class ISprite;
+
+//--------------------------------------------------------
+// 敵
+class TenemBox;
+class TenemFish;
+class TenemBossFortress;
 
 //--------------------------------------------------------
 // プレイヤー弾
@@ -92,6 +96,7 @@ public:
 	ISprite *FpEnemySprite;				// 敵
 	ISprite *FpPlayerVisorSprite;		// プレイヤー1
 	ISprite *FpPlayerSaberSprite;		// プレイヤー2
+	ISprite *FpBossSpaceshipSprite;		// ステージ2ボス
 
 	// アクセサ
 	__declspec( property(get=GetiClientX) ) int iClientX;

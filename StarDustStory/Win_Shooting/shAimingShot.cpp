@@ -11,6 +11,7 @@
 //----------------------------------------------
 TshAimingShot::TshAimingShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjShot(
+	game,
 	Vector2D(pos.x,pos.y-2),	// position
 	1.5,						// radius
 	velocity,					// velocity
@@ -22,7 +23,6 @@ TshAimingShot::TshAimingShot( TsceneGame *game, const Vector2D &pos, const Vecto
 	10,							// max_force
 	1							// vitality
 	),
-	FpGame(game),
 	FdTheta(0),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
@@ -78,7 +78,7 @@ void TshAimingShot::Render( void )
 							&srcRec,
 							pos,																	// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),					// Scaling
-							D3DXVECTOR3(0, 0, FdTheta),													// Rotation
+							D3DXVECTOR3(0, 0, (float)FdTheta),													// Rotation
 							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
 							1.0,																	// Alpha
 							D3DCOLOR(1));															// ColorKey

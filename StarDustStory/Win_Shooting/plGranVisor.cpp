@@ -17,6 +17,7 @@
 // コンストラクタ
 TplGranVisor::TplGranVisor( TsceneGame *game, Vector2D position, double radius )
 	:TobjPlayer(
+	game,
 	position, 
 	radius, 
 	Vector2D(), 
@@ -27,7 +28,6 @@ TplGranVisor::TplGranVisor( TsceneGame *game, Vector2D position, double radius )
 	10.,
 	10.0,
 	10 ),
-	FpGame(game),
 	FiBeamPower(0),
 	FiShotGauge(0),
 	FiShotTime(0),
@@ -182,7 +182,7 @@ void TplGranVisor::RenderCgdi()
 	FpGame->ViewPortTransform( vec );
 
 	_stprintf_s(String, 0xFF, TEXT("HP=%f"),FdVitality);
-	DxGraphics9().DrawString(String, vec[0].x-30, vec[0].y+15 ,D3DXCOLOR(1.0,1.0,1.0,1.0));
+	DxGraphics9().DrawString(String, (int)vec[0].x-30, (int)vec[0].y+15 ,D3DXCOLOR(1.0,1.0,1.0,1.0));
 #endif
 
 }

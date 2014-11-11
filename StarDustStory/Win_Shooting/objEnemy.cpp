@@ -4,6 +4,7 @@
 
 //----------------------------------------------
 TobjEnemy::TobjEnemy(
+			TsceneGame *game,
 			Vector2D position,
             double   radius,
             Vector2D velocity,
@@ -13,7 +14,8 @@ TobjEnemy::TobjEnemy(
             Vector2D scale,
             double   turn_rate,
             double   max_force,
-			double   vitality) : TBaseMovingObject(	TBaseObject::enemy,
+			double   vitality) : TBaseMovingObject( game,
+													TBaseObject::enemy,
 													position,
 													radius,
 													velocity,

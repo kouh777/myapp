@@ -15,7 +15,6 @@ private:
 
 	// 画像読み込み用
 	D3DXVECTOR3 pos;
-	TsceneGame	*FpGame;
 
 protected:
 	//	三角関数計算用変数
