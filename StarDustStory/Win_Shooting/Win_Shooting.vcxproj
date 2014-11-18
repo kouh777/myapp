@@ -81,6 +81,8 @@
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="BaseMovingObject.cpp" />
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="BaseObserverObject.cpp" />
+    <ClCompile Include="BaseSubjectObject.cpp" />
     <ClCompile Include="bulAiming.cpp" />
     <ClCompile Include="bulHoming.cpp" />
     <ClCompile Include="bulOneWay.cpp" />
@@ -89,6 +91,8 @@
     <ClCompile Include="cgdi.cpp" />
     <ClCompile Include="DirectGraphics9.cpp" />
     <ClCompile Include="DirectWrite.cpp" />
+    <ClCompile Include="enemBossFortress.cpp" />
+    <ClCompile Include="enemBossSpaceship.cpp" />
     <ClCompile Include="enemBox.cpp" />
     <ClCompile Include="enemFish.cpp" />
     <ClCompile Include="GameScript.cpp" />
@@ -128,6 +132,8 @@
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="BaseMovingObject.h" />
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="BaseObserverObject.h" />
+    <ClInclude Include="BaseSubjectObject.h" />
     <ClInclude Include="bulAiming.h" />
     <ClInclude Include="bulHoming.h" />
     <ClInclude Include="bulOneWay.h" />
@@ -137,6 +143,8 @@
     <ClInclude Include="DirectGraphics9.h" />
     <ClInclude Include="DirectWrite.h" />
     <ClInclude Include="DxSound.h" />
+    <ClInclude Include="enemBossFortress.h" />
+    <ClInclude Include="enemBossSpaceship.h" />
     <ClInclude Include="enemBox.h" />
     <ClInclude Include="enemFish.h" />
     <ClInclude Include="GameDef.h" />

@@ -3,11 +3,11 @@
 #define __OBJENEMY_H_
 
 //-------------------------------------------
-#include "BaseMovingObject.h"
+#include "BaseObserverObject.h"
 
 //-------------------------------------------
 // “G
-class TobjEnemy: public TBaseMovingObject
+class TobjEnemy: public TBaseObserverObject
 {
 public:
 	TobjEnemy(

@@ -53,10 +53,11 @@
 
 //------------------------------------------
 // 敵ID定義
+#define ENEM_NO						0
 #define ENEM_BOX					1
 #define ENEM_FISH					2
 #define ENEM_BOSS_SPACESHITP		10	//	ステージ2ボス
-#define ENEM_BOSS_FORTRESS			11	//	ステージ2ボス砲台
+#define ENEM_BOSS_FORTRESS			3	//	ステージ2ボス砲台
 #define ENEM_BOSS_RIGHT_WING		12	//	ステージ2ボス右翼
 #define ENEM_BOSS_LEFT_WING			13	//	ステージ2ボス左翼
 
@@ -132,7 +133,7 @@ bool TsceneGame::Initialize( void )
 	FpPlayerSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player01.png"),D3DFMT_A8R8G8B8 , 0);
 	FpShotSprite = DxGraphics9().CreateSpriteFormFile(TEXT("ef001.png"),D3DFMT_A8R8G8B8 , 0);
 	FpEnemySprite = DxGraphics9().CreateSpriteFormFile(TEXT("chantougoke.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0));
-	FpBossSpaceshipSprite = DxGraphics9().CreateSpriteFormFile(TEXT("chantougoke.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+	FpBossSpaceshipSprite = DxGraphics9().CreateSpriteFormFile(TEXT("boss002c.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
 
 	FpPlayerSaberSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player001a.png"),D3DFMT_A8R8G8B8 , 0);
 	FpPlayerVisorSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player002a.png"),D3DFMT_A8R8G8B8 , 0);
@@ -421,7 +422,7 @@ void TsceneGame::CreateEnemy( const int &type , const int &pattern ,const Vector
 {
 	TobjEnemy *penemy;
 	switch(type){
-		case 0:
+		case ENEM_NO:
 			break;
 
 		// 雑魚敵　ボックス
@@ -434,13 +435,13 @@ void TsceneGame::CreateEnemy( const int &type , const int &pattern ,const Vector
 			penemy = new TenemFish( this, pattern, pos, velocity );
 			break;
 
-		// ステージ2ボス
-		case ENEM_BOSS_SPACESHITP:
-			break;
-
 		// ステージ2ボス砲台
 		case ENEM_BOSS_FORTRESS:
 			penemy = new TenemBossFortress( this, pattern, pos, velocity );
+			break;
+
+		// ステージ2ボス
+		case ENEM_BOSS_SPACESHITP:
 			break;
 
 		// ステージ2ボス右翼

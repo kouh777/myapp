@@ -158,7 +158,6 @@ void TCmdEnemy::Excute( void )
 	{
 		// ‚ ‚Æ‚Ådefine‚ÅØ‚é‚Æ‚è‚ ‚¦‚¸enembox
 		case 0:
-
 			switch(FiPattern){
 				case 1:
 					FpSceneGame->CreateEnemy(1, 1,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
@@ -189,6 +188,15 @@ void TCmdEnemy::Excute( void )
 					break;
 				case 4:
 					FpSceneGame->CreateEnemy(2, 4,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+					break;
+			}
+			break;
+
+		// ‚ ‚Æ‚Ådefine‚ÅØ‚é‚Æ‚è‚ ‚¦‚¸AenemFortress
+		case 2:
+			switch(FiPattern){
+				case 1:
+					FpSceneGame->CreateEnemy(3, 1,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 					break;
 			}
 			break;

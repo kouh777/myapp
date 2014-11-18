@@ -14,7 +14,7 @@ TobjEnemy::TobjEnemy(
             Vector2D scale,
             double   turn_rate,
             double   max_force,
-			double   vitality) : TBaseMovingObject( game,
+			double   vitality) : TBaseObserverObject( game,
 													TBaseObject::enemy,
 													position,
 													radius,
