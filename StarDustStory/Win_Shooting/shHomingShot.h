@@ -12,7 +12,7 @@ class TshHomingShot : public TobjShot
 private:
 	// 画像読み込み用
 	D3DXVECTOR3 pos;
-	const TobjEnemy *FpEnemy;
+	const TBaseMovingObject *FpEnemy;
 
 protected:
 	//	三角関数計算用変数

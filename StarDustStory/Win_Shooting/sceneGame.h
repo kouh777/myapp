@@ -59,9 +59,9 @@ private:
 	bool FbOverFlg;
 
 	TobjPlayer *FpPlayer;
-	std::list< TobjShot * > FpShots;
-	std::list< TobjBullet * > FpBullets;
-	std::list< TobjEnemy * > FpEnemies;
+	std::list< TBaseMovingObject * > FpShots;
+	std::list< TBaseMovingObject * > FpBullets;
+	std::list< TBaseMovingObject * > FpEnemies;
 	int FiCollapsedTime;
 	TGameScript *FpGameScript;
 
@@ -82,7 +82,7 @@ public:
 	void CreateBullet(const int &type, const Vector2D &pos, const Vector2D &velocity );
 
 	void Collision (double elapsedtime);
-	const TobjEnemy *GetNearestEnemy(void);
+	const TBaseMovingObject *GetNearestEnemy(void);
 
 	// 3d test
 	void Draw3D(void);

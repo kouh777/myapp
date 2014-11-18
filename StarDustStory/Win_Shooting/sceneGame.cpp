@@ -90,7 +90,7 @@ TsceneGame::~TsceneGame( void )
 
 	{
 		// ショット
-		std::list< TobjShot * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpShots.begin(); it!=FpShots.end(); it++ ) {
 			delete *it;
 		}
@@ -99,7 +99,7 @@ TsceneGame::~TsceneGame( void )
 
 	// enemy
 	{
-		std::list< TobjEnemy * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpEnemies.begin(); it!=FpEnemies.end(); it++ ) {
 			delete *it;
 		}
@@ -107,7 +107,7 @@ TsceneGame::~TsceneGame( void )
 	}
 	// 敵弾
 	{
-		std::list< TobjBullet * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpBullets.begin(); it!=FpBullets.end(); it++) {
 			delete *it;
 		}
@@ -162,7 +162,7 @@ bool TsceneGame::Execute( double ElapsedTime )
 		int test = 0;
 
 	{	// ショット
-		std::list< TobjShot * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpShots.begin(); it!=FpShots.end();  ) {
 			if( !((*it)->Update(ElapsedTime)) ) {
 				delete *it;
@@ -175,7 +175,7 @@ bool TsceneGame::Execute( double ElapsedTime )
 	}
 
 	{	// enemy
-		std::list< TobjEnemy * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpEnemies.begin(); it!=FpEnemies.end();  ) {
 			if( !((*it)->Update(ElapsedTime)) ) {
 				delete *it;
@@ -188,7 +188,7 @@ bool TsceneGame::Execute( double ElapsedTime )
 	}
 
 	{	// 敵弾
-		std::list< TobjBullet *>::iterator it;
+		std::list< TBaseMovingObject *>::iterator it;
 		for( it=FpBullets.begin(); it!=FpBullets.end(); ){
 			if( !(*it)->Update(ElapsedTime)){
 				delete *it;
@@ -206,7 +206,7 @@ bool TsceneGame::Execute( double ElapsedTime )
 		FpPlayer->Move(ElapsedTime);
 
 	{	// ショット
-		std::list< TobjShot * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpShots.begin(); it!=FpShots.end();  ) {
 			if( !((*it)->Move(ElapsedTime)) ) {
 				delete *it;
@@ -219,7 +219,7 @@ bool TsceneGame::Execute( double ElapsedTime )
 	}
 
 	{	// 敵
-		std::list< TobjEnemy * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpEnemies.begin(); it!=FpEnemies.end();  ) {
 			if( !((*it)->Move(ElapsedTime)) ) {
 				delete *it;
@@ -232,7 +232,7 @@ bool TsceneGame::Execute( double ElapsedTime )
 	}
 
 	{	// 敵の弾
-		std::list< TobjBullet * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpBullets.begin(); it!=FpBullets.end();  ) {
 			if( !((*it)->Move(ElapsedTime)) ) {
 				delete *it;
@@ -289,21 +289,21 @@ void TsceneGame::Draw( void )
 		FpPlayer->Render();
 
 	{	// ショット
-		std::list< TobjShot * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpShots.begin(); it!=FpShots.end(); it++ ) {
 			(*it)->Render();
 		}
 	}
 
 	{	// enemy
-		std::list< TobjEnemy * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpEnemies.begin(); it!=FpEnemies.end(); it++ ) {
 			(*it)->Render();
 		}
 	}
 
 	{	// 敵弾
-		std::list< TobjBullet *>::iterator it;
+		std::list< TBaseMovingObject *>::iterator it;
 		for( it=FpBullets.begin(); it!=FpBullets.end(); it++){
 			(*it)->Render();
 		}
@@ -323,21 +323,21 @@ void TsceneGame::DrawCgdi( void )
 	if( FpPlayer ) FpPlayer->RenderCgdi();
 
 	{	// ショット
-		std::list< TobjShot * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpShots.begin(); it!=FpShots.end(); it++ ) {
 			(*it)->RenderCgdi();
 		}
 	}
 
 	{	// enemy
-		std::list< TobjEnemy * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpEnemies.begin(); it!=FpEnemies.end(); it++ ) {
 			(*it)->RenderCgdi();
 		}
 	}
 
 	{	// 敵弾
-		std::list< TobjBullet *>::iterator it;
+		std::list< TBaseMovingObject *>::iterator it;
 		for( it=FpBullets.begin(); it!=FpBullets.end(); it++){
 			(*it)->RenderCgdi();
 		}
@@ -378,7 +378,7 @@ void TsceneGame::ViewPortTransform( std::vector<Vector2D> &vPoints )
 // ショットを作成する
 void TsceneGame::CreateShot( const int &type, const Vector2D &pos, const Vector2D &velocity )
 {
-	TobjShot *pshot;
+	TBaseMovingObject *pshot;
 	switch(type){
 		// 方向弾
 		case 1:
@@ -420,7 +420,7 @@ void TsceneGame::CreateShot( const int &type, const Vector2D &pos, const Vector2
 // enemyを作成する
 void TsceneGame::CreateEnemy( const int &type , const int &pattern ,const Vector2D &pos, const Vector2D &velocity )
 {
-	TobjEnemy *penemy;
+	TBaseMovingObject *penemy;
 	switch(type){
 		case ENEM_NO:
 			break;
@@ -458,7 +458,7 @@ void TsceneGame::CreateEnemy( const int &type , const int &pattern ,const Vector
 //------------------------------------------
 void TsceneGame::CreateBullet( const int &type , const Vector2D &pos, const Vector2D &velocity)
 {
-	TobjBullet *pbullet;
+	TBaseMovingObject *pbullet;
 	switch(type){
 		// 方向弾
 		case 1:
@@ -487,7 +487,7 @@ void TsceneGame::CreateBullet( const int &type , const Vector2D &pos, const Vect
 void TsceneGame::Collision (double elapsedtime)
 {
 	{	// プレイヤーと敵の弾
-		std::list< TobjBullet * >::iterator it;
+		std::list< TBaseMovingObject * >::iterator it;
 		for( it=FpBullets.begin(); it!=FpBullets.end(); it++ ) {
 			if(CollisionCircleS(FpPlayer, *it))
 			// 当たり判定の計算がおかしいようなのでコメントアウト
@@ -500,8 +500,8 @@ void TsceneGame::Collision (double elapsedtime)
 	}
 
 	{	// プレイヤーの弾と敵
-		std::list< TobjShot * >::iterator sit;
-		std::list< TobjEnemy * >::iterator eit;
+		std::list< TBaseMovingObject * >::iterator sit;
+		std::list< TBaseMovingObject * >::iterator eit;
 		for( sit=FpShots.begin(); sit!=FpShots.end(); sit++ ) {
 			for( eit=FpEnemies.begin(); eit!=FpEnemies.end(); eit++ ){
 				if(CollisionCircleS(*sit, *eit)){
@@ -514,10 +514,10 @@ void TsceneGame::Collision (double elapsedtime)
 }
 
 // プレイヤーとEnemyの距離を測り、一番距離が近いEnemyを返す
-const TobjEnemy* TsceneGame::GetNearestEnemy(void)
+const TBaseMovingObject* TsceneGame::GetNearestEnemy(void)
 {
-	std::list< TobjEnemy * >::iterator it;
-	TobjEnemy *ReturnEnemy = NULL;
+	std::list< TBaseMovingObject * >::iterator it;
+	TBaseMovingObject *ReturnEnemy = NULL;
 	// プレイヤーがNULLならばNULLを返す
 	if(FpPlayer == NULL)
 		return ReturnEnemy;

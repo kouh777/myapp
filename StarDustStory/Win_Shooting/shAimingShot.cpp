@@ -28,7 +28,7 @@ TshAimingShot::TshAimingShot( TsceneGame *game, const Vector2D &pos, const Vecto
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
 	// When this shots create, get nearset enemy.
-	const TobjEnemy *FpEnemy = NULL;
+	const TBaseMovingObject *FpEnemy = NULL;
 	if(FpGame->GetNearestEnemy() != NULL)
 		FpEnemy = FpGame->GetNearestEnemy();
 	if(FpEnemy)
