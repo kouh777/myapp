@@ -14,9 +14,11 @@ class TBaseObserverObject : public TBaseMovingObject{
 private:
 
 	// Rellation to Observer Design Pattern
-	std::list<TBaseSubjectObject *>	FSubjects;		// Subjects
 	int FiObserverStatus;							// Observer Status
 	int FiSubjectStatus;							// Subject Status
+
+protected:
+	std::list<TBaseSubjectObject *>	FSubjects;		// Subjects
 
 public:
 

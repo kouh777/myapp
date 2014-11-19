@@ -3,14 +3,14 @@
 #define __ENEMBOSSFORTRESS_H__
 
 //-------------------------------------------
-#include "objEnemy.h" 
+#include "subjectEnemy.h" 
 
 class TbulOneWay;
 class TbulHoming;
 class TbulAiming;
 
 //-------------------------------------------
-class TenemBossFortress:public TobjEnemy
+class TenemBossFortress:public TsubjectEnemy
 {
 private:
 	int FdTimer;	// ’e‚Ì”­ŽËŠÔŠu

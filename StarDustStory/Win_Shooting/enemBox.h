@@ -3,14 +3,14 @@
 #define __ENEMBOX_H__
 
 //-------------------------------------------
-#include "objEnemy.h" 
+#include "observerEnemy.h" 
 
 class TbulOneWay;
 class TbulHoming;
 class TbulAiming;
 
 //-------------------------------------------
-class TenemBox:public TobjEnemy
+class TenemBox:public TobserverEnemy
 {
 private:
 	int FdTimer;	// ’e‚Ì”­ŽËŠÔŠu

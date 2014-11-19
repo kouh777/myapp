@@ -7,7 +7,7 @@
 
 #include "ObjPlayer.h"
 #include "objShot.h"
-#include "objEnemy.h"
+#include "observerEnemy.h"
 #include "objBullet.h"
 #include "Geometry.h"
 #include "BaseMovingObject.h"
@@ -27,6 +27,7 @@
 #include "enemBox.h"
 #include "enemFish.h"
 #include "enemBossFortress.h"
+#include "enemBossSpaceShip.h"
 
 //------------------------------------------
 // プレイヤー弾
@@ -56,8 +57,8 @@
 #define ENEM_NO						0
 #define ENEM_BOX					1
 #define ENEM_FISH					2
-#define ENEM_BOSS_SPACESHITP		10	//	ステージ2ボス
 #define ENEM_BOSS_FORTRESS			3	//	ステージ2ボス砲台
+#define ENEM_BOSS_SPACESHITP		4	//	ステージ2ボス
 #define ENEM_BOSS_RIGHT_WING		12	//	ステージ2ボス右翼
 #define ENEM_BOSS_LEFT_WING			13	//	ステージ2ボス左翼
 
@@ -442,6 +443,7 @@ void TsceneGame::CreateEnemy( const int &type , const int &pattern ,const Vector
 
 		// ステージ2ボス
 		case ENEM_BOSS_SPACESHITP:
+			penemy = new TenemBossSpaceship( this, pattern, pos, velocity );
 			break;
 
 		// ステージ2ボス右翼

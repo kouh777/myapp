@@ -4,7 +4,6 @@
 
 //-------------------------------------------
 #include "objShot.h"
-#include "objEnemy.h"
 
 //-------------------------------------------
 class TshHomingShot : public TobjShot

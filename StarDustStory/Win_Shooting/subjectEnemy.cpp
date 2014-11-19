@@ -1,9 +1,9 @@
 
 #include "GameDef.h"
-#include "objEnemy.h"
+#include "subjectEnemy.h"
 
 //----------------------------------------------
-TobjEnemy::TobjEnemy(
+TsubjectEnemy::TsubjectEnemy(
 			TsceneGame *game,
 			Vector2D position,
             double   radius,
@@ -14,7 +14,7 @@ TobjEnemy::TobjEnemy(
             Vector2D scale,
             double   turn_rate,
             double   max_force,
-			double   vitality) : TBaseObserverObject( game,
+			double   vitality) : TBaseSubjectObject( game,
 													TBaseObject::enemy,
 													position,
 													radius,
@@ -31,20 +31,20 @@ TobjEnemy::TobjEnemy(
 }
 
 //----------------------------------------------
-BOOL TobjEnemy::Update(double time_elapsed)
+BOOL TsubjectEnemy::Update(double time_elapsed)
 {
 	return true;
 }
 
 //----------------------------------------------
-void TobjEnemy::Render( void )
+void TsubjectEnemy::Render( void )
 {
 
 }
 
 //---------------------------------------------------------------------
 // Cgdi•`‰æ
-void TobjEnemy::RenderCgdi()
+void TsubjectEnemy::RenderCgdi()
 {
 	TBaseMovingObject::RenderCgdi();	
 }

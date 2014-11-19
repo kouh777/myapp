@@ -14,7 +14,7 @@
 
 //----------------------------------------------
 TenemBossFortress::TenemBossFortress( TsceneGame *game, const int &pattern, const Vector2D &pos, const Vector2D &velocity )
-	:TobjEnemy(
+	:TsubjectEnemy(
 	game,
 	pos,						// position
 	1.0,						// radius

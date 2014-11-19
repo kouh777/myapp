@@ -14,7 +14,7 @@
 
 //----------------------------------------------
 TenemBox::TenemBox( TsceneGame *game, const int &pattern, const Vector2D &pos, const Vector2D &velocity )
-	:TobjEnemy(
+	:TobserverEnemy(
 	game,
 	pos,						// position
 	0.9,						// radius

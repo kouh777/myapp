@@ -200,6 +200,13 @@ void TCmdEnemy::Excute( void )
 					break;
 			}
 			break;
+		// ‚ ‚Æ‚Ådefine‚ÅØ‚é‚Æ‚è‚ ‚¦‚¸AenemBossSpaceShip
+		case 3:
+			switch(FiPattern){
+				case 1:
+					FpSceneGame->CreateEnemy(4, 1,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+			}
+
 	}
 }
 

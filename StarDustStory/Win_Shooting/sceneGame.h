@@ -9,7 +9,7 @@
 class TobjPlayer;
 class TobjShot;
 class TobjBullet;
-class TobjEnemy;
+class TobserverEnemy;
 class TBaseMovingObject;
 
 class ISprite;
@@ -19,6 +19,7 @@ class ISprite;
 class TenemBox;
 class TenemFish;
 class TenemBossFortress;
+class TenemBossSpaceShip;
 
 //--------------------------------------------------------
 // ÉvÉåÉCÉÑÅ[íe

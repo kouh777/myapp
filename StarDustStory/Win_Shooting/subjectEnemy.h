@@ -1,16 +1,16 @@
 
-#ifndef __OBJENEMY_H_
-#define __OBJENEMY_H_
+#ifndef __SUBJECTENEMY_H_
+#define __SUBJECTENEMY_H_
 
 //-------------------------------------------
-#include "BaseObserverObject.h"
+#include "BaseSubjectObject.h"
 
 //-------------------------------------------
 // “G
-class TobjEnemy: public TBaseObserverObject
+class TsubjectEnemy: public TBaseSubjectObject
 {
 public:
-	TobjEnemy(
+	TsubjectEnemy(
 			TsceneGame *game,
 			Vector2D position,
             double   radius,
@@ -29,4 +29,4 @@ public:
 
 };
 
-#endif // __OBJENEMY_H_
+#endif // __SUBJECTENEMY_H_

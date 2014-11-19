@@ -1,25 +1,26 @@
 
 #include "GameDef.h"
 #include "enemBossSpaceship.h"
+#include "enemBossFortress.h"
 
 #include "bulOneWay.h"
 #include "bulHoming.h"
 #include "bulAiming.h"
 
 //---------------------------------------------------------------------
-#define TRIMMING__IMAGE_LTX 0	// 
-#define TRIMMING__IMAGE_LTY 0	// 
-#define TRIMMING__IMAGE_RBX 20	// 
-#define TRIMMING__IMAGE_RBY 20	// 
+#define TRIMMING__IMAGE_LTX 10	// 
+#define TRIMMING__IMAGE_LTY 395	// 
+#define TRIMMING__IMAGE_RBX 365	// 
+#define TRIMMING__IMAGE_RBY 558	// 
 
 //----------------------------------------------
 TenemBossSpaceship::TenemBossSpaceship( TsceneGame *game, const int &pattern, const Vector2D &pos, const Vector2D &velocity )
-	:TobjEnemy(
+	:TobserverEnemy(
 	game,
 	pos,						// position
 	0.9,						// radius
 	velocity,					// velocity
-	30,							// max_speed
+	0,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	0.,							// mass
 	Vector2D(1.,1.),			// scale
@@ -30,6 +31,7 @@ TenemBossSpaceship::TenemBossSpaceship( TsceneGame *game, const int &pattern, co
 	FdPattern(pattern),
 	FdTimer(0),
 	FmTurnFlag(false),
+	FbInitializeFlg(false),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
@@ -41,9 +43,34 @@ TenemBossSpaceship::~TenemBossSpaceship(void)
 
 }
 
+//----------------------------------------------
+void TenemBossSpaceship::Initialize(void)
+{
+	TsubjectEnemy *sub;
+	sub = FpGame->CreateEnemy()
+
+	// サブジェクトをオブザーバーの監視対象に追加する
+	AddSubject( new TenemBossFortress( FpGame, 1, Vector2D(FvPosition.x-13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) ) );
+	AddSubject( new TenemBossFortress( FpGame, 1, Vector2D(FvPosition.x+13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) ) );	
+
+	// サブジェクトのオブザーバーにこのクラスを登録する
+	std::list<TBaseSubjectObject *>::iterator it;
+	for(it = FSubjects.begin(); it != FSubjects.end(); it++){
+		(*it)->AddObserver(this);
+	}
+
+//	FpGame->CreateEnemy( 3 , 1 , Vector2D(FvPosition.x-13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) );
+//	FpGame->CreateEnemy( 3 , 1 , Vector2D(FvPosition.x+13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) );
+}
+
 //---------------------------------------------
 BOOL TenemBossSpaceship::Update(double time_elapsed)
 {
+	if( !FbInitializeFlg){
+		Initialize();
+		FbInitializeFlg = true;
+	}
+
 	switch(FdPattern){	
 
 		case 1:
@@ -72,8 +99,14 @@ BOOL TenemBossSpaceship::Update(double time_elapsed)
 	// オブジェクト向いている方向を受け取り描画するための計算
 	FdRadian = atan2(FvVelocity.y ,FvVelocity.x);
 	FdRadian /= D3DX_PI;
-	FdRadian += 0.5;
+//	FdRadian += 0.5;
 	FdTheta = FdRadian * 180 ;
+
+	// iteratorを回す
+	std::list<TBaseSubjectObject *>::iterator it;
+	for(it = FSubjects.begin(); it != FSubjects.end(); it++){
+		(*it)->Update(time_elapsed);
+	}
 
 	if(FdVitality <= 0){
 		return FALSE;
@@ -94,7 +127,7 @@ void TenemBossSpaceship::Render( void )
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
 
 	// 画像を表示する座標
-	FpGame->FpSprites->RenderEx(
+	FpGame->FpBossSpaceshipSprite->RenderEx(
 							&srcRec,
 							pos,												// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),				// Scaling
@@ -102,6 +135,12 @@ void TenemBossSpaceship::Render( void )
 							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
 							1.0,												// Alpha
 							D3DCOLOR(1));												// ColorKey
+
+	// SubjectObjectのiteratorを回す
+	std::list<TBaseSubjectObject *>::iterator it;
+	for(it = FSubjects.begin(); it != FSubjects.end(); it++){
+		(*it)->Render();
+	}
 
 }
 
