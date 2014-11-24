@@ -535,3 +535,21 @@ const TBaseMovingObject* TsceneGame::GetNearestEnemy(void)
 	}
 	return ReturnEnemy;
 }
+
+// 一番最新の追加されたEnemyを返す。ボスを生成時にSubjectEnemyのコンストラクタで呼び出す
+const TBaseMovingObject* TsceneGame::GetNewestEnemy(void)
+{
+	std::list< TBaseMovingObject * >::reverse_iterator it;
+	TBaseMovingObject *ReturnEnemy = NULL;
+	if( FpEnemies.empty() == TRUE )
+		return NULL;
+	else{
+		for( it=FpEnemies.rbegin(); it != FpEnemies.rend(); it++ ){
+			if( (*it)->bObserver == true ){
+				ReturnEnemy = (*it);
+				break;
+			}
+		}
+	}
+	return ReturnEnemy;
+}

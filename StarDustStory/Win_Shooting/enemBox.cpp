@@ -148,3 +148,7 @@ void TenemBox::RenderCgdi()
 }
 
 //---------------------------------------------
+
+void TenemBox::RecieveNotify( TBaseSubjectObject *sub ){
+
+}

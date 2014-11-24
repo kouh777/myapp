@@ -44,6 +44,7 @@ void TBaseObserverObject::AddSubject( TBaseSubjectObject *sub )
 	}
 }
 
+/*
 // Notity this status to Subject
 void TBaseObserverObject::NotifySubject(void)
 {
@@ -53,24 +54,31 @@ void TBaseObserverObject::NotifySubject(void)
 		(*it)->RecieveNotify(FiObserverStatus);
 	}	
 }
+*/
 
+/*
 // Remove Subject
 void TBaseObserverObject::RemoveSubject(void)
 {
 }
+*/
 
+/*
 // Reccieve Notify. This method is called int Update method
 void TBaseObserverObject::RecieveNotify(int &subject_status)
 {
 	FiSubjectStatus = subject_status;
 }
+*/
 
 //------------------------------------
 // Setter
 //------------------------------------
 
+/*
 // set Status
 void TBaseObserverObject::SetStatus( int &status )
 {
 	FiObserverStatus = status;
-}					
+}
+*/

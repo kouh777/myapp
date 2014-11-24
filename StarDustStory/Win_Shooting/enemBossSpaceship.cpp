@@ -18,7 +18,7 @@ TenemBossSpaceship::TenemBossSpaceship( TsceneGame *game, const int &pattern, co
 	:TobserverEnemy(
 	game,
 	pos,						// position
-	0.9,						// radius
+	2.0,						// radius
 	velocity,					// velocity
 	0,							// max_speed
 	Vec2DNormalize(velocity),	// heading
@@ -26,14 +26,15 @@ TenemBossSpaceship::TenemBossSpaceship( TsceneGame *game, const int &pattern, co
 	Vector2D(1.,1.),			// scale
 	0,							// turn_rate
 	1,							// max_force
-	1							// vitality
+	100							// vitality
 	),
 	FdPattern(pattern),
 	FdTimer(0),
 	FmTurnFlag(false),
 	FbInitializeFlg(false),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
-	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
+	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY),
+	FbDamageFlg(false)
 {
 }
 
@@ -46,21 +47,9 @@ TenemBossSpaceship::~TenemBossSpaceship(void)
 //----------------------------------------------
 void TenemBossSpaceship::Initialize(void)
 {
-	TsubjectEnemy *sub;
-	sub = FpGame->CreateEnemy()
-
-	// サブジェクトをオブザーバーの監視対象に追加する
-	AddSubject( new TenemBossFortress( FpGame, 1, Vector2D(FvPosition.x-13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) ) );
-	AddSubject( new TenemBossFortress( FpGame, 1, Vector2D(FvPosition.x+13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) ) );	
-
-	// サブジェクトのオブザーバーにこのクラスを登録する
-	std::list<TBaseSubjectObject *>::iterator it;
-	for(it = FSubjects.begin(); it != FSubjects.end(); it++){
-		(*it)->AddObserver(this);
-	}
-
-//	FpGame->CreateEnemy( 3 , 1 , Vector2D(FvPosition.x-13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) );
-//	FpGame->CreateEnemy( 3 , 1 , Vector2D(FvPosition.x+13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) );
+	// 砲台を生成する
+	FpGame->CreateEnemy( 3 , 1 , Vector2D(FvPosition.x-13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) );
+	FpGame->CreateEnemy( 3 , 1 , Vector2D(FvPosition.x+13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) );
 }
 
 //---------------------------------------------
@@ -102,11 +91,13 @@ BOOL TenemBossSpaceship::Update(double time_elapsed)
 //	FdRadian += 0.5;
 	FdTheta = FdRadian * 180 ;
 
+	/*
 	// iteratorを回す
 	std::list<TBaseSubjectObject *>::iterator it;
 	for(it = FSubjects.begin(); it != FSubjects.end(); it++){
 		(*it)->Update(time_elapsed);
 	}
+	*/
 
 	if(FdVitality <= 0){
 		return FALSE;
@@ -136,11 +127,13 @@ void TenemBossSpaceship::Render( void )
 							1.0,												// Alpha
 							D3DCOLOR(1));												// ColorKey
 
+	/*
 	// SubjectObjectのiteratorを回す
 	std::list<TBaseSubjectObject *>::iterator it;
 	for(it = FSubjects.begin(); it != FSubjects.end(); it++){
 		(*it)->Render();
 	}
+	*/
 
 }
 
@@ -152,3 +145,8 @@ void TenemBossSpaceship::RenderCgdi()
 }
 
 //---------------------------------------------
+
+void TenemBossSpaceship::RecieveNotify( TBaseSubjectObject *sub )
+{
+	::OutputDebugString( TEXT("Success! (TBaseObserverObject::RecieveNotify())\n") );
+}

@@ -102,7 +102,7 @@
     <ClCompile Include="Matrix2D.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="objBullet.cpp" />
-    <ClCompile Include="objEnemy.cpp" />
+    <ClCompile Include="observerEnemy.cpp" />
     <ClCompile Include="ObjPlayer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="objShot.cpp" />
@@ -121,6 +121,7 @@
     <ClCompile Include="shMultipleShot.cpp" />
     <ClCompile Include="shNormalShot.cpp" />
     <ClCompile Include="stringList.cpp" />
+    <ClCompile Include="subjectEnemy.cpp" />
     <ClCompile Include="TaskManager.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -154,7 +155,7 @@
     <ClInclude Include="Matrix2D.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="objBullet.h" />
-    <ClInclude Include="objEnemy.h" />
+    <ClInclude Include="observerEnemy.h" />
     <ClInclude Include="ObjPlayer.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="objShot.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="shNormalShot.h" />
     <ClInclude Include="sll_string.h" />
     <ClInclude Include="stringlist.h" />
+    <ClInclude Include="subjectEnemy.h" />
     <ClInclude Include="TaskManager.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="VertexBuffer.h" />

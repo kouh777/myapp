@@ -21,6 +21,7 @@ protected:
 	double		FdMaxTurnRate;	// the maximum rate (radians per second)this vehicle can rotate
 	double		FdVitality;
 	TsceneGame	*FpGame;
+	bool		FbObserver;		// if object is obsever, this value is true.else false
 
 public:
 	TBaseMovingObject(
@@ -44,7 +45,8 @@ public:
                                   FdMaxSpeed(max_speed),
                                   FdMaxTurnRate(turn_rate),
                                   FdMaxForce(max_force),
-								  FdVitality(vitality)
+								  FdVitality(vitality),
+								  FbObserver(true)
 	{
 		FvScale = scale;
 	}
@@ -74,6 +76,11 @@ public:
 
 	BOOL RotateHeadingToFacePosition(Vector2D target);
 	void SetHeading(Vector2D new_heading);
+
+	__declspec( property( get=GetIsObserver, put=SetIsObserver ) ) double bObserver;
+	double GetIsObserver( void ) const { return FbObserver; }  
+	void SetIsObserver( boolean new_oserver_flag ) { FbObserver = new_oserver_flag; }
+
 };
 
 //---------------------------------------------------------------------

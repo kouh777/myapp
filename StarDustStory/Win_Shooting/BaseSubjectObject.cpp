@@ -45,7 +45,7 @@ void TBaseSubjectObject::NotifyObverver(void)
 	std::list<TBaseObserverObject * >::iterator it;
 	for( it = FObservers.begin(); it != FObservers.end() ; it++ ){
 		// Object recieve this status
-		(*it)->RecieveNotify(FiSubjectStatus);
+		(*it)->RecieveNotify(this);
 	}
 }
 
@@ -55,15 +55,19 @@ void TBaseSubjectObject::RemoveObserver(void)
 
 }
 
+/*
 // Reccieve Notify. This method is called int Update method
 void TBaseSubjectObject::RecieveNotify(int &observer_status)
 {
 	FiObserverStatus =  observer_status;
 }
+*/
 
+/*
 // setter
 // set Status
 void TBaseSubjectObject::SetStatus(int &status)
 {
 	FiSubjectStatus = status;
 }
+*/

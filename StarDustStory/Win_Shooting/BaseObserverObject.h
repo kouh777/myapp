@@ -15,7 +15,7 @@ private:
 
 	// Rellation to Observer Design Pattern
 	int FiObserverStatus;							// Observer Status
-	int FiSubjectStatus;							// Subject Status
+//	int FiSubjectStatus;							// Subject Status
 
 protected:
 	std::list<TBaseSubjectObject *>	FSubjects;		// Subjects
@@ -50,13 +50,14 @@ public:
 	virtual void RenderCgdi( void );						// Draw Cgdi
 
 	// Relation to Observer Design Pattern
-	virtual void AddSubject( TBaseSubjectObject *sub );		// Add Subject
-	virtual void NotifySubject(void);						// Notity this status to Subject
-	virtual void RemoveSubject(void);						// Remove Subject
-	virtual void RecieveNotify(int &subject_status);		// ReccieveNotify this method is called int Update method
+	virtual void AddSubject( TBaseSubjectObject *sub );			// Add Subject
+//	virtual void NotifySubject(void);							// Notity this status to Subject
+//	virtual void RemoveSubject(void);							// Remove Subject
+//	virtual void RecieveNotify(int &subject_status);			// ReccieveNotify this method is called in Update method
+	virtual void RecieveNotify( TBaseSubjectObject *sub ) = 0;	//
 
 	// setter
-	virtual void SetStatus( int &status );					// set Status
+//	virtual void SetStatus( int &status );					// set Status
 
 	// getter
 	virtual int GetStatus(void) const { return FiObserverStatus; }			// getStatus

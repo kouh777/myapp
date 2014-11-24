@@ -33,6 +33,7 @@ public:
 	virtual BOOL Update(double time_elapsed);
 	virtual void Render( void );
 	virtual void RenderCgdi( void );
+	virtual void RecieveNotify( TBaseSubjectObject *sub );
 };
 
 #endif // __ENEMFISH_H__

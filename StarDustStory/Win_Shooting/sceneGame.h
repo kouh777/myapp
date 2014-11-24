@@ -84,7 +84,7 @@ public:
 
 	void Collision (double elapsedtime);
 	const TBaseMovingObject *GetNearestEnemy(void);
-
+	const TBaseMovingObject *GetNewestEnemy(void);	// return the newest Enemy
 	// 3d test
 	void Draw3D(void);
 

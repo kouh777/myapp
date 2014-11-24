@@ -5,6 +5,7 @@
 //-------------------------------------------
 #include "observerEnemy.h" 
 
+class TBaseObserverObject;
 class TbulOneWay;
 class TbulHoming;
 class TbulAiming;
@@ -17,6 +18,7 @@ private:
 	int FdPattern;	// 敵の行動パターン
 	bool FmTurnFlag;
 	bool FbInitializeFlg;	// 初期化フラグ
+	bool FbDamageFlg;		// ダメージフラグ
 
 protected:
 	// 画像読み込み用
@@ -35,6 +37,7 @@ public:
 	virtual void Initialize(void);
 	virtual void Render( void );
 	virtual void RenderCgdi( void );
+	virtual void RecieveNotify( TBaseSubjectObject *sub );
 };
 
 #endif // __ENEMBOSSSPACESHIP_H__

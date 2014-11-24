@@ -149,3 +149,7 @@ void TenemFish::RenderCgdi()
 }
 
 //---------------------------------------------
+
+void TenemFish::RecieveNotify( TBaseSubjectObject *sub ){
+
+}

@@ -1,6 +1,7 @@
 
 #include "GameDef.h"
 #include "enemBossFortress.h"
+#include "BaseObserverObject.h"
 
 #include "bulOneWay.h"
 #include "bulHoming.h"
@@ -33,6 +34,13 @@ TenemBossFortress::TenemBossFortress( TsceneGame *game, const int &pattern, cons
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
+	bObserver = false;
+	// このオブジェクトをenemBossSpaceShipのサブジェクトとして登録する
+	const TBaseMovingObject *obj = FpGame->GetNewestEnemy();
+	TBaseObserverObject *observer = (TBaseObserverObject*)obj;
+	AddObserver( observer );
+	observer->AddSubject(this);
+
 	// オブジェクト向いている方向を受け取り描画するための計算
 	FdRadian = atan2(FvVelocity.y ,FvVelocity.x);
 	FdRadian /= D3DX_PI;
@@ -72,6 +80,13 @@ BOOL TenemBossFortress::Update(double time_elapsed)
 	FvVelocity *= FdMaxSpeed;
 
 	if(FdVitality <= 0){
+
+		// ボスに死亡を通知する
+		std::list<TBaseObserverObject *>::iterator it;
+		for( it=FObservers.begin() ; it !=FObservers.end(); it++  ){
+			(*it)->RecieveNotify(this);
+		}
+
 		return FALSE;
 	}
 

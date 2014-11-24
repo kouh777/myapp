@@ -11,11 +11,11 @@ class TBaseObserverObject;
 
 class TBaseSubjectObject : public TBaseMovingObject{
 
-private:
+protected:
 
 	// Rellation to Observer Design Pattern
 	std::list<TBaseObserverObject *>	FObservers;			// Observers
-	int									FiObserverStatus;	// Observer status
+//	int									FiObserverStatus;	// Observer status
 	int									FiSubjectStatus;	// Subject Status
 
 public:
@@ -50,10 +50,10 @@ public:
 	virtual void AddObserver( TBaseObserverObject *obs );			// Add Subject
 	virtual void NotifyObverver(void);								// Notity this status to Subject
 	virtual void RemoveObserver(void);								// Remove Subject
-	virtual void RecieveNotify(int &observer_status);				// ReccieveNotify this method is called int Update method
+//	virtual void RecieveNotify(int &observer_status);				// ReccieveNotify this method is called int Update method
 
 	// setter
-	virtual void SetStatus(int &status);							// set Status
+//	virtual void SetStatus(int &status);							// set Status
 
 	// getter
 	virtual int GetStatus(void) const { return FiSubjectStatus; }			// getStatus
