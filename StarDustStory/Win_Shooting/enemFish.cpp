@@ -112,6 +112,8 @@ BOOL TenemFish::Update(double time_elapsed)
 	FdTheta = FdRadian * 180 ;
 
 	if(FdVitality <= 0){
+		// 爆発エフェクトを表示させる
+		FpGame->CreateEffect(EFF_EXPLOSION, FvPosition, FvVelocity);
 		return FALSE;
 	}
 

@@ -58,19 +58,6 @@ HDC TBackBuffer::GetDC(void)
 {
 	HRESULT result;
 	if(FhDC==NULL){
-		/*
-		// FpD3DSurfaceがNULLならばGetBackBufferでバックバッファーのサーフェースを取得
-		if(FpD3DSurface==NULL){
-//			result = FpD3DSurface->GetDesc(FpSurfaceinfo);
-
-			// メソッドの呼び出しが無効。FpD3DSurfaceが有効なポインタでない
-			result = FpD3DDevice->GetBackBuffer( 0, 0, D3DBACKBUFFER_TYPE_MONO, &FpD3DSurface);
-			if(	result ==	D3DERR_INVALIDCALL)
-				int out = 0;
-			else
-				int god = 0;
-		}
-		*/
 		FpD3DSurface->GetDC(&FhDC);
 	}
 	return FhDC;

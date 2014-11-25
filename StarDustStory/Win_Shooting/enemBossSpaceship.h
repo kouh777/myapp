@@ -19,6 +19,8 @@ private:
 	bool FmTurnFlag;
 	bool FbInitializeFlg;	// 初期化フラグ
 	bool FbDamageFlg;		// ダメージフラグ
+	int FiExplosionTimer;
+	bool FbExplosionEnd;
 
 protected:
 	// 画像読み込み用
@@ -38,6 +40,7 @@ public:
 	virtual void Render( void );
 	virtual void RenderCgdi( void );
 	virtual void RecieveNotify( TBaseSubjectObject *sub );
+	virtual void ReactHit(double damage);
 };
 
 #endif // __ENEMBOSSSPACESHIP_H__

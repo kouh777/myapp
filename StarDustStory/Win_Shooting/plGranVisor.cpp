@@ -135,8 +135,11 @@ BOOL TplGranVisor::Update(double time_elapsed)
 	if( FvPosition.y < this->dBoundingRadius -50) FvPosition.y = this->dBoundingRadius -50;
 	if( FvPosition.y > (50 - this->dBoundingRadius) ) FvPosition.y = 50 - this->dBoundingRadius;
 
-	if(FdVitality <= 0)
+	if(FdVitality <= 0){
+		// 爆発エフェクトを表示させる
+		FpGame->CreateEffect(EFF_EXPLOSION, FvPosition, FvVelocity);
 		return FALSE;
+	}
 
 	return TRUE;
 

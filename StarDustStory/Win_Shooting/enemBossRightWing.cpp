@@ -1,6 +1,6 @@
 
 #include "GameDef.h"
-#include "enemBossFortress.h"
+#include "enemBossRightWing.h"
 #include "BaseObserverObject.h"
 
 #include "bulOneWay.h"
@@ -8,16 +8,23 @@
 #include "bulAiming.h"
 
 //---------------------------------------------------------------------
-#define TRIMMING__IMAGE_LTX 10	// 
-#define TRIMMING__IMAGE_LTY 300	// 
-#define TRIMMING__IMAGE_RBX 38	// 
-#define TRIMMING__IMAGE_RBY 328	// 
+// 画像切り取り範囲定義
+#define TRIMMING__IMAGE_LTX 153	// 
+#define TRIMMING__IMAGE_LTY 169	// 
+#define TRIMMING__IMAGE_RBX 279	// 
+#define TRIMMING__IMAGE_RBY 279	// 
+
+//---------------------------------------------------------------------
+// enemBossSpaceShipからどれだけ離れているか距離を定義
+#define FROM_SPACESHIP_X 17
+#define FROM_SPACESHIP_Y 3
+
 
 //----------------------------------------------
-TenemBossFortress::TenemBossFortress( TsceneGame *game, const int &pattern, const Vector2D &pos, const Vector2D &velocity )
+TenemBossRightWing::TenemBossRightWing( TsceneGame *game, const int &pattern, const Vector2D &pos, const Vector2D &velocity )
 	:TsubjectEnemy(
 	game,
-	pos,						// position
+	Vector2D(pos.x+FROM_SPACESHIP_X, pos.x-FROM_SPACESHIP_Y),// position
 	1.0,						// radius
 	velocity,					// velocity
 	0,							// max_speed
@@ -26,11 +33,10 @@ TenemBossFortress::TenemBossFortress( TsceneGame *game, const int &pattern, cons
 	Vector2D(1.,1.),			// scale
 	0,							// turn_rate
 	1,							// max_force
-	1							// vitality
+	10							// vitality
 	),
-	FdPattern(pattern),
-	FdTimer(0),
-	FmTurnFlag(false),
+	FiTimer(0),
+	FbExplosionEnd(false),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
@@ -44,59 +50,60 @@ TenemBossFortress::TenemBossFortress( TsceneGame *game, const int &pattern, cons
 	// オブジェクト向いている方向を受け取り描画するための計算
 	FdRadian = atan2(FvVelocity.y ,FvVelocity.x);
 	FdRadian /= D3DX_PI;
-	FdRadian += 0.5;
+	FdRadian -= 0.5;
 	FdTheta = FdRadian * 180 ;
-
+	
 	// 弱点表示用スコープを表示
 	FpGame->CreateEffect( EFF_SCOPE, FvPosition, FvVelocity);
 }
 
 //----------------------------------------------
-TenemBossFortress::~TenemBossFortress(void)
+TenemBossRightWing::~TenemBossRightWing(void)
 {
 
 }
 
 //---------------------------------------------
-BOOL TenemBossFortress::Update(double time_elapsed)
+BOOL TenemBossRightWing::Update(double time_elapsed)
 {
-	switch(FdPattern){	
-
-		case 1:
-			int test = 0;
-			if (FdTimer < 20){
-				FdTimer++;
-				if(FdTimer >= 20){	
-					for(int i=0; i < 5; ++i){
-						FpGame->CreateBullet( 1, FvPosition, Vector2D(0+i*5,10));	
-					}
-					for(int i=0; i < 5; ++i){
-						FpGame->CreateBullet( 1, FvPosition, Vector2D(0+i*(-5),10));	
-					}
-					FdTimer = 0;
-				}
-			}
-			break;
-	}
 	FvVelocity.Normalize();
 	FvSide = FvVelocity.Perp();
 	FvVelocity *= FdMaxSpeed;
 
 	if(FdVitality <= 0){
-		// 爆発エフェクトを表示させる
-		FpGame->CreateEffect(EFF_EXPLOSION, FvPosition, FvVelocity);
+		// 複数の爆発エフェクトを表示させる
+		const int RandRange = 15;		// 爆発の生成範囲
+		const int ExplosionNum = 10;	// 爆発の数
+		const int ExplosionSpan = 5;	// 爆発の間隔
+		srand((unsigned)time(NULL));
+		FiTimer++;
+		if( FiTimer%ExplosionSpan == 0 ){
+			double rw=rand()%RandRange;				// 爆発の生成範囲内で乱数を生成
+			double rh=rand()%RandRange;
+			// 爆発の生成
 
+			for( int i=0; i < ExplosionNum; ++i ){
+				rw=rand()%RandRange;				// 爆発の生成範囲内で乱数を生成
+				rh=rand()%RandRange;
+				FpGame->CreateEffect(EFF_EXPLOSION, Vector2D(FvPosition.x+(rw - (RandRange>>1)), FvPosition.y+(rh - (RandRange>>1) )) , FvVelocity);
+			}
+		}
+		if( FiTimer > ExplosionNum*ExplosionSpan ){
+			FbExplosionEnd = true;
+		}
+	}
+
+	if( FbExplosionEnd != false ){
 		// ボスに状態を通知する
 		NotifyObservers();
-
 		/*
-		// ボスのサブジェクトからこのオブジェクトを除外する
+		// ボスに死亡を通知する
 		std::list<TBaseObserverObject *>::iterator it;
 		for( it=FObservers.begin() ; it !=FObservers.end(); it++  ){
+			(*it)->RecieveNotify(this);
 			(*it)->RemoveSubject(this);
 		}
 		*/
-
 		return FALSE;
 	}
 
@@ -104,7 +111,7 @@ BOOL TenemBossFortress::Update(double time_elapsed)
 }
 
 //---------------------------------------------
-void TenemBossFortress::Render( void )
+void TenemBossRightWing::Render( void )
 {
 	std::vector<Vector2D> vec;
 	vec.push_back(FvPosition);
@@ -128,20 +135,17 @@ void TenemBossFortress::Render( void )
 
 //---------------------------------------------------------------------
 // Cgdi描画
-void TenemBossFortress::RenderCgdi()
+void TenemBossRightWing::RenderCgdi()
 {
 	TBaseMovingObject::RenderCgdi();	
 }
 
 //---------------------------------------------
 // Reccieve Notify
-void TenemBossFortress::RecieveNotify( TBaseObserverObject *obs)
+void TenemBossRightWing::RecieveNotify( TBaseObserverObject *obs)
 {
 	// オブザーバーの場所と向いている方向を受け取り、自身の場所と向きを計算する
-//	double difference_x = FvPosition.x - obs->vPosition.x;
-//	double difference_y = FvPosition.y - obs->vPosition.y;
-
-	FvPosition.x = obs->vPosition.x;
-	FvPosition.y = obs->vPosition.y;
+	FvPosition.x = obs->vPosition.x + FROM_SPACESHIP_X;
+	FvPosition.y = obs->vPosition.y + FROM_SPACESHIP_Y;
 
 }

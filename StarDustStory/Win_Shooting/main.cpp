@@ -159,7 +159,6 @@ int WINAPI WinMain( HINSTANCE hInstance,
 				// sprite
 				DxGraphics9().BeginSprite(D3DXSPRITE_ALPHABLEND);
 				// draw sprite between BeginSprite() and EndSprite()
-//				GameWorld().Draw();
 				TaskManager().Draw();
 
 				DxGraphics9().EndSprite();
@@ -171,10 +170,10 @@ int WINAPI WinMain( HINSTANCE hInstance,
 				Input().Update();
 				// Update GameWorld
 				TaskManager().Update(FPS);
-//				GameWorld().Execute(FPS);
 				DxGraphics9().EndScene();
 			}
 
+			
 #ifdef _DEBUG
 			// ‚±‚ÌŒã‚ÉGetDC‚ð“ü‚ê‚ÄWINAPI‚Ì•`‰æ‚ð“ü‚ê‚é
 			TBackBuffer *FpBackBuffer;					// instance
@@ -182,12 +181,13 @@ int WINAPI WinMain( HINSTANCE hInstance,
 			HDC FhDC = FpBackBuffer->GetDC();			// HDC‚ðŽæ“¾
 
 			Cgdi().StartDrawing(FhDC);
-//			TaskManager().DrawCgdi();
+			TaskManager().DrawCgdi();
 			Cgdi().StopDrawing(FhDC);
-//			DxWrite().DrawD2DContent();
 			FpBackBuffer->ReleaseDC();					// HDC‚ð‰ð•ú
 //			GameWorld().Draw3D();
 #endif
+			
+
 			// updaate frame
 			DxGraphics9().UpdateFrame();
 

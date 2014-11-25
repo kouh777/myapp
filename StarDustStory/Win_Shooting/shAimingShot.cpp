@@ -3,10 +3,10 @@
 #include "GameWorld.h"
 
 //----------------------------------------------
-#define TRIMMING__IMAGE_LTX 40	// 
-#define TRIMMING__IMAGE_LTY 20	// 
-#define TRIMMING__IMAGE_RBX 60	// 
-#define TRIMMING__IMAGE_RBY 30	//
+#define TRIMMING__IMAGE_LTX 15	// 
+#define TRIMMING__IMAGE_LTY 87	// 
+#define TRIMMING__IMAGE_RBX 28	// 
+#define TRIMMING__IMAGE_RBY 98	//
 
 //----------------------------------------------
 TshAimingShot::TshAimingShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
@@ -18,7 +18,7 @@ TshAimingShot::TshAimingShot( TsceneGame *game, const Vector2D &pos, const Vecto
 	50,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	1.,							// mass
-	Vector2D(2.0, 2.0),			// scale
+	Vector2D(1.2, 1.2),			// scale
 	10,							// turn_rate
 	10,							// max_force
 	1							// vitality

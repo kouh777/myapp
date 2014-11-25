@@ -20,6 +20,9 @@ class TenemBox;
 class TenemFish;
 class TenemBossFortress;
 class TenemBossSpaceShip;
+class TenemBossRightWing;
+class TenemBossLeftWing;
+class TenemBossBody;
 
 //--------------------------------------------------------
 // プレイヤー弾
@@ -39,6 +42,18 @@ class TbulHoming;
 class TbulAiming;
 class TbulWave;
 class TbulWayAlong;
+
+//------------------------------------------
+// エフェクト
+class TeffExplosion;
+class TeffBarrier;
+class TeffScope;
+
+//------------------------------------------
+// 障害物
+
+//------------------------------------------
+// アイテム
 
 //--------------------------------------------------------
 // 背景
@@ -63,6 +78,10 @@ private:
 	std::list< TBaseMovingObject * > FpShots;
 	std::list< TBaseMovingObject * > FpBullets;
 	std::list< TBaseMovingObject * > FpEnemies;
+	std::list< TBaseMovingObject * > FpEffects;
+	std::list< TBaseMovingObject * > FpGimmicks;
+	std::list< TBaseMovingObject * > FpItems;
+
 	int FiCollapsedTime;
 	TGameScript *FpGameScript;
 
@@ -81,6 +100,9 @@ public:
 	void CreateShot( const int &type, const Vector2D &pos, const Vector2D &velocity );
 	void CreateEnemy( const int &type , const int &pattern , const Vector2D &pos, const Vector2D &velocity );
 	void CreateBullet(const int &type, const Vector2D &pos, const Vector2D &velocity );
+	void CreateEffect(const int &type, const Vector2D &pos, const Vector2D &velocity );
+	void CreateGimmick(const int &type, const Vector2D &pos, const Vector2D &velocity );
+	void CreateItem(const int &type, const Vector2D &pos, const Vector2D &velocity );
 
 	void Collision (double elapsedtime);
 	const TBaseMovingObject *GetNearestEnemy(void);
@@ -98,6 +120,8 @@ public:
 	ISprite *FpPlayerVisorSprite;		// プレイヤー1
 	ISprite *FpPlayerSaberSprite;		// プレイヤー2
 	ISprite *FpBossSpaceshipSprite;		// ステージ2ボス
+	ISprite *FpBarrier;					// バリアエフェクト
+	ISprite *FpScope;					// ボス弱点表示用スコープ
 
 	// アクセサ
 	__declspec( property(get=GetiClientX) ) int iClientX;

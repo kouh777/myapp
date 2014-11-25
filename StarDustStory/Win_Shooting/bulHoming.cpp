@@ -6,10 +6,10 @@
 #include "ObjPlayer.h"
 
 //---------------------------------------------------------------------
-#define TRIMMING__IMAGE_LTX 20	// 
-#define TRIMMING__IMAGE_LTY 20	// 
-#define TRIMMING__IMAGE_RBX 40	// 
-#define TRIMMING__IMAGE_RBY 40	// 
+#define TRIMMING__IMAGE_LTX 32	// 
+#define TRIMMING__IMAGE_LTY 72	// 
+#define TRIMMING__IMAGE_RBX 42	// 
+#define TRIMMING__IMAGE_RBY 82	// 
 
 //----------------------------------------------
 TbulHoming::TbulHoming( TsceneGame *game, const Vector2D &pos , const Vector2D &velocity)
@@ -21,7 +21,7 @@ TbulHoming::TbulHoming( TsceneGame *game, const Vector2D &pos , const Vector2D &
 	30,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	0.,							// mass
-	Vector2D(1. , 1.),			// scale
+	Vector2D(2. , 2.),			// scale
 	0,							// turn_rate
 	1,							// max_force
 	1							// vitality

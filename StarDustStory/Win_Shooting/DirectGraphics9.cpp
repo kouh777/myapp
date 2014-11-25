@@ -120,6 +120,7 @@ bool TDirectGraphics9::Reset(void)
 	if(FpFont) FpFont->OnResetDevice();
 	if(FpD3DXSprite) FpD3DXSprite->OnResetDevice();
 
+
 	return true;
 }
 
@@ -262,6 +263,7 @@ void TDirectGraphics9::UpdateFrame(void)
 		if(hr == D3DERR_DEVICENOTRESET){
 			// if failed to update frame , reset device and try to recovery
 			// write cord 
+			this->Reset();
 		}
 	}
 }

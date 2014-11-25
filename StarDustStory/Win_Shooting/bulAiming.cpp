@@ -21,7 +21,7 @@ TbulAiming::TbulAiming( TsceneGame *game, const Vector2D &pos, const Vector2D &v
 	30,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	0.,							// mass
-	Vector2D(1., 1.),			// scale
+	Vector2D(2., 2.),			// scale
 	0,							// turn_rate
 	1,							// max_force
 	1							// vitality

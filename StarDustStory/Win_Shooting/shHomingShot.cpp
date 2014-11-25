@@ -3,17 +3,17 @@
 #include "GameWorld.h"
 
 //----------------------------------------------
-#define TRIMMING__IMAGE_LTX 40	// 
-#define TRIMMING__IMAGE_LTY 20	// 
-#define TRIMMING__IMAGE_RBX 60	// 
-#define TRIMMING__IMAGE_RBY 30	//
+#define TRIMMING__IMAGE_LTX 32	// 
+#define TRIMMING__IMAGE_LTY 88	// 
+#define TRIMMING__IMAGE_RBX 42	// 
+#define TRIMMING__IMAGE_RBY 98	//
 
 //----------------------------------------------
 TshHomingShot::TshHomingShot( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
 	:TobjShot(
 	game,
 	Vector2D(pos.x,pos.y-2),	// position
-	1.5,							// radius
+	1.5,						// radius
 	velocity,					// velocity
 	60,							// max_speed
 	Vec2DNormalize(velocity),	// heading

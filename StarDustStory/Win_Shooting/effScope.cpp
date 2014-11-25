@@ -1,58 +1,76 @@
 
 #include "GameDef.h"
-#include "bulOneWay.h"
-#include "GameWorld.h"
-
-#define TRIMMING__IMAGE_LTX 160	// 
-#define TRIMMING__IMAGE_LTY 120	// 
-#define TRIMMING__IMAGE_RBX 170	// 
-#define TRIMMING__IMAGE_RBY 130	// 
+//-------------------------------------------
+#include "objEffect.h"
+#include "effScope.h"
 
 //----------------------------------------------
-TbulOneWay::TbulOneWay( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
-	:TobjBullet(
+#define TRIMMING__IMAGE_LTX 0	// 
+#define TRIMMING__IMAGE_LTY 0	// 
+#define TRIMMING__IMAGE_RBX 65	// 
+#define TRIMMING__IMAGE_RBY 72	// 
+
+//----------------------------------------------
+TeffScope::TeffScope( TsceneGame *game, const Vector2D &pos, const Vector2D &velocity)
+	:TobjEffect(
 	game,
 	pos,						// position
 	0.5,						// radius
 	velocity,					// velocity
-	30,							// max_speed
+	0,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	0.,							// mass
-	Vector2D(1.5, 1.5),			// scale
+	Vector2D(0.5, 0.5),			// scale
 	0,							// turn_rate
 	1,							// max_force
 	1							// vitality
 	),
-	bulletnum(0),
-	timer(0),
-	shotinterval(0),
-	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
-	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
+	FiTimer(0),
+	FiAlpha(0.8),
+	FbBlinkEnd(false),
+	FiBlinkNum(0)
+{
+	iImageWidth=TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX;
+	iImageHeight=TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY;
+}
+
+//----------------------------------------------
+TeffScope::~TeffScope(void)
 {
 }
 
 //----------------------------------------------
-TbulOneWay::~TbulOneWay(void)
-{
-}
-
-//----------------------------------------------
-BOOL TbulOneWay::Update(double time_elapsed)
+BOOL TeffScope::Update(double time_elapsed)
 {
 	//----------
-	// 方向弾(飛ぶ方向は固定値)
+	// ボス弱点表示用スコープ
 	//----------
+	const int MAX_BLINK_NUM = 3;	//　ブリンクの最大数
+	FiTimer += time_elapsed;
+	if( FiTimer > 0.4 ){
+		if(FiAlpha == 0.8){ 
+			FiAlpha = 0;
+			FiTimer = 0;
+		}else if(FiAlpha == 0){
+			FiAlpha = 0.8;
+			FiTimer = 0;
+			FiBlinkNum++;
+		}
+	}
+	if( FiBlinkNum > MAX_BLINK_NUM ){
+		FbBlinkEnd = true;
+	}
 	FvVelocity.Normalize();
 	FvVelocity *= FdMaxSpeed;
 
-	if(FdVitality <= 0 || !Move(time_elapsed))
+	if(FbBlinkEnd || !Move(time_elapsed))
 		return false;
 
 	return true;
 }
 
 //----------------------------------------------
-void TbulOneWay::Render( void )
+void TeffScope::Render( void )
 {
 	std::vector<Vector2D> vec;
 	vec.push_back(FvPosition);
@@ -63,21 +81,19 @@ void TbulOneWay::Render( void )
 	pos = D3DXVECTOR3( (float)vec[0].x, (float)vec[0].y, 0);
 
 	// 画像を表示する座標
-	FpGame->FpSprites->RenderEx(
+	FpGame->FpScope->RenderEx(
 							&srcRec,
 							pos,																// DrawPosition
 							D3DXVECTOR3((float)FvScale.x , (float)FvScale.y, 1),				// Scaling
 							D3DXVECTOR3(0, 0, 0),												// Rotation
 							&D3DXVECTOR3 ((float)(FiImageWidth/2), (float)(FiImageHeight/2), 0),	// RotationCenter
-							1.0,																// Alpha
+							FiAlpha,																// Alpha
 							D3DCOLOR(1));																// ColorKey
 }
 
 //---------------------------------------------------------------------
 // Cgdi描画
-void TbulOneWay::RenderCgdi()
+void TeffScope::RenderCgdi()
 {
 	TBaseMovingObject::RenderCgdi();	
 }
-
-//----------------------------------------------

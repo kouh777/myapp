@@ -18,7 +18,7 @@ TshNormalShot::TshNormalShot( TsceneGame *game, const Vector2D &pos, const Vecto
 	60,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	1.,							// mass
-	Vector2D(0.2, 0.15),		// scale
+	Vector2D(0.1, 0.075),		// scale
 	10,							// turn_rate
 	10,							// max_force
 	1							// vitality

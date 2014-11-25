@@ -28,6 +28,9 @@
 #include "enemFish.h"
 #include "enemBossFortress.h"
 #include "enemBossSpaceShip.h"
+#include "enemBossRightWing.h"
+#include "enemBossLeftWing.h"
+#include "enemBossBody.h"
 
 //------------------------------------------
 // プレイヤー弾
@@ -49,18 +52,20 @@
 #include "bulWayAlong.h"
 
 //------------------------------------------
-// ゲームスクリプト
-#include "GameScript.h"
+// エフェクト
+#include "effExplosion.h"
+#include "effBarrier.h"
+#include "effScope.h"
 
 //------------------------------------------
-// 敵ID定義
-#define ENEM_NO						0
-#define ENEM_BOX					1
-#define ENEM_FISH					2
-#define ENEM_BOSS_FORTRESS			3	//	ステージ2ボス砲台
-#define ENEM_BOSS_SPACESHITP		4	//	ステージ2ボス
-#define ENEM_BOSS_RIGHT_WING		12	//	ステージ2ボス右翼
-#define ENEM_BOSS_LEFT_WING			13	//	ステージ2ボス左翼
+// 障害物
+
+//------------------------------------------
+// アイテム
+
+//------------------------------------------
+// ゲームスクリプト
+#include "GameScript.h"
 
 //------------------------------------------
 // コンストラクタ
@@ -114,6 +119,32 @@ TsceneGame::~TsceneGame( void )
 		}
 		FpBullets.clear();
 	}
+	// エフェクト
+	{
+		std::list< TBaseMovingObject * >::iterator it;
+		for( it=FpEffects.begin(); it!=FpEffects.end(); it++) {
+			delete *it;
+		}
+		FpEffects.clear();
+	}
+	// 障害物
+	{
+		std::list< TBaseMovingObject * >::iterator it;
+		for( it=FpGimmicks.begin(); it!=FpGimmicks.end(); it++) {
+			delete *it;
+		}
+		FpGimmicks.clear();
+	}
+
+	// アイテム
+	{
+		std::list< TBaseMovingObject * >::iterator it;
+		for( it=FpItems.begin(); it!=FpItems.end(); it++) {
+			delete *it;
+		}
+		FpItems.clear();
+	}
+
 	if( FpBackGround ) delete FpBackGround;
 //	if( FpGameScript ) delete FpGameScript;
 }
@@ -135,6 +166,8 @@ bool TsceneGame::Initialize( void )
 	FpShotSprite = DxGraphics9().CreateSpriteFormFile(TEXT("ef001.png"),D3DFMT_A8R8G8B8 , 0);
 	FpEnemySprite = DxGraphics9().CreateSpriteFormFile(TEXT("chantougoke.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0));
 	FpBossSpaceshipSprite = DxGraphics9().CreateSpriteFormFile(TEXT("boss002c.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+	FpBarrier = DxGraphics9().CreateSpriteFormFile(TEXT("barrier.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+	FpScope = DxGraphics9().CreateSpriteFormFile(TEXT("scope.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
 
 	FpPlayerSaberSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player001a.png"),D3DFMT_A8R8G8B8 , 0);
 	FpPlayerVisorSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player002a.png"),D3DFMT_A8R8G8B8 , 0);
@@ -199,6 +232,44 @@ bool TsceneGame::Execute( double ElapsedTime )
 				it++;
 		}
 	}
+
+	{	// エフェクト
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpEffects.begin(); it!=FpEffects.end(); ){
+			if( !(*it)->Update(ElapsedTime)){
+				delete *it;
+				// リスト削除
+				it = FpEffects.erase(it);
+			} else
+				it++;
+		}
+	}
+
+	{	// 障害物
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpGimmicks.begin(); it!=FpGimmicks.end(); ){
+			if( !(*it)->Update(ElapsedTime)){
+				delete *it;
+				// リスト削除
+				it = FpGimmicks.erase(it);
+			} else
+				it++;
+		}
+	}
+
+	{	// アイテム
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpItems.begin(); it!=FpItems.end(); ){
+			if( !(*it)->Update(ElapsedTime)){
+				delete *it;
+				// リスト削除
+				it = FpItems.erase(it);
+			} else
+				it++;
+		}
+	}
+
+
 	// 衝突判定
 	Collision(ElapsedTime);
 
@@ -244,6 +315,46 @@ bool TsceneGame::Execute( double ElapsedTime )
 				it++;
 		}
 	}
+
+	{	// エフェクト
+		std::list< TBaseMovingObject * >::iterator it;
+		for( it=FpEffects.begin(); it!=FpEffects.end();  ) {
+			if( !((*it)->Move(ElapsedTime)) ) {
+				delete *it;
+				// リスト削除
+				it = FpEffects.erase(it);
+
+			} else
+				it++;
+		}
+	}
+
+	{	// 障害物
+		std::list< TBaseMovingObject * >::iterator it;
+		for( it=FpGimmicks.begin(); it!=FpGimmicks.end();  ) {
+			if( !((*it)->Move(ElapsedTime)) ) {
+				delete *it;
+				// リスト削除
+				it = FpGimmicks.erase(it);
+
+			} else
+				it++;
+		}
+	}
+
+	{	// アイテム
+		std::list< TBaseMovingObject * >::iterator it;
+		for( it=FpItems.begin(); it!=FpItems.end();  ) {
+			if( !((*it)->Move(ElapsedTime)) ) {
+				delete *it;
+				// リスト削除
+				it = FpItems.erase(it);
+
+			} else
+				it++;
+		}
+	}
+
 
 	FiCollapsedTime++;
 
@@ -309,6 +420,27 @@ void TsceneGame::Draw( void )
 			(*it)->Render();
 		}
 	}
+
+	{	// エフェクト
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpEffects.begin(); it!=FpEffects.end(); it++){
+			(*it)->Render();
+		}
+	}
+
+	{	// 障害物
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpGimmicks.begin(); it!=FpGimmicks.end(); it++){
+			(*it)->Render();
+		}
+	}
+
+	{	// アイテム
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpItems.begin(); it!=FpItems.end(); it++){
+			(*it)->Render();
+		}
+	}
 }
 
 //------------------------------------------
@@ -340,6 +472,27 @@ void TsceneGame::DrawCgdi( void )
 	{	// 敵弾
 		std::list< TBaseMovingObject *>::iterator it;
 		for( it=FpBullets.begin(); it!=FpBullets.end(); it++){
+			(*it)->RenderCgdi();
+		}
+	}
+
+	{	// エフェクト
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpEffects.begin(); it!=FpEffects.end(); it++){
+			(*it)->RenderCgdi();
+		}
+	}
+
+	{	// 障害物
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpGimmicks.begin(); it!=FpGimmicks.end(); it++){
+			(*it)->RenderCgdi();
+		}
+	}
+
+	{	// アイテム
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpItems.begin(); it!=FpItems.end(); it++){
 			(*it)->RenderCgdi();
 		}
 	}
@@ -382,35 +535,35 @@ void TsceneGame::CreateShot( const int &type, const Vector2D &pos, const Vector2
 	TBaseMovingObject *pshot;
 	switch(type){
 		// 方向弾
-		case 1:
+		case SH_NORMAL:
 			pshot = new TshNormalShot( this, pos, velocity );
 			break;
 		// ビーム
-		case 2:
+		case SH_BEAM:
 			pshot = new TshBeamShot( this, pos, velocity );
 			break;
 		// 狙い撃ち弾
-		case 3:
+		case SH_AIMING:
 			pshot = new TshAimingShot( this, pos, velocity );
 			break;
 		// ホーミング弾
-		case 4:
+		case SH_HOMING:
 			pshot = new TshHomingShot( this, pos, velocity);
 			break;
 		// 分裂弾(分裂前)
-		case 5:
+		case SH_MULTIPLE:
 			pshot = new TshMultipleShot( this, pos, velocity);
 			break;
 		// 分裂弾(分裂後)
-		case 6:
+		case SH_MINI_MULTIPLE:
 			pshot = new TshMiniMultipleShot( this, pos, velocity);
 			break;
 		// 爆発弾
-		case 7:
+		case SH_BLAST_SHOT:
 			pshot = new TshBlastShot( this, pos, velocity);
 			break;
 		// 爆発弾(爆風)
-		case 8:
+		case SH_BLAT:
 			pshot = new TshBlast( this, pos, velocity);
 			break;
 	}
@@ -448,10 +601,17 @@ void TsceneGame::CreateEnemy( const int &type , const int &pattern ,const Vector
 
 		// ステージ2ボス右翼
 		case ENEM_BOSS_RIGHT_WING:
+			penemy = new TenemBossRightWing( this , pattern , pos, velocity );
 			break;
 
 		// ステージ2ボス左翼
 		case ENEM_BOSS_LEFT_WING:
+			penemy = new TenemBossLeftWing( this , pattern , pos, velocity );
+			break;
+
+		// ステージ2ボス左翼
+		case ENEM_BOSS_BODY:
+			penemy = new TenemBossBody( this , pattern , pos, velocity );
 			break;
 	}
 	FpEnemies.push_back( penemy );
@@ -463,29 +623,106 @@ void TsceneGame::CreateBullet( const int &type , const Vector2D &pos, const Vect
 	TBaseMovingObject *pbullet;
 	switch(type){
 		// 方向弾
-		case 1:
+		case BUL_ONE_WAY:
 			pbullet = new TbulOneWay( this, pos, velocity);
 			break;
 		// ホーミング弾
-		case 2:
+		case BUL_HOMING:
 			pbullet = new TbulHoming( this, pos, velocity);
 			break;
 		// 狙い撃ち弾
-		case 3:
+		case BUL_AIMING:
 			pbullet = new TbulAiming( this, pos, velocity);
 			break;
 		// 波打ち弾
-		case 4:
+		case BUL_WAVE:
 			pbullet = new TbulWave( this, pos, velocity);
 			break;
 		// 経路追従弾 未実装
-		case 5:
+		case BUL_WAY_ALONG:
 			pbullet = new TbulWayAlong( this, pos,velocity);
 			break;
 	}
 	FpBullets.push_back( pbullet );
 }
 
+//------------------------------------------
+void TsceneGame::CreateEffect( const int &type , const Vector2D &pos, const Vector2D &velocity)
+{
+	TBaseMovingObject *peffect;
+	switch(type){
+		// 爆発
+		case EFF_EXPLOSION:
+			peffect = new TeffExplosion( this, pos, velocity);
+			break;
+		// バリア
+		case EFF_BARRIER:
+			peffect = new TeffBarrier( this, pos, velocity);
+			break;
+		// ヒットエフェクト
+		case EFF_HIT:
+//			peffect = new TbulOneWay( this, pos, velocity);
+			break;
+		// ボス弱点表示用スコープ
+		case EFF_SCOPE:
+			peffect = new TeffScope( this, pos, velocity);
+			break;
+	}
+	FpBullets.push_back( peffect );
+}
+
+//------------------------------------------
+void TsceneGame::CreateGimmick( const int &type , const Vector2D &pos, const Vector2D &velocity)
+{
+	TBaseMovingObject *pgimmick;
+	switch(type){
+		// 隕石障害物
+		case GIM_COMMET:
+			pgimmick = new TbulOneWay( this, pos, velocity);
+			break;
+		// 隕石障害物破片
+		case GIM_MINI_COMMET:
+//			peffect = new TbulOneWay( this, pos, velocity);
+			break;
+		// ビーム障害物
+		case GIM_BEAM:
+//			peffect = new TbulOneWay( this, pos, velocity);
+			break;
+		// 通信ギミック
+		case GIM_NETWORK:
+//			peffect = new TbulOneWay( this, pos, velocity);
+			break;
+	}
+	FpBullets.push_back( pgimmick );
+}
+
+//------------------------------------------
+void TsceneGame::CreateItem( const int &type , const Vector2D &pos, const Vector2D &velocity)
+{
+	TBaseMovingObject *pitem;
+	switch(type){
+		// パワーアップアイテム
+		case ITM_POWER:
+			pitem = new TbulOneWay( this, pos, velocity);
+			break;
+		// ソウルチャージパワーアップアイテム
+		case ITM_SOUL:
+//			peffect = new TbulOneWay( this, pos, velocity);
+			break;
+		// スコアアップアイテム
+		case ITM_SCORE:
+//			peffect = new TbulOneWay( this, pos, velocity);
+			break;
+		// 通信アイテム
+		case ITM_NETWORK:
+//			peffect = new TbulOneWay( this, pos, velocity);
+			break;
+	}
+	FpBullets.push_back( pitem );
+}
+
+
+//------------------------------------------
 void TsceneGame::Collision (double elapsedtime)
 {
 	{	// プレイヤーと敵の弾
@@ -496,7 +733,7 @@ void TsceneGame::Collision (double elapsedtime)
 			//if(CollisionCircle(FpPlayer, *it,elapsedtime) <= 1.0 )
 			{
 				(*it)->ReactHit(elapsedtime);
-				FpPlayer->ReactHit(elapsedtime);	// Playerのhpが0になったときの処理を入れれてないので一旦コメントアウト
+				FpPlayer->ReactHit(elapsedtime);
 			}
 		}
 	}
@@ -510,6 +747,38 @@ void TsceneGame::Collision (double elapsedtime)
 					(*sit)->ReactHit(elapsedtime);
 					(*eit)->ReactHit(elapsedtime);
 				}
+			}
+		}
+	}
+
+	{	// プレイヤーと敵
+		std::list< TBaseMovingObject * >::iterator it;
+		for( it=FpEnemies.begin(); it!=FpEnemies.end(); it++ ) {
+			if(CollisionCircleS(FpPlayer, *it))
+			{
+				FpPlayer->ReactHit(elapsedtime);
+			}
+		}
+	}
+
+	{	// プレイヤーと障害物
+		std::list< TBaseMovingObject * >::iterator it;
+		for( it=FpGimmicks.begin(); it!=FpGimmicks.end(); it++ ) {
+			if(CollisionCircleS(FpPlayer, *it))
+			{
+//				(*it)->ReactHit(elapsedtime);
+//				FpPlayer->ReactHit(elapsedtime);
+			}
+		}
+	}
+
+	{	// プレイヤーとアイテム
+		std::list< TBaseMovingObject * >::iterator it;
+		for( it=FpItems.begin(); it!=FpItems.end(); it++ ) {
+			if(CollisionCircleS(FpPlayer, *it))
+			{
+//				(*it)->ReactHit(elapsedtime);
+//				FpPlayer->ReactHit(elapsedtime);
 			}
 		}
 	}

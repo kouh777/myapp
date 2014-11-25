@@ -39,8 +39,8 @@ void TBaseSubjectObject::AddObserver(TBaseObserverObject *obs)
 	}
 }
 
-// Notity this status to Subject
-void TBaseSubjectObject::NotifyObverver(void)
+// Notity this status to Observer
+void TBaseSubjectObject::NotifyObservers(void)
 {
 	std::list<TBaseObserverObject * >::iterator it;
 	for( it = FObservers.begin(); it != FObservers.end() ; it++ ){
@@ -49,19 +49,19 @@ void TBaseSubjectObject::NotifyObverver(void)
 	}
 }
 
-// Remove Subject
-void TBaseSubjectObject::RemoveObserver(void)
+// Remove Observer
+void TBaseSubjectObject::RemoveObserver( TBaseObserverObject *obs )
 {
-
+	// FObserversì‡ÇÃobbÇçÌèúÇ∑ÇÈ
+	std::list<TBaseObserverObject *>::iterator it;
+	for( it = FObservers.begin(); it != FObservers.end() ; ){
+		if( (*it)== obs){
+			it = FObservers.erase(it);
+		}else{
+			it++;
+		}
+	}	
 }
-
-/*
-// Reccieve Notify. This method is called int Update method
-void TBaseSubjectObject::RecieveNotify(int &observer_status)
-{
-	FiObserverStatus =  observer_status;
-}
-*/
 
 /*
 // setter

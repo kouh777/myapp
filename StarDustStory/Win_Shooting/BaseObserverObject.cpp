@@ -44,24 +44,29 @@ void TBaseObserverObject::AddSubject( TBaseSubjectObject *sub )
 	}
 }
 
-/*
 // Notity this status to Subject
 void TBaseObserverObject::NotifySubject(void)
 {
 	std::list<TBaseSubjectObject * >::iterator it;
 	for( it = FSubjects.begin(); it != FSubjects.end() ; it++ ){
 		// Subjects recieve this status
-		(*it)->RecieveNotify(FiObserverStatus);
+		(*it)->RecieveNotify(this);
 	}	
 }
-*/
 
-/*
 // Remove Subject
-void TBaseObserverObject::RemoveSubject(void)
+void TBaseObserverObject::RemoveSubject( TBaseSubjectObject *sub )
 {
+	// FSubjectsì‡ÇÃsubÇçÌèúÇ∑ÇÈ
+	std::list<TBaseSubjectObject *>::iterator it;
+	for( it = FSubjects.begin(); it != FSubjects.end() ; ){
+		if( (*it)== sub){
+			it = FSubjects.erase(it);
+		}else{
+			it++;
+		}
+	}	
 }
-*/
 
 /*
 // Reccieve Notify. This method is called int Update method

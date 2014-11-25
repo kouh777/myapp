@@ -79,7 +79,7 @@ public:
 
 	__declspec( property( get=GetIsObserver, put=SetIsObserver ) ) double bObserver;
 	double GetIsObserver( void ) const { return FbObserver; }  
-	void SetIsObserver( boolean new_oserver_flag ) { FbObserver = new_oserver_flag; }
+	void SetIsObserver( bool new_oserver_flag ) { FbObserver = new_oserver_flag; }
 
 };
 

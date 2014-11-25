@@ -19,7 +19,8 @@ public:
 		beam,
 		enemy,
 		bullet,
-		explosion,
+		effect,
+		gimmick,
 		item,
 		board,
 	};

@@ -7,16 +7,6 @@
 #include <string>
 #include "stringlist.h"
 
-//------------------------------------------
-// 敵ID定義
-#define ENEM_NO						0
-#define ENEM_BOX					1
-#define ENEM_FISH					2
-#define ENEM_BOSS_FORTRESS			3	//	ステージ2ボス砲台
-#define ENEM_BOSS_SPACESHITP		4	//	ステージ2ボス
-#define ENEM_BOSS_RIGHT_WING		12	//	ステージ2ボス右翼
-#define ENEM_BOSS_LEFT_WING			13	//	ステージ2ボス左翼
-
 //--------------------------------------------------------------------------------
 class TGameWorld;
 class TCommandBase;

@@ -1,21 +1,16 @@
 
-#ifndef __ENEMBOSSFORTRESS_H__
-#define __ENEMBOSSFORTRESS_H__
+#ifndef __ENEMBOSSRIGHTWING_H__
+#define __ENEMBOSSRIGHTWING_H__
 
 //-------------------------------------------
 #include "subjectEnemy.h" 
 
-class TbulOneWay;
-class TbulHoming;
-class TbulAiming;
-
 //-------------------------------------------
-class TenemBossFortress:public TsubjectEnemy
+class TenemBossRightWing:public TsubjectEnemy
 {
 private:
-	int FdTimer;	// íeÇÃî≠éÀä‘äu
-	int FdPattern;	// ìGÇÃçsìÆÉpÉ^Å[Éì
-	bool FmTurnFlag;
+	int FiTimer;	// íeÇÃî≠éÀä‘äu
+	bool FbExplosionEnd;
 
 protected:
 	// âÊëúì«Ç›çûÇ›óp
@@ -28,12 +23,12 @@ protected:
 	double FdRadian;
 
 public:
-	TenemBossFortress(TsceneGame *game, const int &pattern, const Vector2D &pos, const Vector2D &velocity);
-	~TenemBossFortress(void);
+	TenemBossRightWing(TsceneGame *game, const int &pattern, const Vector2D &pos, const Vector2D &velocity);
+	~TenemBossRightWing(void);
 	virtual BOOL Update(double time_elapsed);
 	virtual void Render( void );
 	virtual void RenderCgdi( void );
 	virtual void RecieveNotify( TBaseObserverObject *obs);
 };
 
-#endif // __ENEMBOSSFORTRESS_H__
+#endif // __ENEMBOSSRIGHTWING_H__

@@ -48,15 +48,15 @@ public:
 
 	// Relation to Observer Design Pattern
 	virtual void AddObserver( TBaseObserverObject *obs );			// Add Subject
-	virtual void NotifyObverver(void);								// Notity this status to Subject
-	virtual void RemoveObserver(void);								// Remove Subject
-//	virtual void RecieveNotify(int &observer_status);				// ReccieveNotify this method is called int Update method
+	virtual void NotifyObservers(void);								// Notity this status to Observers
+	virtual void RemoveObserver( TBaseObserverObject *obs );		// Remove Subject
+	virtual void RecieveNotify( TBaseObserverObject *obs) = 0;		// Reccieve Observer Notify
 
 	// setter
 //	virtual void SetStatus(int &status);							// set Status
 
 	// getter
-	virtual int GetStatus(void) const { return FiSubjectStatus; }			// getStatus
+	virtual int GetStatus(void) const { return FiSubjectStatus; }	// getStatus
 };
 
 #endif //__BASESUBJECTOBJECT_H__
