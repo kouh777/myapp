@@ -28,6 +28,10 @@ TobjShot::TobjShot(
 													max_force,
 													vitality)
 {
+	// プレイヤーショットの効果音を再生
+	int ch = PlayDxSound( SND_SE_SHOT );
+	int bgm_vol = GetVolume(ch);
+	SetVolume(ch, -300);
 }
 
 //----------------------------------------------

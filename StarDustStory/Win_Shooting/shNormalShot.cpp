@@ -13,7 +13,7 @@ TshNormalShot::TshNormalShot( TsceneGame *game, const Vector2D &pos, const Vecto
 	:TobjShot(
 	game,
 	Vector2D(pos.x,pos.y-2),	// position
-	3,							// radius
+	1.5,						// radius
 	velocity,					// velocity
 	60,							// max_speed
 	Vec2DNormalize(velocity),	// heading

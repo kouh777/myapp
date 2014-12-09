@@ -1,0 +1,63 @@
+﻿//----------------------------------------------------------
+// テストステージ
+// 種類1, 種類2, 種別3, 表示座標, 向いている向き
+//----------------------------------------------------------
+
+//----------------------------------------------------------
+// 敵配置
+// enemy, 敵種類, 敵行動パターン, 敵出現位置, 敵進行方向
+//----------------------------------------------------------
+wait, 100
+enemy, ENEM_BOX, 	1, -40, -50, 1, 1.2
+enemy, ENEM_BOX, 	1, -20, -50, 1, 1.2
+enemy, ENEM_BOX, 	1,   0, -50, 1, 1.2
+enemy, ENEM_BOX, 	1,  20, -50, 1, 1.2
+enemy, ENEM_BOX, 	1,  40, -50, 1, 1.2
+wait, 100
+enemy, ENEM_BOX, 	1, -40, -50, -1, 1.2
+enemy, ENEM_BOX, 	1, -20, -50, -1, 1.2
+enemy, ENEM_BOX, 	1,   0, -50, -1, 1.2
+enemy, ENEM_BOX, 	1,  20, -50, -1, 1.2
+enemy, ENEM_BOX, 	1,  40, -50, -1, 1.2
+wait,  100
+enemy, ENEM_COMMET, 1, -40, -50, 0, 1
+enemy, ENEM_COMMET, 1, -20, -50, 0, 1
+enemy, ENEM_COMMET, 1,   0, -50, 0, 1
+enemy, ENEM_COMMET, 1,  20, -50, 0, 1
+enemy, ENEM_COMMET, 1,  40, -50, 0, 1
+wait, 100
+enemy, ENEM_COMMET, 1, -50, -50, 0, 1
+enemy, ENEM_COMMET, 1, -30, -50, 0, 1
+enemy, ENEM_COMMET, 1, -10, -50, 0, 1
+enemy, ENEM_COMMET, 1,   0, -50, 0, 1
+enemy, ENEM_COMMET, 1,  10, -50, 0, 1
+enemy, ENEM_COMMET, 1,  30, -50, 0, 1
+enemy, ENEM_COMMET, 1,  50, -50, 0, 1
+wait, 100
+enemy, ENEM_BOX, 	2, -40, -50, 0, 1
+enemy, ENEM_BOX, 	2, -20, -50, 0, 1
+enemy, ENEM_BOX, 	2,   0, -50, 0, 1
+enemy, ENEM_BOX, 	2,  20, -50, 0, 1
+enemy, ENEM_BOX, 	2,  40, -50, 0, 1
+wait, 200
+enemy, ENEM_BOX, 	1, -40, 50, 0, -0.8
+enemy, ENEM_BOX, 	1, -20, 50, 0, -0.8
+enemy, ENEM_BOX, 	1,   0, 50, 0, -0.8
+enemy, ENEM_BOX, 	1,  20, 50, 0, -0.8
+enemy, ENEM_BOX, 	1,  40, 50, 0, -0.8
+wait, 200
+enemy, ENEM_FISH, 4,  40,-50, 0, 1
+enemy, ENEM_FISH, 4, -40,-50, 0, 1
+wait, 100
+enemy, ENEM_FISH, 4, -20,-50, 0, 1
+enemy, ENEM_FISH, 4, -40,-50, 0, 1
+enemy, ENEM_FISH, 4,  20,-50, 0, 1
+enemy, ENEM_FISH, 4,  40,-50, 0, 1
+wait, 100
+enemy, ENEM_BOX, 2, -20,-50, 0, 1
+enemy, ENEM_BOX, 2, -40,-50, 0, 1
+enemy, ENEM_BOX, 2,  20,-50, 0, 1
+enemy, ENEM_BOX, 2,  40,-50, 0, 1
+wait, 300
+enemy, ENEM_BOSS_DEGIN, 1,  20, -40, 1, 0
+clear,

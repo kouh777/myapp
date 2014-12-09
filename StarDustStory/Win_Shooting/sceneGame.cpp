@@ -21,6 +21,7 @@
 //------------------------------------------
 // プレイヤー自機
 #include "plGranVisor.h"
+#include "plGranSaber.h"
 
 //------------------------------------------
 // 敵
@@ -31,6 +32,12 @@
 #include "enemBossRightWing.h"
 #include "enemBossLeftWing.h"
 #include "enemBossBody.h"
+#include "enemBossDegin.h"
+#include "enemBossUnderson.h"
+#include "enemBossShadowSaber.h"
+#include "enemBossShadowVisor.h"
+#include "enemBossAlbert.h"
+#include "enemCommet.h"
 
 //------------------------------------------
 // プレイヤー弾
@@ -54,8 +61,11 @@
 //------------------------------------------
 // エフェクト
 #include "effExplosion.h"
+#include "effHit.h"
 #include "effBarrier.h"
 #include "effScope.h"
+#include "effBigExplosion.h"
+#include "effFinalBigExplosion.h"
 
 //------------------------------------------
 // 障害物
@@ -64,12 +74,22 @@
 // アイテム
 
 //------------------------------------------
+// Ui
+#include "uiCharacter.h"
+#include "uiPlayerLife.h"
+#include "uiPlayerVitality.h"
+
+//------------------------------------------
 // ゲームスクリプト
 #include "GameScript.h"
 
 //------------------------------------------
+// 
+#define UI_WIDTH 270
+
+//------------------------------------------
 // コンストラクタ
-TsceneGame::TsceneGame( void )
+TsceneGame::TsceneGame( int player_id, STG_ID stage_id )
 	: _Task(12),
 	  FiTimer(1),
 	  FbFadeFlg(false),
@@ -79,7 +99,10 @@ TsceneGame::TsceneGame( void )
 	  FiClientY(0),
 	  FpPlayer(NULL),
 	  FpBackGround(NULL),
-	  FiCollapsedTime(0)
+	  FiCollapsedTime(0),
+	  FiPlayerId(player_id),
+	  FStageId(stage_id),
+	  FiLife(PLAYER_MAX_LIFE)
 {
 	Initialize();
 }
@@ -88,7 +111,6 @@ TsceneGame::TsceneGame( void )
 // デストラクタ
 TsceneGame::~TsceneGame( void )
 {
-	int test = 0;
 
 	// 自機
 	if( FpPlayer )
@@ -145,6 +167,15 @@ TsceneGame::~TsceneGame( void )
 		FpItems.clear();
 	}
 
+	// Ui
+	{
+		std::list< TBaseMovingObject * >::iterator it;
+		for( it=FpUis.begin(); it!=FpUis.end(); it++) {
+			delete *it;
+		}
+		FpUis.clear();
+	}
+
 	if( FpBackGround ) delete FpBackGround;
 //	if( FpGameScript ) delete FpGameScript;
 }
@@ -155,19 +186,32 @@ bool TsceneGame::Initialize( void )
 {
 
 	FhWnd = TaskManager().GethWnd();
-	FiClientX = TaskManager().GetiClientX()-270;
+	FiClientX = TaskManager().GetiClientX();
 	FiClientY = TaskManager().GetiClientY();
 
 	// 画像をメモリに読み込む
 	FpSprites = DxGraphics9().CreateSpriteFormFile(TEXT("sprites2.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0));
-	FpBackGroundSprite = DxGraphics9().CreateSpriteFormFile(TEXT("space3.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0)); 
+	FpBackGroundSprite = DxGraphics9().CreateSpriteFormFile(TEXT("space4.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 255, 255)); 
 	FpUiBackGround = DxGraphics9().CreateSpriteFormFile(TEXT("uiback.png"),D3DFMT_A8R8G8B8 , 0);
 	FpPlayerSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player01.png"),D3DFMT_A8R8G8B8 , 0);
 	FpShotSprite = DxGraphics9().CreateSpriteFormFile(TEXT("ef001.png"),D3DFMT_A8R8G8B8 , 0);
 	FpEnemySprite = DxGraphics9().CreateSpriteFormFile(TEXT("chantougoke.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0));
 	FpBossSpaceshipSprite = DxGraphics9().CreateSpriteFormFile(TEXT("boss002c.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+	FpBossDegin= DxGraphics9().CreateSpriteFormFile(TEXT("boss_degin01.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));			
+	FpBossUnderson= DxGraphics9().CreateSpriteFormFile(TEXT("boss_underson01.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));	
+	FpBossShadowVisor= DxGraphics9().CreateSpriteFormFile(TEXT("boss_shawdow_visor01.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+	FpBossShadowSaber= DxGraphics9().CreateSpriteFormFile(TEXT("boss_shawdow_visor01.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+	FpBossAlbert= DxGraphics9().CreateSpriteFormFile(TEXT("boss_albert01.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+	
+	FpCharacterSeiya= DxGraphics9().CreateSpriteFormFile(TEXT("character_seiya.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+	FpCharacterKanata= DxGraphics9().CreateSpriteFormFile(TEXT("character_kanata.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+
 	FpBarrier = DxGraphics9().CreateSpriteFormFile(TEXT("barrier.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
 	FpScope = DxGraphics9().CreateSpriteFormFile(TEXT("scope.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+	FpHit = DxGraphics9().CreateSpriteFormFile(TEXT("hit_effects.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+	FpAsteroid = DxGraphics9().CreateSpriteFormFile(TEXT("asteroid_fit.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255));
+	FpHpGauge = DxGraphics9().CreateSpriteFormFile(TEXT("hp_gage_sprite.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 80, 80, 80));
+	FpExplosionSprite = DxGraphics9().CreateSpriteFormFile(TEXT("final_big_explosion.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 80, 80, 80));
 
 	FpPlayerSaberSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player001a.png"),D3DFMT_A8R8G8B8 , 0);
 	FpPlayerVisorSprite = DxGraphics9().CreateSpriteFormFile(TEXT("player002a.png"),D3DFMT_A8R8G8B8 , 0);
@@ -175,13 +219,65 @@ bool TsceneGame::Initialize( void )
 	// 背景インスタンス作成
 	FpBackGround = new TBackGround( *this );
 
-	// 自機作成
-	FpPlayer = new TplGranVisor( this, Vector2D(-50,0), 1.6 ); 
+	// Ui作成
+	CreateUi( UI_CHARACTER_SEIYA , Vector2D( 50, 17)  , Vector2D( 0, 0 ) );
+	CreateUi( UI_PLAYER_LIFE , Vector2D( 10, -35)  , Vector2D( 0, 0 ) );
+	CreateUi( UI_PLAYER_VITALITY , Vector2D( 50, -45)  , Vector2D( 0, 0 ) );
+
+	// 選択したキャラクターを読み取っての自機作成
+	switch( FiPlayerId ){
+		case PL_GRANDVISOR:
+			FpPlayer = new TplGranVisor( this, Vector2D(-50,0), 0.8 ); 
+			break;
+
+		case PL_GRANDSAVER:
+			FpPlayer = new TplGranSaber( this, Vector2D(-50,0), 0.8 ); 
+			break;
+
+		case PL_COMBAT:
+			// FpPlayer = new TplGranVisor( this, Vector2D(-50,0), 1.6 ); 
+			break;
+
+		default:
+			FpPlayer = new TplGranVisor( this, Vector2D(-50,0), 1.6 ); 
+			break;
+	}
 
 	// ゲームスクリプト作成
 	FpGameScript = new TGameScript(this);
-	FpGameScript->ReadScriptFile(TEXT("test_script.txt"));
+	// 選択したステージを読み取ってスクリプトを読み込む
+	switch( FStageId ){
+		case STAGE_1:
+//			FpGameScript->ReadScriptFile(TEXT("stage_debug_script.txt"));
+			FpGameScript->ReadScriptFile(TEXT("stage1_script.txt"));
+			break;
 
+		case STAGE_2:
+			FpGameScript->ReadScriptFile(TEXT("stage2_script.txt"));
+			break;
+
+		case STAGE_3:
+			FpGameScript->ReadScriptFile(TEXT("stage3_script.txt"));
+			break;
+
+		case STAGE_4:
+			FpGameScript->ReadScriptFile(TEXT("stage4_script.txt"));
+			break;
+
+		case STAGE_5:
+			FpGameScript->ReadScriptFile(TEXT("stage5_script.txt"));
+			break;
+
+		default:
+			FpGameScript->ReadScriptFile(TEXT("stage_debug_script.txt"));
+			break;
+	}
+	
+	// バックミュージック再生
+	int ch = PlayStreamBGM( TEXT("stage01_bgm.wav") );
+	int bgm_vol = GetVolume(ch);
+	SetVolume(ch, -300);
+	
 	return true;
 }
 //------------------------------------------
@@ -264,6 +360,18 @@ bool TsceneGame::Execute( double ElapsedTime )
 				delete *it;
 				// リスト削除
 				it = FpItems.erase(it);
+			} else
+				it++;
+		}
+	}
+
+	{	// Ui
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpUis.begin(); it!=FpUis.end(); ){
+			if( !(*it)->Update(ElapsedTime)){
+				delete *it;
+				// リスト削除
+				it = FpUis.erase(it);
 			} else
 				it++;
 		}
@@ -355,19 +463,43 @@ bool TsceneGame::Execute( double ElapsedTime )
 		}
 	}
 
+	
+	{	// Ui
+		std::list< TBaseMovingObject * >::iterator it;
+		for( it=FpUis.begin(); it!=FpUis.end();  ) {
+			if( !((*it)->Move(ElapsedTime)) ) {
+				delete *it;
+				// リスト削除
+				it = FpUis.erase(it);
+
+			} else
+				it++;
+		}
+	}
+
 
 	FiCollapsedTime++;
 
-	// GameScriptから敵出現情報を読み取る
-	FpGameScript->Excute(ElapsedTime);
+	// GameScriptから敵出現情報を読み取る、Scriptの最後に達していればシーン終了
+	if ( !FpGameScript->Excute(ElapsedTime) ){
+//		FbOverFlg = TRUE;
+	}
 
-	// FpPlayerがnullでなければ
+	
+	// プレイヤーがnullでなければ
 	if(FpPlayer){
-		if(FpPlayer->Update(ElapsedTime) == FALSE && FbOverFlg == FALSE){
+		// プレイヤーが死亡したら残機を減らし、プレイヤーを復帰させる
+		if(FpPlayer->Update(ElapsedTime) == FALSE){
 			delete FpPlayer;
 			FpPlayer = NULL;
-			FbOverFlg = TRUE;
+			FiLife--;
+			if( FiLife > 0 )
+				FpPlayer = new TplGranVisor( this, Vector2D(0,40), 0.8 ); 
 		}
+	}
+	// プレイヤーの残機が0以下になればゲームオーバー
+	if( FiLife <= 0 ){
+		FbOverFlg = TRUE;
 	}
 	if(FbOverFlg == TRUE){
 		FiTimer -= ElapsedTime;
@@ -379,7 +511,7 @@ bool TsceneGame::Execute( double ElapsedTime )
 
 			// -2.0はfadeを始めてから次をnewするまでの遅延時間
 			if(FiTimer <= -2.0){
-				new TsceneTitle();
+				new TsceneGameOver();
 				return false;
 			}
 		}
@@ -441,6 +573,13 @@ void TsceneGame::Draw( void )
 			(*it)->Render();
 		}
 	}
+
+	{	// アイテム
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpUis.begin(); it!=FpUis.end(); it++){
+			(*it)->Render();
+		}
+	}
 }
 
 //------------------------------------------
@@ -496,6 +635,13 @@ void TsceneGame::DrawCgdi( void )
 			(*it)->RenderCgdi();
 		}
 	}
+
+	{	// Ui
+		std::list< TBaseMovingObject *>::iterator it;
+		for( it=FpUis.begin(); it!=FpUis.end(); it++){
+			(*it)->RenderCgdi();
+		}
+	}
 }
 
 
@@ -516,15 +662,49 @@ HRESULT TsceneGame::MessageHandle( UINT message, WPARAM wParam, LPARAM lParam )
 //------------------------------------------
 void TsceneGame::ViewPortTransform( std::vector<Vector2D> &vPoints )
 {
-	double xs = FiClientX / 100.;
+	double xs = ( FiClientX - UI_WIDTH ) / 100.;
 	double ys = FiClientY / 100.;
 
 	// (   w/100      0  0 )
 	// (   0      h/100  0 )
 	// (   w/2      h/2  1 )
 	for( DWORD i=0; i<vPoints.size(); i++ ) {
-		vPoints[i].x = vPoints[i].x * xs + FiClientX/2.;  
+		vPoints[i].x = vPoints[i].x * xs + ( FiClientX - UI_WIDTH )/2.;  
 		vPoints[i].y = vPoints[i].y * ys + FiClientY/2.;  
+	}
+}
+
+//------------------------------------------
+void TsceneGame::ViewPortTransform( VIEWPORT_KIND kind, std::vector<Vector2D> &vPoints )
+{
+	double xs = 0;
+	double ys = FiClientY / 100.;;
+	switch(kind){
+		case GAME_VIEWPORT:
+			xs = FiClientX / 100.;
+			break;
+
+		case UI_VIEWPORT:
+			xs = UI_WIDTH / 100.;
+			// (   w/100      0  0 )
+			// (   0      h/100  0 )
+			// (   w/2      h/2  1 )
+			for( DWORD i=0; i<vPoints.size(); i++ ) {
+				vPoints[i].x = vPoints[i].x * xs + ( FiClientX + UI_WIDTH ) / 2;  
+				vPoints[i].y = vPoints[i].y * ys + FiClientY/2.;  
+			}
+			break;
+
+		case STAGE_VIEWPORT:
+			xs = ( FiClientX - UI_WIDTH ) / 100.;
+			// (   w/100      0  0 )
+			// (   0      h/100  0 )
+			// (   w/2      h/2  1 )
+			for( DWORD i=0; i<vPoints.size(); i++ ) {
+				vPoints[i].x = vPoints[i].x * xs + ( FiClientX - UI_WIDTH )/2.;  
+				vPoints[i].y = vPoints[i].y * ys + FiClientY/2.;  
+			}
+			break;
 	}
 }
 
@@ -613,6 +793,40 @@ void TsceneGame::CreateEnemy( const int &type , const int &pattern ,const Vector
 		case ENEM_BOSS_BODY:
 			penemy = new TenemBossBody( this , pattern , pos, velocity );
 			break;
+
+		//	ジークザデギン(ステージ1,ステージ3ボス)
+		case ENEM_BOSS_DEGIN:
+			penemy = new TenemBossDegin( this , pattern , pos, velocity );
+			break;
+
+		//	エルダアンダーソン(ステージ4ボス)
+		case ENEM_BOSS_UNDERSON:
+			penemy = new TenemBossUnderson( this , pattern , pos, velocity );
+			break;
+
+		//	闇男主人公機(ステージ5ボス)
+		case ENEM_BOSS_SHADOW_VISOR:
+			penemy = new TenemBossShadowVisor( this , pattern , pos, velocity );
+			break;
+
+		//	闇女主人公機(ステージ5ボス)
+		case ENEM_BOSS_SHADOW_SABER:
+			penemy = new TenemBossShadowSaber( this , pattern , pos, velocity );
+			break;
+
+		//	アルバートロイアデウス(ステージ6ラスボス)
+		case ENEM_BOSS_ALBERT:
+			penemy = new TenemBossAlbert( this , pattern , pos, velocity );
+			break;
+
+		// 隕石障害物
+		case ENEM_COMMET:
+			penemy = new TenemCommet( this, pattern, pos, velocity);
+			break;
+		// 隕石障害物破片
+		case ENEM_MINI_COMMET:
+//			penemy = new TbulOneWay( this, pos, velocity);
+			break;
 	}
 	FpEnemies.push_back( penemy );
 }
@@ -661,14 +875,22 @@ void TsceneGame::CreateEffect( const int &type , const Vector2D &pos, const Vect
 			break;
 		// ヒットエフェクト
 		case EFF_HIT:
-//			peffect = new TbulOneWay( this, pos, velocity);
+			peffect = new TeffHit( this, pos, velocity);
 			break;
 		// ボス弱点表示用スコープ
 		case EFF_SCOPE:
 			peffect = new TeffScope( this, pos, velocity);
 			break;
+		// 大爆発エフェクト
+		case EFF_BIG_EXPLOSION:
+			peffect = new TeffBigExplosion( this, pos, velocity);
+			break;
+		// 最大爆発エフェクト
+		case EFF_FINAL_BIG_EXPLOSION:
+			peffect = new TeffFinalBigExplosion( this, pos, velocity);
+			break;
 	}
-	FpBullets.push_back( peffect );
+	FpEffects.push_back( peffect );
 }
 
 //------------------------------------------
@@ -676,14 +898,6 @@ void TsceneGame::CreateGimmick( const int &type , const Vector2D &pos, const Vec
 {
 	TBaseMovingObject *pgimmick;
 	switch(type){
-		// 隕石障害物
-		case GIM_COMMET:
-			pgimmick = new TbulOneWay( this, pos, velocity);
-			break;
-		// 隕石障害物破片
-		case GIM_MINI_COMMET:
-//			peffect = new TbulOneWay( this, pos, velocity);
-			break;
 		// ビーム障害物
 		case GIM_BEAM:
 //			peffect = new TbulOneWay( this, pos, velocity);
@@ -693,7 +907,7 @@ void TsceneGame::CreateGimmick( const int &type , const Vector2D &pos, const Vec
 //			peffect = new TbulOneWay( this, pos, velocity);
 			break;
 	}
-	FpBullets.push_back( pgimmick );
+	FpGimmicks.push_back( pgimmick );
 }
 
 //------------------------------------------
@@ -721,6 +935,45 @@ void TsceneGame::CreateItem( const int &type , const Vector2D &pos, const Vector
 	FpBullets.push_back( pitem );
 }
 
+//------------------------------------------
+void TsceneGame::CreateUi( const int &type , const Vector2D &pos, const Vector2D &velocity)
+{
+	TBaseMovingObject *ui;
+	switch(type){
+		// 男性主人公機立ち絵
+		case UI_CHARACTER_SEIYA:
+			ui = new TuiCharacter( this, pos, velocity);
+			break;
+		// 女性主人公機立ち絵
+		case UI_CHARACTER_KANATA:
+//			ui = new TbulOneWay( this, pos, velocity);
+			break;
+		// プレイヤー体力
+		case UI_PLAYER_VITALITY:
+			ui = new TuiPlayerVitality( this, pos, velocity);
+			break;
+		// プレイヤー残機
+		case UI_PLAYER_LIFE:
+			ui = new TuiPlayerLife( this, pos, velocity);
+			break;
+	}
+	FpUis.push_back( ui );
+}
+
+//-----------------------
+// Control GameScript
+//-----------------------
+// スクリプトをポーズする
+void TsceneGame::ScriptPause(void)
+{
+	FpGameScript->Pause();
+}
+
+// スクリプトを再開する
+void TsceneGame::ScriptResume(void)
+{
+	FpGameScript->Resume();
+}
 
 //------------------------------------------
 void TsceneGame::Collision (double elapsedtime)

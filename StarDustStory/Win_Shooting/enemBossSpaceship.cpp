@@ -20,7 +20,7 @@ TenemBossSpaceship::TenemBossSpaceship( TsceneGame *game, const int &pattern, co
 	pos,						// position
 	2.0,						// radius
 	velocity,					// velocity
-	3,							// max_speed
+	30,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	0.,							// mass
 	Vector2D(1.,1.),			// scale
@@ -38,12 +38,15 @@ TenemBossSpaceship::TenemBossSpaceship( TsceneGame *game, const int &pattern, co
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY),
 	FbDamageFlg(false)
 {
+	// スクリプトをポーズする
+	FpGame->ScriptPause();
 }
 
 //----------------------------------------------
 TenemBossSpaceship::~TenemBossSpaceship(void)
 {
-
+	// スクリプトを再開する
+	FpGame->ScriptResume();
 }
 
 //----------------------------------------------
@@ -58,18 +61,6 @@ void TenemBossSpaceship::Initialize(void)
 	// 砲台を生成する
 	FpGame->CreateEnemy( ENEM_BOSS_FORTRESS , 1 , Vector2D(FvPosition.x-13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) );
 	FpGame->CreateEnemy( ENEM_BOSS_FORTRESS , 1 , Vector2D(FvPosition.x+13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) );
-
-	/*
-	// 右翼を生成する
-	FpGame->CreateEnemy( ENEM_BOSS_RIGHT_WING , 1 , Vector2D(FvPosition.x+16,FvPosition.y+3) , Vector2D(FvVelocity.x,FvVelocity.y) );
-	// 左翼を生成する
-	FpGame->CreateEnemy( ENEM_BOSS_LEFT_WING , 1 , Vector2D(FvPosition.x-16,FvPosition.y+3) , Vector2D(FvVelocity.x,FvVelocity.y) );
-	// 本体を生成する
-	FpGame->CreateEnemy( ENEM_BOSS_BODY , 1 , Vector2D(FvPosition.x,FvPosition.y) , Vector2D(FvVelocity.x,FvVelocity.y) );
-	// 砲台を生成する
-	FpGame->CreateEnemy( ENEM_BOSS_FORTRESS , 1 , Vector2D(FvPosition.x-13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) );
-	FpGame->CreateEnemy( ENEM_BOSS_FORTRESS , 1 , Vector2D(FvPosition.x+13,FvPosition.y-7) , Vector2D(FvVelocity.x,FvVelocity.y) );
-	*/
 }
 
 //---------------------------------------------
@@ -93,8 +84,6 @@ BOOL TenemBossSpaceship::Update(double time_elapsed)
 					for(int i=0; i < 3; ++i){
 						FpGame->CreateBullet( 1, FvPosition, Vector2D(0+i*(-5),10));	
 					}
-					//FpGame.CreateBullet( 2, FvPosition, Vector2D(0 ,10));
-					FpGame->CreateBullet( 5, FvPosition, Vector2D(0 ,10));
 					FdTimer = 0;
 				}
 			}
@@ -109,9 +98,9 @@ BOOL TenemBossSpaceship::Update(double time_elapsed)
 						FpGame->CreateBullet( 1, FvPosition, Vector2D(0+i*5,10));	
 					}
 					for(int i=0; i < 3; ++i){
-						FpGame->CreateBullet( 1, FvPosition, Vector2D(0+i*(-5),10));	
+						FpGame->CreateBullet( BUL_HOMING, Vector2D( FvPosition.x + i* 5, FvPosition.y ), Vector2D(0+i*(-5),10));	
 					}
-					FpGame->CreateBullet( 5, FvPosition, Vector2D(0 ,10));
+//					FpGame->CreateBullet( 5, FvPosition, Vector2D(0 ,10));
 					FdTimer = 0;
 				}
 			}
@@ -154,7 +143,7 @@ BOOL TenemBossSpaceship::Update(double time_elapsed)
 	if(FdVitality <= 0){
 		// 複数の爆発エフェクトを表示させる
 		const int RandRange = 20;		// 爆発の生成範囲
-		const int ExplosionNum = 15;	// 爆発の数
+		const int ExplosionNum = 10;	// 爆発の数
 		const int ExplosionSpan = 5;	// 爆発の間隔
 		srand((unsigned)time(NULL));
 		FiExplosionTimer++;
@@ -162,11 +151,10 @@ BOOL TenemBossSpaceship::Update(double time_elapsed)
 			double rw=rand()%RandRange;				// 爆発の生成範囲内で乱数を生成
 			double rh=rand()%RandRange;
 			// 爆発の生成
-
 			for( int i=0; i < ExplosionNum; ++i ){
 				rw=rand()%RandRange;				// 爆発の生成範囲内で乱数を生成
 				rh=rand()%RandRange;
-				FpGame->CreateEffect(EFF_EXPLOSION, Vector2D(FvPosition.x+(rw - (RandRange>>1)), FvPosition.y+(rh - (RandRange>>1) )) , FvVelocity);
+				FpGame->CreateEffect(EFF_BIG_EXPLOSION, Vector2D(FvPosition.x+(rw - (RandRange>>1)), FvPosition.y+(rh - (RandRange>>1) )) , FvVelocity);
 			}
 		}
 		if( FiExplosionTimer > ExplosionNum*ExplosionSpan ){

@@ -2,6 +2,7 @@
 #include "GameDef.h"
 #include "BaseMovingObject.h"
 #include "sceneGame.h"
+#include "sceneStageSelect.h"
 
 //---------------------------------------------------------------------
 // 移動関数
@@ -32,8 +33,15 @@ void TBaseMovingObject::RenderCgdi( void )
 	std::vector<Vector2D> vec;
 	vec.push_back( FvPosition );
 	// ビューポート変換・ゲームシーン情報を受け取る必要がある
-	FpGame->ViewPortTransform( vec );
-	double scale = FpGame->iClientX / 100;
+	double scale = 1.0;
+	if( FpGame ){
+		FpGame->ViewPortTransform( vec );
+		scale = FpGame->iClientX / 100;
+	}
+	else if( FpStageSelect ){
+		FpStageSelect->ViewPortTransform( vec );
+		scale = FpStageSelect->iClientX / 100;
+	}
 
 	// 衝突判定用の円を描く
 	Cgdi().BluePen();
@@ -47,6 +55,8 @@ void TBaseMovingObject::ReactHit(double){
 
 	// 体力を減らす (ヒットしたものの攻撃力を受け取りたい)
 	FdVitality -= 1;
+	if( FpGame )
+		FpGame->CreateEffect(EFF_HIT,FvPosition,FvVelocity);
 
 #ifdef _DEBUG
 				::OutputDebugString(TEXT("Hit!"));				

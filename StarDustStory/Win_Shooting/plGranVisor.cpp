@@ -52,10 +52,10 @@ BOOL TplGranVisor::Update(double time_elapsed)
 	WORD inputBuff = Input().InputBuff;
 	WORD DowninputBuff = Input().DownInputBuff;
 	
-	static const int MinBeamPower = 150;
-	static const int ShotMaxGauge = 150;
+	static const int MinBeamPower = 300;
+	static const int ShotMaxGauge = 300;
 	static const int MaxShotTime = 10;
-	static const int MaxBeamTime = 3;
+	static const int MaxBeamTime = 5;
 
 
 	// ショット
@@ -64,13 +64,15 @@ BOOL TplGranVisor::Update(double time_elapsed)
 		if( FiBeamPower < MinBeamPower ) {
 			FiBeamPower++;
 			FiShotGauge = ShotMaxGauge;
-			if( FiShotTime == 0 )
-				FpGame->CreateShot( 1, FvPosition, Vector2D(0,-1) );
+			if( FiShotTime == 0 ){
+				FpGame->CreateShot( 1, Vector2D( FvPosition.x, FvPosition.y), Vector2D(0,-1) );
+			}
 		} else {
 			// パワーが足りていればビームを打つ
 			FiShotGauge = 0;		
-			if( FiBeamTime == 0 ) 
+			if( FiBeamTime == 0 ) {
 				FpGame->CreateShot( 2, FvPosition, Vector2D(0,-1.0) );
+			}
 		}
 	} else {
 		// ボタンを離したとき
@@ -90,7 +92,11 @@ BOOL TplGranVisor::Update(double time_elapsed)
 	// Xキーを押すと敵狙い弾を生成
 	if( inputBuff & KEY_X ) {
 		FiShotGauge = ShotMaxGauge;
-		if( FiShotTime == 0 ) FpGame->CreateShot( 3, FvPosition, Vector2D(0,-1) );
+		if( FiShotTime == 0 ){
+			FpGame->CreateShot( 3, Vector2D(FvPosition.x ,FvPosition.y) , Vector2D(0,-1) );
+			FpGame->CreateShot( 3, Vector2D(FvPosition.x-10 ,FvPosition.y), Vector2D(0,-1) );
+			FpGame->CreateShot( 3, Vector2D(FvPosition.x+10 ,FvPosition.y), Vector2D(0,-1) );
+		}
 		else FiShotGauge = 0;
 	}
 	// Aキーを押すと敵ホーミング弾を生成
@@ -138,6 +144,12 @@ BOOL TplGranVisor::Update(double time_elapsed)
 	if(FdVitality <= 0){
 		// 爆発エフェクトを表示させる
 		FpGame->CreateEffect(EFF_EXPLOSION, FvPosition, FvVelocity);
+
+		// 爆発音を再生する
+		int ch = PlayDxSound( SND_SE_PL_DEATH);
+		int bgm_vol = GetVolume(ch);
+		SetVolume(ch, -300);
+
 		return FALSE;
 	}
 

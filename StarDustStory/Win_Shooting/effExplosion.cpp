@@ -17,7 +17,7 @@ TeffExplosion::TeffExplosion( TsceneGame *game, const Vector2D &pos, const Vecto
 	pos,						// position
 	0.5,						// radius
 	velocity,					// velocity
-	0.5,							// max_speed
+	0.5,						// max_speed
 	Vec2DNormalize(velocity),	// heading
 	0.,							// mass
 	Vector2D(0.5, 0.5),			// scale
@@ -30,6 +30,10 @@ TeffExplosion::TeffExplosion( TsceneGame *game, const Vector2D &pos, const Vecto
 {
 	iImageWidth=TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX;
 	iImageHeight=TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY;
+	// îöî≠âπÇçƒê∂Ç∑ÇÈ
+	int ch = PlayDxSound( SND_SE_PL_DEATH);
+	int bgm_vol = GetVolume(ch);
+	SetVolume(ch, -300);
 }
 
 //----------------------------------------------

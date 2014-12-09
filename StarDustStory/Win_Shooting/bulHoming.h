@@ -9,7 +9,8 @@
 class TbulHoming : public TobjBullet
 {
 private:
-	Vector2D mAimingPos;	// ‘_‚¤ˆÊ’u
+	Vector2D mAimingPos;	// ‘_‚¤ˆÊ’u	
+	double FdTimer;
 	// ‰æ‘œ“Ç‚İ‚İ—p
 	D3DXVECTOR3 pos;
 

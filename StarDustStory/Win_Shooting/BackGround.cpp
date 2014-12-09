@@ -1,9 +1,17 @@
 
 //------------------------------------------
-//------------------------------------------
 #include "GameDef.h"
 #include "sceneGame.h"
+#include "sceneTitle.h"
 #include "BackGround.h"
+
+//------------------------------------------
+#define BACKGROUND_WIDTH 800		// 背景画像切り取りサイズ 横
+#define BACKGROUND_HEIGHT 1109		// 背景画像切り取りサイズ 縦
+
+#define BACKGROUND_WIDTH_NUM 1		// 背景繰り返し回数 横
+#define BACKGROUND_HEIGHT_NUM 2		// 背景繰り返し回数 縦
+#define SCROLL_SPEED 200;			// 背景スクロールスピード
 
 //------------------------------------------
 // constract
@@ -11,7 +19,6 @@ TBackGround::TBackGround( TsceneGame &game )
 	:FvBackGroundPos(Vector2D( 0, 0))
 	,FpGame(game)
 {
-
 }
 
 //------------------------------------------

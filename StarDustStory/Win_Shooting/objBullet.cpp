@@ -1,7 +1,6 @@
 
 #include "GameDef.h"
 #include "objBullet.h"
-#include "GameWorld.h"
 
 //----------------------------------------------
 TobjBullet::TobjBullet(

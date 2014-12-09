@@ -16,16 +16,17 @@ TbulHoming::TbulHoming( TsceneGame *game, const Vector2D &pos , const Vector2D &
 	:TobjBullet(
 	game,
 	pos,						// position
-	0.6,						// radius
+	1.0,						// radius
 	velocity,					// velocity
-	30,							// max_speed
+	20,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	0.,							// mass
 	Vector2D(2. , 2.),			// scale
-	0,							// turn_rate
+	1.0,						// turn_rate
 	1,							// max_force
 	1							// vitality
 	),
+	FdTimer(0),
 	FiImageWidth(TRIMMING__IMAGE_RBX - TRIMMING__IMAGE_LTX),
 	FiImageHeight(TRIMMING__IMAGE_RBY - TRIMMING__IMAGE_LTY)
 {
@@ -37,8 +38,11 @@ BOOL TbulHoming::Update(double time_elapsed)
 	//----------
 	// ’ÇÕ’e(ƒvƒŒƒCƒ„[‚ª‚¢‚é•ûŒü‚ð’ÇÕ‚·‚é)
 	//----------
-	const TobjPlayer *pPlayer = FpGame->pPlayer;
-	FvVelocity = pPlayer->vPosition - FvPosition;
+	if( FdTimer < FdMaxTurnRate ){
+		FdTimer += time_elapsed;
+		const TobjPlayer *pPlayer = FpGame->pPlayer;
+		FvVelocity = pPlayer->vPosition - FvPosition;
+	}
 	FvVelocity.Normalize();
 	FvHeading = FvVelocity;
 	FvSide = FvHeading.Perp();

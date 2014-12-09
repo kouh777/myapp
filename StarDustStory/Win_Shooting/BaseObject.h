@@ -22,6 +22,8 @@ public:
 		effect,
 		gimmick,
 		item,
+		ui,
+		button,
 		board,
 	};
 

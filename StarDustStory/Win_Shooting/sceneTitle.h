@@ -5,6 +5,7 @@
 #include "TaskManager.h"
 
 class ISprite;
+class TBackGround;
 
 //--------------------------------------------------------
 class TsceneTitle: public _Task

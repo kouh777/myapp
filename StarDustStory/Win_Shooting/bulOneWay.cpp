@@ -15,7 +15,7 @@ TbulOneWay::TbulOneWay( TsceneGame *game, const Vector2D &pos, const Vector2D &v
 	pos,						// position
 	0.5,						// radius
 	velocity,					// velocity
-	30,							// max_speed
+	10,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	0.,							// mass
 	Vector2D(1.5, 1.5),			// scale

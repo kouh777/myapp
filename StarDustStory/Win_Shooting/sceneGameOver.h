@@ -8,10 +8,12 @@
 class TsceneGameOver: public _Task
 {
 private:
+	ISprite *FpBackGameOver;
+	BOOL FbFadeFlg;
 	double FiTimer;
 
 public:
-	TsceneGameOver(void):_Task(2),FiTimer(1){}
+	TsceneGameOver(void);
 	virtual bool Execute( double ElapsedTime);
 	virtual void Draw(void);
 	virtual void DrawCgdi(void);

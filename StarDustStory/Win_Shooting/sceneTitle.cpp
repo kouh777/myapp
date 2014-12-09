@@ -5,6 +5,8 @@
 #include "cgdi.h"
 #include "sceneGame.h"
 #include "sceneFade.h"
+#include "sceneStageSelect.h"
+#include "BackGround.h"
 
 //--------------------------------------------------------
 #define BACKGROUND_X 0			// îwåiâÊëúîzíuXç¿ïW
@@ -26,7 +28,7 @@ TsceneTitle::TsceneTitle(void):
 	FpLogo(NULL)
 {
 	// âÊëúÇÉÅÉÇÉäÇ…ì«Ç›çûÇﬁ
-	FpBackGround = DxGraphics9().CreateSpriteFormFile(TEXT("space3.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0)); 
+	FpBackGround = DxGraphics9().CreateSpriteFormFile(TEXT("space4.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 255)); 
 	FpLogo = DxGraphics9().CreateSpriteFormFile(TEXT("logo.png"),D3DFMT_A8R8G8B8 , D3DCOLOR_ARGB( 255, 0, 0, 0)); 
 }
 
@@ -41,7 +43,7 @@ bool TsceneTitle::Execute( double ElapsedTime)
 		}
 
 		if(FiTimer <= -2.0){
-			new TsceneGame();
+			new TsceneStageSelect();
 			return false;
 		}
 	}

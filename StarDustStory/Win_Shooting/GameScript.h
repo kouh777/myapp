@@ -3,6 +3,7 @@
 #define __TSKSCRIPT_H__
 
 //--------------------------------------------------------------------------------
+#include "GameDef.h"
 #include <list>
 #include <string>
 #include "stringlist.h"
@@ -14,7 +15,16 @@ class TCommandBase;
 //--------------------------------------------------------------------------------
 // 敵の名前
 const static TCHAR* EnemyName_TBL[]={
-	TEXT("1"),TEXT("2"),TEXT("3"),TEXT("4")
+	TEXT("ENEM_BOX"),
+	TEXT("ENEM_FISH"),
+	TEXT("ENEM_BOSS_FORTRESS"),
+	TEXT("ENEM_BOSS_SPACESHITP"),
+	TEXT("ENEM_BOSS_DEGIN"),			
+	TEXT("ENEM_BOSS_UNDERSON"),		
+	TEXT("ENEM_BOSS_SHADOW_VISOR"),	
+	TEXT("ENEM_BOSS_SHADOW_SABER"),	
+	TEXT("ENEM_BOSS_ALBERT"),		
+	TEXT("ENEM_COMMET"),
 };
 
 //--------------------------------------------------------------------------------
@@ -26,6 +36,7 @@ private:
 	std::list<TCommandBase *>	 FlitCommand;
 	int							 FiIndex;
 	int							 FiWait;
+	BOOL						FbMove;
 
 public:
 	TGameScript( TsceneGame *pworld );
@@ -44,6 +55,8 @@ public:
 	void SetWait(int value) { FiWait = value; }
 	void Pause( void ) { FiWait = -1; }
 	void Resume( void ) { FiWait = 0; }
+
+	void SetMove(bool move){ FbMove= move; }
 
 };
 
@@ -102,6 +115,19 @@ public:
 	TCmdWait( TGameScript *pScript, int time ):FpScript(pScript), FiTime(time) {}
 	virtual ~TCmdWait( void ) {} 
 	virtual void Excute( void ) { FpScript->SetWait( FiTime ); } 
+};
+
+//--------------------------------------------------------------------------------
+// 終了コマンドクラス
+class TCmdEnd : public TCommandBase 
+{
+private:
+	TGameScript *FpScript;
+	
+public:
+	TCmdEnd( TGameScript *pScript ):FpScript(pScript) { pScript->SetMove(FALSE); }
+	virtual ~TCmdEnd( void ) {} 
+	virtual void Excute( void ) {  } 
 };
 
 //--------------------------------------------------------------------------------

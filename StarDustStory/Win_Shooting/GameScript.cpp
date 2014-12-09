@@ -13,7 +13,7 @@ using namespace std;
 //--------------------------------------------------------------------------------
 // コンストラクタ
 TGameScript::TGameScript( TsceneGame *pworld )
-	:FpSceneGame( pworld ), FiWait(0)
+	:FpSceneGame( pworld ), FiWait(0),FbMove(TRUE)
 {
 }
 
@@ -32,7 +32,8 @@ BOOL TGameScript::Excute( double fElapsedTime )
 
 	if( FiWait == 0 ) { 
 		list<TCommandBase *>::iterator it = FlitCommand.begin();
-		if( it == FlitCommand.end() ) return TRUE;	// 終了している
+		if( it == FlitCommand.end() )
+			return TRUE;
 		
 		(*it)->Excute();	// 実行
 
@@ -40,7 +41,6 @@ BOOL TGameScript::Excute( double fElapsedTime )
 		delete (*it);		
 		FlitCommand.pop_front();
 	}
-
 	return TRUE;
 }
 
@@ -121,6 +121,13 @@ int TGameScript::CreateScript( TStringList *plist )
 			FlitCommand.push_back( new TCmdWait(this, _wtoi(param1.c_str()) ) );	
 			result++;
 		}
+		else
+		// 終了
+		if( _tcsicmp(command.c_str(), TEXT("clear")) == 0 ) {
+			FlitCommand.push_back( new TCmdEnd(this) );	
+			result++;
+//			FbMove = TRUE;
+		}
 	}
 	return -1;
 }
@@ -145,8 +152,6 @@ int TGameScript::ReadScriptFromMemory( void )
 }
 
 
-
-
 //---------------
 // TCmdEnemy
 //---------------
@@ -156,56 +161,55 @@ void TCmdEnemy::Excute( void )
 {
 	switch(FiType)
 	{
-		// あとでdefineで切るとりあえずenembox
+		// enembox
 		case 0:
-			switch(FiPattern){
-				case 1:
-					FpSceneGame->CreateEnemy(1, 1,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
-					break;
-				case 2:
-					FpSceneGame->CreateEnemy(1, 2,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
-					break;
-				case 3:
-					FpSceneGame->CreateEnemy(1, 3,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
-					break;
-				case 4:
-					FpSceneGame->CreateEnemy(1, 4,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
-					break;
-			}
+			FpSceneGame->CreateEnemy(ENEM_BOX, FiPattern,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 			break;
 
-		// あとでdefineで切るとりあえずenemFish
+		// enemFish
 		case 1:
-			switch(FiPattern){
-				case 1:
-					FpSceneGame->CreateEnemy(2, 1,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
-					break;
-				case 2:
-					FpSceneGame->CreateEnemy(2, 2,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
-					break;
-				case 3:
-					FpSceneGame->CreateEnemy(2, 3,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
-					break;
-				case 4:
-					FpSceneGame->CreateEnemy(2, 4,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
-					break;
-			}
+			FpSceneGame->CreateEnemy(ENEM_FISH, FiPattern,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 			break;
 
-		// あとでdefineで切るとりあえず、enemFortress
+		// enemFortress
 		case 2:
-			switch(FiPattern){
-				case 1:
-					FpSceneGame->CreateEnemy(3, 1,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
-					break;
-			}
+			FpSceneGame->CreateEnemy(ENEM_BOSS_FORTRESS, FiPattern,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
 			break;
-		// あとでdefineで切るとりあえず、enemBossSpaceShip
+
+		// enemBossSpaceShip
 		case 3:
-			switch(FiPattern){
-				case 1:
-					FpSceneGame->CreateEnemy(4, 1,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
-			}
+			FpSceneGame->CreateEnemy(ENEM_BOSS_SPACESHITP, FiPattern,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+			break;
+
+		// enemBossDegin
+		case 4:
+			FpSceneGame->CreateEnemy(ENEM_BOSS_DEGIN, FiPattern,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+			break;
+
+		// enemBossUnderson
+		case 5:
+			FpSceneGame->CreateEnemy(ENEM_BOSS_UNDERSON, FiPattern,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+			break;
+
+		// enemBossShadowVisor
+		case 6:
+			FpSceneGame->CreateEnemy(ENEM_BOSS_SHADOW_VISOR, FiPattern,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+			break;
+
+		// enemBossShadowSaber
+		case 7:
+			FpSceneGame->CreateEnemy(ENEM_BOSS_SHADOW_SABER, FiPattern,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+			break;
+
+		// enemBossAlbert
+		case 8:
+			FpSceneGame->CreateEnemy(ENEM_BOSS_ALBERT, FiPattern,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+			break;
+
+		// enemCommet
+		case 9:
+			FpSceneGame->CreateEnemy(ENEM_COMMET, FiPattern,Vector2D(FdPosX,FdPosY),Vector2D(FdVecX,FdVecY));
+			break;
 
 	}
 }

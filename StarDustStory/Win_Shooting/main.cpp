@@ -38,9 +38,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 		case WM_CREATE:
 			GetClientRect( hWnd, &clientRect );
 			// DirectX　初期化
-			DxGraphics9().Initialize(hWnd,true);
-			// DirectWrite 初期化
-//			DxWrite().Initialize(hWnd,true);
+			DxGraphics9().Initialize(hWnd,g_inWindowed);
 			// タスクマネージャー　初期化
 			TaskManager().Initialize( hWnd, clientRect.right, clientRect.bottom );
 			// インプット　初期化
@@ -48,11 +46,6 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message,
 			// サウンド読み込み
 			InitDxSound(hWnd);
 			LoadDxSound();
-			ch = PlayStreamBGM(TEXT("mcros.wav"));
-			//ch = PlayDxSound(SND_SYS_MCROS, FALSE);
-			bgm_vol = GetVolume(ch);
-			SetVolume(ch, -500);
-			SetFrequency(ch, 9000);
 
 			new TsceneTitle();
 
@@ -181,7 +174,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 			HDC FhDC = FpBackBuffer->GetDC();			// HDCを取得
 
 			Cgdi().StartDrawing(FhDC);
-			TaskManager().DrawCgdi();
+//			TaskManager().DrawCgdi();
 			Cgdi().StopDrawing(FhDC);
 			FpBackBuffer->ReleaseDC();					// HDCを解放
 //			GameWorld().Draw3D();

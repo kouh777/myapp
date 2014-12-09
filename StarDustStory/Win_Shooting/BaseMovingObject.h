@@ -7,6 +7,7 @@
 #include "BaseObject.h"
 
 class TsceneGame;
+class TsceneStageSelect;
 
 //---------------------------------------------------------------------
 class TBaseMovingObject : public TBaseObject
@@ -21,9 +22,13 @@ protected:
 	double		FdMaxTurnRate;	// the maximum rate (radians per second)this vehicle can rotate
 	double		FdVitality;
 	TsceneGame	*FpGame;
+	TsceneStageSelect  *FpStageSelect;
 	bool		FbObserver;		// if object is obsever, this value is true.else false
+	BOOL		FbSelected;		// for buttons
+	double		FdMaxVitality;	// max vitality
 
 public:
+	// sceneGameで使うコンストラクタ
 	TBaseMovingObject(
 			TsceneGame *game,
 			int type,
@@ -46,7 +51,41 @@ public:
                                   FdMaxTurnRate(turn_rate),
                                   FdMaxForce(max_force),
 								  FdVitality(vitality),
-								  FbObserver(true)
+								  FbObserver(true),
+								  FpStageSelect(NULL),
+								  FbSelected(FALSE),
+								  FdMaxVitality(FdVitality)
+	{
+		FvScale = scale;
+	}
+
+	// sceneStageSelectで使うコンストラクタ
+	TBaseMovingObject(
+			TsceneStageSelect *select,
+			int type,
+			Vector2D position,
+            double   radius,
+            Vector2D velocity,
+            double   max_speed,
+            Vector2D heading,
+            double   mass,
+            Vector2D scale,
+            double   turn_rate,
+            double   max_force,
+			double   vitality) : TBaseObject(type, position, radius),
+								  FpStageSelect(select),
+                                  FvHeading(heading),
+                                  FvVelocity(velocity),
+                                  FdMass(mass),
+                                  FvSide(FvHeading.Perp()),
+                                  FdMaxSpeed(max_speed),
+                                  FdMaxTurnRate(turn_rate),
+                                  FdMaxForce(max_force),
+								  FdVitality(vitality),
+								  FbObserver(true),
+								  FpGame(NULL),
+								  FbSelected(FALSE),
+								  FdMaxVitality(FdVitality)
 	{
 		FvScale = scale;
 	}
@@ -80,6 +119,16 @@ public:
 	__declspec( property( get=GetIsObserver, put=SetIsObserver ) ) double bObserver;
 	double GetIsObserver( void ) const { return FbObserver; }  
 	void SetIsObserver( bool new_oserver_flag ) { FbObserver = new_oserver_flag; }
+
+	__declspec( property(get=GetSelected, put=SetSelected ) ) BOOL bSelected;
+	BOOL GetSelected(void) const {return FbSelected;}
+	void SetSelected(BOOL select_flg){ FbSelected = select_flg; }
+
+	__declspec( property(get=GetMaxVitality) ) double dMaxVitality;
+	double GetMaxVitality(void) const {return FdMaxVitality;}
+
+	__declspec( property(get=GetScale) ) Vector2D vScale;
+	Vector2D GetScale(void) const {return FvScale;}
 
 };
 

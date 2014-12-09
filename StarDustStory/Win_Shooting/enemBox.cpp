@@ -19,7 +19,7 @@ TenemBox::TenemBox( TsceneGame *game, const int &pattern, const Vector2D &pos, c
 	pos,						// position
 	0.9,						// radius
 	velocity,					// velocity
-	30,							// max_speed
+	15,							// max_speed
 	Vec2DNormalize(velocity),	// heading
 	0.,							// mass
 	Vector2D(1.,1.),			// scale
@@ -47,9 +47,9 @@ BOOL TenemBox::Update(double time_elapsed)
 	switch(FdPattern){	
 
 		case 1:
-			if (FdTimer < 20){
-				FdTimer++;
-				if(FdTimer >= 20){
+			if (FdTimer < 40){
+				FdTimer ++;
+				if(FdTimer >= 40){
 					FpGame->CreateBullet( 1, FvPosition, Vector2D(0,10));	
 					for(int i=0; i < 3; ++i){
 						FpGame->CreateBullet( 1, FvPosition, Vector2D(0+i*5,10));	
@@ -113,6 +113,11 @@ BOOL TenemBox::Update(double time_elapsed)
 	if(FdVitality <= 0){
 		// 爆発エフェクトを表示させる
 		FpGame->CreateEffect(EFF_EXPLOSION, FvPosition, FvVelocity);
+		// 爆発音を再生する
+		int ch = PlayDxSound( SND_SE_PL_DEATH);
+		int bgm_vol = GetVolume(ch);
+		SetVolume(ch, -300);
+
 		return FALSE;
 	}
 
